@@ -4,4 +4,9 @@
     <TargetFramework>netcoreapp3.0</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\CactusCare.Abstractions\CactusCare.Abstractions.csproj" />
+    <ProjectReference Include="..\CactusCare.DAL\CactusCare.DAL.csproj" />
+  </ItemGroup>
+
 </Project>
