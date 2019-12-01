@@ -23,7 +23,7 @@ namespace CactusCare.DAL
 
         }
 
-        internal void ConfigureRepositories(IServiceCollection services, IConfiguration configuration)
+        private void ConfigureRepositories(IServiceCollection services, IConfiguration configuration)
         {
             services.AddScoped<ISpecialityRepository, SpecialityRepository>();
         }
