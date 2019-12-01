@@ -1,4 +1,5 @@
 ﻿using CactusCare.Abstractions.Entities;
+using CactusCare.DAL.EntityConfigurations;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -9,6 +10,8 @@ namespace CactusCare.DAL
     internal class CactusCareContext : DbContext
     {
         public DbSet<Speciality> Specialities { get; set; }
+
+        public DbSet<Doctor> Doctors { get; set; }
 
         public CactusCareContext(DbContextOptions<CactusCareContext> contextOptions)
             : base(contextOptions)
@@ -23,11 +26,9 @@ namespace CactusCare.DAL
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-            modelBuilder.Entity<Speciality>((entity) =>
-            {
-                entity.HasData(new Speciality() { Id = 1, Name = "тест" },
-                    new Speciality() { Id = 2, Name = "тест 2" });
-            });
+            
+            modelBuilder.ApplyConfiguration(new SpecialityConfiguration());
+            modelBuilder.ApplyConfiguration(new DoctorConfiguration());
         }
     }
 }

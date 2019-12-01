@@ -13,6 +13,7 @@ namespace CactusCare.DAL
         private IServiceProvider _serviceProvider;
 
         private ISpecialityRepository _specialityRepository;
+        private IDoctorRepository _doctorRepository;
 
         public UnitOfWork(CactusCareContext context, IServiceProvider serviceProvider)
         {
@@ -21,6 +22,8 @@ namespace CactusCare.DAL
         }
 
         public ISpecialityRepository SpecialityRepository => _specialityRepository ??= _serviceProvider.GetService<ISpecialityRepository>();
+
+        public IDoctorRepository DoctorRepository => _doctorRepository ??= _serviceProvider.GetService<IDoctorRepository>();
 
         public void Save()
         {

@@ -20,6 +20,7 @@ namespace CactusCareApi.Controllers
             _specialityService = specialityService;
         }
 
+        //TODO make other method async
         [HttpGet]
         public async Task<ActionResult<List<SpecialityDTO>>> GetAll()
         {
