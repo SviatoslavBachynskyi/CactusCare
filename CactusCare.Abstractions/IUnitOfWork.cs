@@ -7,6 +7,8 @@ namespace CactusCare.Abstractions
 {
     public interface IUnitOfWork
     {
-        public ISpecialityRepository SpecialityRepository { get; set; }
+        public ISpecialityRepository SpecialityRepository { get; }
+
+        public void Save();
     }
 }
