@@ -5,13 +5,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using CactusCare.Abstractions.Entities;
+using Microsoft.EntityFrameworkCore;
 
 namespace CactusCare.DAL.Repositories
 {
     internal abstract class BaseRepository<TEntity, TKey> : IBaseRepository<TEntity, TKey>
         where TEntity : class, IEntity<TKey>
     {
-        CactusCareContext _context;
+        protected readonly CactusCareContext _context;
+        protected virtual IQueryable<TEntity> ComplexEntities { get => _context.Set<TEntity>().AsNoTracking(); }
         public BaseRepository(CactusCareContext context)
         {
             _context = context;
@@ -30,17 +32,17 @@ namespace CactusCare.DAL.Repositories
 
         public IQueryable<TEntity> GetAll()
         {
-            return _context.Set<TEntity>();
+            return ComplexEntities;
         }
 
         public IQueryable<TEntity> GetAll(Expression<Func<TEntity, bool>> predicate)
         {
-            return _context.Set<TEntity>().Where(predicate);
+            return ComplexEntities.Where(predicate);
         }
 
         public TEntity GetById(TKey id)
         {
-            return _context.Set<TEntity>().Find(id);
+            return ComplexEntities.First(entity => entity.Id.Equals(id));
         }
 
         public TEntity Update(TEntity entity)

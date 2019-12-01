@@ -9,6 +9,8 @@ namespace CactusCare.Abstractions
     {
         ISpecialityRepository SpecialityRepository { get; }
 
+        IDoctorRepository DoctorRepository { get; }
+
         void Save();
     }
 }
