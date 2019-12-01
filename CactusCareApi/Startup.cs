@@ -27,10 +27,8 @@ namespace CactusCareApi
                 options.AddPolicy(MyAllowSpecificOrigins,
                     builder =>
                     {
-                        //this is nice but I suggest you use appsettings.Development.json and IConfiguration
-                        //instead of using static string.
-                        //this policy will change on azure.
-                        builder.WithOrigins("http://localhost:4200/")
+                        // This policy will change on Azure.
+                        builder.WithOrigins(Configuration.GetSection("AllowedOrigins").ToString())
                             .AllowAnyOrigin()
                             .AllowAnyHeader();
                     });
