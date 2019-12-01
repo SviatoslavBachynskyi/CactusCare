@@ -8,6 +8,6 @@ namespace CactusCare.Abstractions
 {
     public interface IConfigureLayer
     {
-        public void ConfigureServices(IServiceCollection services, IConfiguration configuration);
+        void ConfigureServices(IServiceCollection services, IConfiguration configuration);
     }
 }

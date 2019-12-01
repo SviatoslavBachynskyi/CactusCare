@@ -13,7 +13,7 @@ namespace CactusCareApi.Controllers
     [ApiController]
     public class SpecialityController : ControllerBase
     {
-        ISpecialityService _specialityService;
+        private readonly ISpecialityService _specialityService;
 
         public SpecialityController(ISpecialityService specialityService)
         {

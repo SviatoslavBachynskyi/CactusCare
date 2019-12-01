@@ -7,8 +7,8 @@ namespace CactusCare.Abstractions.Services
 {
     public interface ISpecialityService
     {
-        public List<SpecialityDTO> GetAll();
+        List<SpecialityDTO> GetAll();
 
-        public SpecialityDTO Get(int Id);
+        SpecialityDTO Get(int Id);
     }
 }

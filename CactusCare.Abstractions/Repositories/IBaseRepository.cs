@@ -8,17 +8,17 @@ using System.Text;
 namespace CactusCare.Abstractions.Repositories
 {
     public interface IBaseRepository<TEntity, TKey> where TEntity: class, IEntity<TKey>
-    {
-        public TEntity GetById(TKey id);
+    { 
+        TEntity GetById(TKey id);
+        
+        IQueryable<TEntity> GetAll();
 
-        public IQueryable<TEntity> GetAll();
+        IQueryable<TEntity> GetAll(Expression<Func<TEntity, bool>> predicate);
 
-        public IQueryable<TEntity> GetAll(Expression<Func<TEntity, bool>> predicate);
+        TEntity Add(TEntity entity);
 
-        public TEntity Add(TEntity entity);
+        TEntity Update(TEntity entity);
 
-        public TEntity Update(TEntity entity);
-
-        public void Delete(TKey id);
+        void Delete(TKey id);
     }
 }
