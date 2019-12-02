@@ -10,6 +10,8 @@ namespace CactusCare.DAL
     internal class CactusCareContext : DbContext
     {
         public DbSet<Speciality> Specialities { get; set; }
+        
+        public DbSet<Hospital> Hospitals { get; set; }
 
         public DbSet<Doctor> Doctors { get; set; }
 
@@ -28,6 +30,7 @@ namespace CactusCare.DAL
             base.OnModelCreating(modelBuilder);
             
             modelBuilder.ApplyConfiguration(new SpecialityConfiguration());
+            modelBuilder.ApplyConfiguration(new HospitalConfiguration());
             modelBuilder.ApplyConfiguration(new DoctorConfiguration());
         }
     }
