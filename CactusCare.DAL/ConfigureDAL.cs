@@ -26,6 +26,7 @@ namespace CactusCare.DAL
         private void ConfigureRepositories(IServiceCollection services, IConfiguration configuration)
         {
             services.AddScoped<ISpecialityRepository, SpecialityRepository>();
+            services.AddScoped<IHospitalRepository, HospitalRepository>();
             services.AddScoped<IDoctorRepository, DoctorRepository>();
         }
     }

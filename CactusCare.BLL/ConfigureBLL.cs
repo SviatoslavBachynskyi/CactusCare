@@ -25,6 +25,7 @@ namespace CactusCare.BLL
         private void ConfigureBLLServives(IServiceCollection services, IConfiguration configuration)
         {
             services.AddScoped<ISpecialityService, SpecialityService>();
+            services.AddScoped<IHospitalService, HospitalService>();
             services.AddScoped<IDoctorService, DoctorService>();
         }
 
@@ -35,6 +36,7 @@ namespace CactusCare.BLL
                 ((cfg) =>
                     {
                         cfg.AddProfile(new SpecialityProfile());
+                        cfg.AddProfile(new HospitalProfile());
                         cfg.AddProfile(new DoctorProfile());
                     }).CreateMapper()
                 );

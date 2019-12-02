@@ -15,5 +15,9 @@ namespace CactusCare.Abstractions.Entities
         public int SpecialityId { get; set; }
 
         public Speciality Speciality { get; set; }
+        
+        public int HospitalId { get; set; }
+        
+        public Hospital Hospital { get; set; }
     }
 }
