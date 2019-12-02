@@ -8,6 +8,10 @@ namespace CactusCare.DAL.EntityConfigurations
     {
         public void Configure(EntityTypeBuilder<Review> builder)
         {
+            builder.HasOne(d => d.Doctor)
+                .WithMany(s => s.Reviews)
+                .HasForeignKey(d => d.DoctorId)
+                .HasConstraintName("FK_Doctor_Review");
         }
     }
 }
