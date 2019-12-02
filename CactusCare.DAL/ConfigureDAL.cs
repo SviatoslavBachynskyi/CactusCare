@@ -15,7 +15,6 @@ namespace CactusCare.DAL
 {
     public class ConfigureDAL : IConfigureLayer
     {
-        //TODO add automatic migrations
         public void ConfigureServices(IServiceCollection services, IConfiguration configuration)
         {
             services.AddDbContext<CactusCareContext>(
@@ -39,6 +38,7 @@ namespace CactusCare.DAL
             services.AddScoped<ISpecialityRepository, SpecialityRepository>();
             services.AddScoped<IHospitalRepository, HospitalRepository>();
             services.AddScoped<IDoctorRepository, DoctorRepository>();
+            services.AddScoped<IReviewRepository, ReviewRepository>();
         }
     }
 }
