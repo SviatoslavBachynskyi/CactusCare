@@ -55,11 +55,6 @@ namespace CactusCareApi
             app.UseSwagger();
             app.UseSwaggerUI(c => { c.SwaggerEndpoint("/swagger/v1/swagger.json", "CactusCare API V1"); });
 
-            if (_environment.IsDevelopment())
-            {
-                serviceProvider.GetRequiredService<CactusCareContext>().Database.Migrate();
-            }
-
             app.UseCors(MyAllowSpecificOrigins);
 
             app.UseHttpsRedirection();
@@ -69,6 +64,8 @@ namespace CactusCareApi
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
+
+            new ConfigureBLL().Configure(app, serviceProvider, _environment);
         }
     }
 }

@@ -9,6 +9,9 @@ using AutoMapper;
 using CactusCare.BLL.Mapping;
 using CactusCare.Abstractions.Services;
 using CactusCare.BLL.Services;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Hosting;
 
 namespace CactusCare.BLL
 {
@@ -21,6 +24,13 @@ namespace CactusCare.BLL
             ConfigureBLLServives(services, configuration);
             ConfigureMapper(services, configuration);
         }
+
+        public void Configure(IApplicationBuilder app, IServiceProvider serviceProvider,
+            IWebHostEnvironment environment)
+        {
+            new ConfigureDAL().Configure(app, serviceProvider, environment);
+        }
+
 
         private void ConfigureBLLServives(IServiceCollection services, IConfiguration configuration)
         {
