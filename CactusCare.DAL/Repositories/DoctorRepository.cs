@@ -8,14 +8,14 @@ using System.Text;
 
 namespace CactusCare.DAL.Repositories
 {
-    internal class DoctorRepository : BaseRepository<Doctor,int>,IDoctorRepository
+    internal class DoctorRepository : BaseRepository<Doctor, int>, IDoctorRepository
     {
         public DoctorRepository(CactusCareContext context)
-            :base(context)
+            : base(context)
         {
-
         }
 
-        protected override IQueryable<Doctor> ComplexEntities => _context.Set<Doctor>().Include( d=> d.Speciality);
+        protected override IQueryable<Doctor> ComplexEntities =>
+            _context.Set<Doctor>().Include(d => d.Speciality).Include(d => d.Hospital);
     }
 }
