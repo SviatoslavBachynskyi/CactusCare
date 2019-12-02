@@ -15,5 +15,7 @@ namespace CactusCare.Abstractions.DTOs
         public int SpecialityId { get; set; }
 
         public SpecialityDTO Speciality { get; set; }
+        
+        public HospitalDTO Hospital { get; set; }
     }
 }
