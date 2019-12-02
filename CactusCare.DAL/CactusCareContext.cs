@@ -7,7 +7,7 @@ using System.Text;
 
 namespace CactusCare.DAL
 {
-    internal class CactusCareContext : DbContext
+    public class CactusCareContext : DbContext
     {
         public DbSet<Speciality> Specialities { get; set; }
         
