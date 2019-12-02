@@ -21,7 +21,7 @@ namespace CactusCare.BLL
         {
             new ConfigureDAL().ConfigureServices(services, configuration);
 
-            ConfigureBLLServives(services, configuration);
+            ConfigureBLLServices(services, configuration);
             ConfigureMapper(services, configuration);
         }
 
@@ -32,11 +32,12 @@ namespace CactusCare.BLL
         }
 
 
-        private void ConfigureBLLServives(IServiceCollection services, IConfiguration configuration)
+        private void ConfigureBLLServices(IServiceCollection services, IConfiguration configuration)
         {
             services.AddScoped<ISpecialityService, SpecialityService>();
             services.AddScoped<IHospitalService, HospitalService>();
             services.AddScoped<IDoctorService, DoctorService>();
+            services.AddScoped<IReviewService, ReviewService>();
         }
 
         private void ConfigureMapper(IServiceCollection services, IConfiguration configuration)
@@ -44,12 +45,13 @@ namespace CactusCare.BLL
             services.AddSingleton(
                 new MapperConfiguration
                 ((cfg) =>
-                    {
-                        cfg.AddProfile(new SpecialityProfile());
-                        cfg.AddProfile(new HospitalProfile());
-                        cfg.AddProfile(new DoctorProfile());
-                    }).CreateMapper()
-                );
+                {
+                    cfg.AddProfile(new SpecialityProfile());
+                    cfg.AddProfile(new HospitalProfile());
+                    cfg.AddProfile(new DoctorProfile());
+                    cfg.AddProfile(new ReviewProfile());
+                }).CreateMapper()
+            );
         }
     }
 }
