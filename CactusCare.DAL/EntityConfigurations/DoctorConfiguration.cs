@@ -16,9 +16,14 @@ namespace CactusCare.DAL.EntityConfigurations
                 .HasForeignKey(d => d.SpecialityId)
                 .HasConstraintName("FK_Doctor_Speciality");
 
+            builder.HasOne(d => d.Hospital)
+                .WithMany(s => s.Doctors)
+                .HasForeignKey(d => d.HospitalId)
+                .HasConstraintName("FK_Doctor_Hospital");
+
             builder.HasData(
-                new Doctor() { Id = 1, FirstName = "First", LastName = "Ivanov", SpecialityId = 1 },
-                new Doctor() { Id = 2, FirstName = "Secon", LastName = "Ivanov", SpecialityId =2});
+                new Doctor() {Id = 1, FirstName = "First", LastName = "Ivanov", SpecialityId = 1, HospitalId = 1},
+                new Doctor() {Id = 2, FirstName = "Secon", LastName = "Ivanov", SpecialityId = 2, HospitalId = 2});
         }
     }
 }
