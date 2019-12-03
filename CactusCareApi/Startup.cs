@@ -1,4 +1,8 @@
 using System;
+using Autofac;
+using Autofac.Extensions.DependencyInjection;
+using CactusCare.Abstractions.Entities;
+using CactusCare.Abstractions.Services;
 using CactusCare.BLL;
 using CactusCare.DAL;
 using Microsoft.AspNetCore.Builder;
@@ -14,20 +18,28 @@ namespace CactusCareApi
     public class Startup
     {
         private const string MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
-        
+
+
+        private readonly IConfigurationRoot _configuration;
+
+        private readonly IWebHostEnvironment _environment;
+
         public Startup(IConfiguration configuration, IWebHostEnvironment environment)
         {
-            _configuration = configuration;
+            var builder = new ConfigurationBuilder()
+                .SetBasePath(environment.ContentRootPath)
+                .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+                .AddJsonFile($"appsettings.{environment.EnvironmentName}.json", optional: true)
+                .AddEnvironmentVariables();
+
+            _configuration = builder.Build();
             _environment = environment;
         }
-
-        private IConfiguration _configuration;
-
-        public IWebHostEnvironment _environment;
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddOptions();
             services.AddCors(options =>
             {
                 options.AddPolicy(MyAllowSpecificOrigins,
@@ -43,10 +55,16 @@ namespace CactusCareApi
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo {Title = "CactusCare API", Version = "v1"});
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "CactusCare API", Version = "v1" });
             });
 
-            new ConfigureBLL().ConfigureServices(services, _configuration);
+            new ConfigureDAL().ConfigureServices(services, _configuration);
+        }
+
+        public void ConfigureContainer(ContainerBuilder builder)
+        {
+            builder.RegisterModule(new BLLModule(_configuration));
+            builder.RegisterModule(new DALModule(_configuration));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -65,7 +83,7 @@ namespace CactusCareApi
 
             app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
 
-            new ConfigureBLL().Configure(app, serviceProvider, _environment);
+            new ConfigureDAL().Configure(app, serviceProvider, _environment);
         }
     }
 }
