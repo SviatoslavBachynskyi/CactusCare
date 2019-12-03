@@ -1,13 +1,13 @@
 using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Reflection;
 using Autofac;
-using Autofac.Extensions.DependencyInjection;
-using CactusCare.Abstractions.Entities;
-using CactusCare.Abstractions.Services;
-using CactusCare.BLL;
-using CactusCare.DAL;
+using CactusCare.Abstractions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -19,12 +19,15 @@ namespace CactusCareApi
     {
         private const string MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
 
-
         private readonly IConfigurationRoot _configuration;
 
         private readonly IWebHostEnvironment _environment;
 
-        public Startup(IConfiguration configuration, IWebHostEnvironment environment)
+        private readonly List<Assembly> _assemblies;
+
+        private readonly List<IConfigureLayer> _layerConfigurations = new List<IConfigureLayer>();
+
+        public Startup(IWebHostEnvironment environment)
         {
             var builder = new ConfigurationBuilder()
                 .SetBasePath(environment.ContentRootPath)
@@ -34,12 +37,30 @@ namespace CactusCareApi
 
             _configuration = builder.Build();
             _environment = environment;
+
+            //Load assemblies
+            _assemblies =
+                Directory.EnumerateFiles(Directory.GetCurrentDirectory(),
+                        $"{nameof(CactusCare)}.*.dll", SearchOption.AllDirectories)
+                    .Select(Assembly.LoadFrom)
+                    .ToList();
+            _assemblies.Add(Assembly.GetExecutingAssembly());
+
+            //load configurations
+            foreach (var assembly in _assemblies)
+            {
+                var configure = typeof(IConfigureLayer);
+                var types = assembly.GetTypes().Where((t) => configure.IsAssignableFrom(t) && !t.IsAbstract);
+                foreach (var type in types)
+                {
+                    _layerConfigurations.Add((IConfigureLayer)Activator.CreateInstance(type));
+                }
+            }
         }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddOptions();
             services.AddCors(options =>
             {
                 options.AddPolicy(MyAllowSpecificOrigins,
@@ -52,19 +73,18 @@ namespace CactusCareApi
                     });
             });
 
-            services.AddControllers();
-            services.AddSwaggerGen(c =>
+            foreach (var layerConfiguration in _layerConfigurations)
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "CactusCare API", Version = "v1" });
-            });
-
-            new ConfigureDAL().ConfigureServices(services, _configuration);
+                layerConfiguration.ConfigureServices(services, _configuration);
+            }
         }
 
         public void ConfigureContainer(ContainerBuilder builder)
         {
-            builder.RegisterModule(new BLLModule(_configuration));
-            builder.RegisterModule(new DALModule(_configuration));
+            foreach (var assembly in _assemblies)
+            {
+                builder.RegisterAssemblyModules(assembly);
+            }
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -83,7 +103,10 @@ namespace CactusCareApi
 
             app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
 
-            new ConfigureDAL().Configure(app, serviceProvider, _environment);
+            foreach (var layerConfiguration in _layerConfigurations)
+            {
+                layerConfiguration.Configure(serviceProvider, _environment.IsDevelopment());
+            }
         }
     }
 }
