@@ -24,9 +24,12 @@ namespace CactusCare.DAL
             //register all repositories
             builder.RegisterAssemblyTypes(Assembly.GetExecutingAssembly())
                 .Where(t => t.Name.EndsWith("Repository"))
-                .AsImplementedInterfaces();
+                .AsImplementedInterfaces()
+                .InstancePerRequest();
 
-            builder.RegisterType<UnitOfWork>().As<IUnitOfWork>();
+            builder.RegisterType<UnitOfWork>()
+                .As<IUnitOfWork>()
+                .InstancePerRequest();
         }
     }
 }

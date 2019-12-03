@@ -26,7 +26,8 @@ namespace CactusCare.BLL
             //configure all services
             builder.RegisterAssemblyTypes(Assembly.GetExecutingAssembly())
                 .Where(t => t.Name.EndsWith("Service"))
-                .AsImplementedInterfaces();
+                .AsImplementedInterfaces()
+                .InstancePerRequest();
 
             //Configure AutoMapper
             builder.RegisterInstance(new MapperConfiguration
