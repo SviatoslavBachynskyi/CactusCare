@@ -19,10 +19,6 @@ namespace CactusCare.DAL
         {
             services.AddDbContext<CactusCareContext>(
                 (options) => options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
-
-            ConfigureRepositories(services, configuration);
-            services.AddScoped<IUnitOfWork, UnitOfWork>();
-
         }
 
         public void Configure(IApplicationBuilder app, IServiceProvider serviceProvider, IWebHostEnvironment environment)
@@ -31,14 +27,6 @@ namespace CactusCare.DAL
             {
                 serviceProvider.GetRequiredService<CactusCareContext>().Database.Migrate();
             }
-        }
-
-        private void ConfigureRepositories(IServiceCollection services, IConfiguration configuration)
-        {
-            services.AddScoped<ISpecialityRepository, SpecialityRepository>();
-            services.AddScoped<IHospitalRepository, HospitalRepository>();
-            services.AddScoped<IDoctorRepository, DoctorRepository>();
-            services.AddScoped<IReviewRepository, ReviewRepository>();
         }
     }
 }
