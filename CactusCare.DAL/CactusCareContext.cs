@@ -10,10 +10,12 @@ namespace CactusCare.DAL
     public class CactusCareContext : DbContext
     {
         public DbSet<Speciality> Specialities { get; set; }
-        
+
         public DbSet<Hospital> Hospitals { get; set; }
 
         public DbSet<Doctor> Doctors { get; set; }
+
+        public DbSet<Review> Reviews { get; set; }
 
         public CactusCareContext(DbContextOptions<CactusCareContext> contextOptions)
             : base(contextOptions)
@@ -29,10 +31,11 @@ namespace CactusCare.DAL
         {
             base.OnModelCreating(modelBuilder);
             modelBuilder.Seed();
-            
+
             modelBuilder.ApplyConfiguration(new SpecialityConfiguration());
             modelBuilder.ApplyConfiguration(new HospitalConfiguration());
             modelBuilder.ApplyConfiguration(new DoctorConfiguration());
+            modelBuilder.ApplyConfiguration(new ReviewConfiguration());
         }
     }
 }

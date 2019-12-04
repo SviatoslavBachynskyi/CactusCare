@@ -1,4 +1,5 @@
-﻿using CactusCare.Abstractions.Entities;
+﻿using System;
+using CactusCare.Abstractions.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace CactusCare.DAL
@@ -10,6 +11,7 @@ namespace CactusCare.DAL
             SeedSpecialities(modelBuilder);
             SeedHospitals(modelBuilder);
             SeedDoctors(modelBuilder);
+            SeedReviews(modelBuilder);
         }
 
         private static void SeedSpecialities(ModelBuilder modelBuilder)
@@ -38,6 +40,14 @@ namespace CactusCare.DAL
             modelBuilder.Entity<Doctor>().HasData(
                 new Doctor {Id = 1, FirstName = "First", LastName = "Ivanov", SpecialityId = 1, HospitalId = 1},
                 new Doctor {Id = 2, FirstName = "Secon", LastName = "Ivanov", SpecialityId = 2, HospitalId = 2});
+        }
+
+        private static void SeedReviews(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Review>().HasData(
+                new Review() {Id = 1, Content = "Чудовий лікар!", Time = DateTime.Now, DoctorId = 1},
+                new Review() {Id = 2, Content = "Погоджуюсь. Неймовірний лікар.", Time = DateTime.Now, DoctorId = 1},
+                new Review() {Id = 3, Content = "Жахливий лікар!", Time = DateTime.Now, DoctorId = 2});
         }
     }
 }
