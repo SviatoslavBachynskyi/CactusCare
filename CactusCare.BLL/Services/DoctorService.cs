@@ -37,9 +37,12 @@ namespace CactusCare.BLL.Services
             await _unitOfWork.DoctorRepository.InsertAsync(_mapper.Map<DoctorDTO, Doctor>(doctorDto));
         }
 
-        public async Task UpdateAsync(DoctorDTO doctorDto)
+        public async Task UpdateAsync(int id, DoctorUpdateDTO doctorDto)
         {
-            await _unitOfWork.DoctorRepository.UpdateAsync(_mapper.Map<DoctorDTO, Doctor>(doctorDto));
+            var doctorEntity = await _unitOfWork.DoctorRepository.GetByIdAsync(id);
+            if (doctorEntity == null) throw new KeyNotFoundException();
+
+            await _unitOfWork.DoctorRepository.UpdateAsync(_mapper.Map(doctorDto, doctorEntity));
         }
 
         public async Task DeleteAsync(int id)

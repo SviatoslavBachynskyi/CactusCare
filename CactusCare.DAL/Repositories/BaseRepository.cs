@@ -33,7 +33,7 @@ namespace CactusCare.DAL.Repositories
 
         public async Task<TEntity> GetByIdAsync(TKey id)
         {
-            return await ComplexEntities.FirstAsync(entity => entity.Id.Equals(id));
+            return await ComplexEntities.FirstOrDefaultAsync(entity => entity.Id.Equals(id));
         }
 
         public async Task InsertAsync(TEntity entity)
