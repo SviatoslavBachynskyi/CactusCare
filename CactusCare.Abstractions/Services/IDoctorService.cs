@@ -12,7 +12,7 @@ namespace CactusCare.Abstractions.Services
 
         Task InsertAsync(DoctorDTO doctorDto);
 
-        Task UpdateAsync(int id, DoctorUpdateDTO doctorDto);
+        Task UpdateAsync(DoctorDTO doctorDto);
 
         Task DeleteAsync(int id);
     }

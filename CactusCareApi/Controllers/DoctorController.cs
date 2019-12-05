@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using CactusCare.Abstractions.DTOs;
 using CactusCare.Abstractions.Services;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace CactusCareApi.Controllers
 {
@@ -30,17 +31,17 @@ namespace CactusCareApi.Controllers
             return await _doctorService.GetAsync(id);
         }
 
-        [HttpPut("{id}")]
-        public async Task<IActionResult> Update(int id, [FromBody] DoctorUpdateDTO doctorDto)
+        [HttpPut]
+        public async Task<IActionResult> Update([FromBody] DoctorDTO doctorDto)
         {
             try
             {
-                await _doctorService.UpdateAsync(id, doctorDto);
+                await _doctorService.UpdateAsync(doctorDto);
                 return StatusCode(200, "OK");
             }
-            catch (KeyNotFoundException)
+            catch (DbUpdateConcurrencyException)
             {
-                return StatusCode(404, $"Doctor with id {id} not found");
+                return StatusCode(404, $"Doctor with id {doctorDto.Id} not found");
             }
             catch (Exception)
             {
