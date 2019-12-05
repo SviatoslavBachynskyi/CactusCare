@@ -13,11 +13,8 @@ namespace CactusCare.DAL
 {
     public class DALModule : Module
     {
-        private IConfigurationRoot _configuration;
-
-        public DALModule(IConfigurationRoot configuration)
+        public DALModule()
         {
-            this._configuration = configuration;
         }
         protected override void Load(ContainerBuilder builder)
         {
@@ -25,11 +22,11 @@ namespace CactusCare.DAL
             builder.RegisterAssemblyTypes(Assembly.GetExecutingAssembly())
                 .Where(t => t.Name.EndsWith("Repository"))
                 .AsImplementedInterfaces()
-                .InstancePerRequest();
+                .InstancePerLifetimeScope();
 
             builder.RegisterType<UnitOfWork>()
                 .As<IUnitOfWork>()
-                .InstancePerRequest();
+                .InstancePerLifetimeScope();
         }
     }
 }

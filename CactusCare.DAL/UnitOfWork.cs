@@ -3,6 +3,8 @@ using CactusCare.Abstractions.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using CactusCare.Abstractions.Entities;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace CactusCare.DAL
@@ -16,6 +18,9 @@ namespace CactusCare.DAL
         private IHospitalRepository _hospitalRepository;
         private IDoctorRepository _doctorRepository;
         private IReviewRepository _reviewRepository;
+
+        private UserManager<User> _userManager;
+        private RoleManager<IdentityRole> _roleManager;
 
         public UnitOfWork(CactusCareContext context, IServiceProvider serviceProvider)
         {
@@ -34,6 +39,10 @@ namespace CactusCare.DAL
 
         public IReviewRepository ReviewRepository =>
             _reviewRepository ??= _serviceProvider.GetService<IReviewRepository>();
+
+        public UserManager<User> UserManager => _userManager ??= _serviceProvider.GetService<UserManager<User>>();
+
+        public RoleManager<IdentityRole> RoleManager => _roleManager ??= _serviceProvider.GetService<RoleManager<IdentityRole>>();
 
         public void Save()
         {

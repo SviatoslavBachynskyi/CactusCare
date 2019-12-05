@@ -4,10 +4,12 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace CactusCare.DAL
 {
-    public class CactusCareContext : DbContext
+    public class CactusCareContext : IdentityDbContext<User>
     {
         public DbSet<Speciality> Specialities { get; set; }
 
