@@ -20,13 +20,13 @@ namespace CactusCareApi.Controllers
         [HttpGet]
         public async Task<ActionResult<List<ReviewDTO>>> GetAll()
         {
-            return await Task.Run(() => _reviewService.GetAll());
+            return await _reviewService.GetAllAsync();
         }
 
         [HttpGet("{id}")]
         public async Task<ActionResult<ReviewDTO>> Get(int id)
         {
-            return await Task.Run(() => _reviewService.Get(id));
+            return await _reviewService.GetAsync(id);
         }
     }
 }

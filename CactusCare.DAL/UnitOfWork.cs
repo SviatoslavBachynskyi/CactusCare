@@ -1,9 +1,7 @@
-﻿using CactusCare.Abstractions;
-using CactusCare.Abstractions.Repositories;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System;
+using CactusCare.Abstractions;
 using CactusCare.Abstractions.Entities;
+using CactusCare.Abstractions.Repositories;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -13,14 +11,14 @@ namespace CactusCare.DAL
     {
         private readonly CactusCareContext _context;
         private readonly IServiceProvider _serviceProvider;
+        private IDoctorRepository _doctorRepository;
+        private IHospitalRepository _hospitalRepository;
+        private IReviewRepository _reviewRepository;
+        private RoleManager<IdentityRole> _roleManager;
 
         private ISpecialityRepository _specialityRepository;
-        private IHospitalRepository _hospitalRepository;
-        private IDoctorRepository _doctorRepository;
-        private IReviewRepository _reviewRepository;
 
         private UserManager<User> _userManager;
-        private RoleManager<IdentityRole> _roleManager;
 
         public UnitOfWork(CactusCareContext context, IServiceProvider serviceProvider)
         {
@@ -40,13 +38,10 @@ namespace CactusCare.DAL
         public IReviewRepository ReviewRepository =>
             _reviewRepository ??= _serviceProvider.GetService<IReviewRepository>();
 
-        public UserManager<User> UserManager => _userManager ??= _serviceProvider.GetService<UserManager<User>>();
+        public UserManager<User> UserManager => _userManager ??=
+            _serviceProvider.GetService<UserManager<User>>();
 
-        public RoleManager<IdentityRole> RoleManager => _roleManager ??= _serviceProvider.GetService<RoleManager<IdentityRole>>();
-
-        public void Save()
-        {
-            _context.SaveChanges();
-        }
+        public RoleManager<IdentityRole> RoleManager =>
+            _roleManager ??= _serviceProvider.GetService<RoleManager<IdentityRole>>();
     }
 }

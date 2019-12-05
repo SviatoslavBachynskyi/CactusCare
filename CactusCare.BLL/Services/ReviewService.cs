@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using AutoMapper;
 using CactusCare.Abstractions;
 using CactusCare.Abstractions.DTOs;
@@ -10,8 +11,8 @@ namespace CactusCare.BLL.Services
 {
     internal class ReviewService : IReviewService
     {
-        private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
+        private readonly IUnitOfWork _unitOfWork;
 
         public ReviewService(IUnitOfWork unitOfWork, IMapper mapper)
         {
@@ -19,15 +20,31 @@ namespace CactusCare.BLL.Services
             _mapper = mapper;
         }
 
-        public ReviewDTO Get(int id)
+        public async Task<List<ReviewDTO>> GetAllAsync()
         {
-            var model = _unitOfWork.ReviewRepository.GetById(id);
-            return _mapper.Map<Review, ReviewDTO>(model);
+            return (await _unitOfWork.ReviewRepository.GetAllAsync())
+                .Select(d => _mapper.Map<Review, ReviewDTO>(d))
+                .ToList();
         }
 
-        public List<ReviewDTO> GetAll()
+        public async Task<ReviewDTO> GetAsync(int id)
         {
-            return _unitOfWork.ReviewRepository.GetAll().Select(s => _mapper.Map<Review, ReviewDTO>(s)).ToList();
+            return _mapper.Map<Review, ReviewDTO>(await _unitOfWork.ReviewRepository.GetByIdAsync(id));
+        }
+
+        public async Task InsertAsync(ReviewDTO reviewDto)
+        {
+            await _unitOfWork.ReviewRepository.InsertAsync(_mapper.Map<ReviewDTO, Review>(reviewDto));
+        }
+
+        public async Task UpdateAsync(ReviewDTO reviewDto)
+        {
+            await _unitOfWork.ReviewRepository.UpdateAsync(_mapper.Map<ReviewDTO, Review>(reviewDto));
+        }
+
+        public async Task DeleteAsync(int id)
+        {
+            await _unitOfWork.ReviewRepository.DeleteAsync(id);
         }
     }
 }

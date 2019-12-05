@@ -1,14 +1,21 @@
-﻿using CactusCare.Abstractions.DTOs;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Text;
+using System.Linq.Expressions;
+using System.Threading.Tasks;
+using CactusCare.Abstractions.DTOs;
 
 namespace CactusCare.Abstractions.Services
 {
     public interface IDoctorService
     {
-        List<DoctorDTO> GetAll();
+        Task<List<DoctorDTO>> GetAllAsync();
+        
+        Task<DoctorDTO> GetAsync(int id);
 
-        DoctorDTO Get(int Id);
+        Task InsertAsync(DoctorDTO doctorDto);
+
+        Task UpdateAsync(DoctorDTO doctorDto);
+
+        Task DeleteAsync(int id);
     }
 }

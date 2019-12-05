@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using CactusCare.Abstractions.DTOs;
 using CactusCare.Abstractions.Services;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CactusCareApi.Controllers
@@ -20,17 +17,16 @@ namespace CactusCareApi.Controllers
             _specialityService = specialityService;
         }
 
-        //TODO make other method async
         [HttpGet]
         public async Task<ActionResult<List<SpecialityDTO>>> GetAll()
         {
-            return await Task.Run(() => _specialityService.GetAll());
+            return await _specialityService.GetAllAsync();
         }
 
         [HttpGet("{id}")]
         public async Task<ActionResult<SpecialityDTO>> Get(int id)
         {
-            return await Task.Run(() => _specialityService.Get(id));
+            return await _specialityService.GetAsync(id);
         }
     }
 }

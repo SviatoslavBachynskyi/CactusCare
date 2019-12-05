@@ -1,34 +1,50 @@
-﻿using AutoMapper;
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using AutoMapper;
 using CactusCare.Abstractions;
 using CactusCare.Abstractions.DTOs;
 using CactusCare.Abstractions.Entities;
 using CactusCare.Abstractions.Services;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace CactusCare.BLL.Services
 {
     internal class SpecialityService : ISpecialityService
     {
-        IUnitOfWork _unitOfWork;
-        IMapper _mapper;
+        private readonly IMapper _mapper;
+        private readonly IUnitOfWork _unitOfWork;
+
         public SpecialityService(IUnitOfWork unitOfWork, IMapper mapper)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
         }
-        public SpecialityDTO Get(int Id)
+
+        public async Task<List<SpecialityDTO>> GetAllAsync()
         {
-            var model = _unitOfWork.SpecialityRepository.GetById(Id);
-            return _mapper.Map<Speciality, SpecialityDTO>(model);
+            return (await _unitOfWork.SpecialityRepository.GetAllAsync())
+                .Select(d => _mapper.Map<Speciality, SpecialityDTO>(d))
+                .ToList();
         }
 
-        public List<SpecialityDTO> GetAll()
+        public async Task<SpecialityDTO> GetAsync(int id)
         {
-            return _unitOfWork.SpecialityRepository.GetAll()
-                .Select((s) => _mapper.Map<Speciality, SpecialityDTO>(s)).ToList();
+            return _mapper.Map<Speciality, SpecialityDTO>(await _unitOfWork.SpecialityRepository.GetByIdAsync(id));
+        }
+
+        public async Task InsertAsync(SpecialityDTO specialityDto)
+        {
+            await _unitOfWork.SpecialityRepository.InsertAsync(_mapper.Map<SpecialityDTO, Speciality>(specialityDto));
+        }
+
+        public async Task UpdateAsync(SpecialityDTO specialityDto)
+        {
+            await _unitOfWork.SpecialityRepository.UpdateAsync(_mapper.Map<SpecialityDTO, Speciality>(specialityDto));
+        }
+
+        public async Task DeleteAsync(int id)
+        {
+            await _unitOfWork.SpecialityRepository.DeleteAsync(id);
         }
     }
 }

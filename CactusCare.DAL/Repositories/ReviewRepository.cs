@@ -11,7 +11,7 @@ namespace CactusCare.DAL.Repositories
         {
         }
 
-        protected override IQueryable<Review> ComplexEntities => _context.Set<Review>()
-            .Include(d => d.Doctor);
+        protected override IQueryable<Review> ComplexEntities =>
+            Context.Set<Review>().Include(d => d.Doctor);
     }
 }
