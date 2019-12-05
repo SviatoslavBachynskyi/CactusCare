@@ -31,6 +31,20 @@ namespace CactusCareApi.Controllers
             return await _specialityService.GetAsync(id);
         }
 
+        [HttpPost]
+        public async Task<IActionResult> Insert(SpecialityDTO specialityDto)
+        {
+            try
+            {
+                await _specialityService.InsertAsync(specialityDto);
+                return StatusCode(200, "OK");
+            }
+            catch (Exception)
+            {
+                return StatusCode(500, "Internal server error");
+            }
+        }
+
         [HttpPut]
         public async Task<IActionResult> Update([FromBody] SpecialityDTO specialityDto)
         {
