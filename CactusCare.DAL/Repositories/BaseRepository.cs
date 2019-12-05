@@ -50,7 +50,10 @@ namespace CactusCare.DAL.Repositories
 
         public async Task DeleteAsync(TKey id)
         {
-            Context.Set<TEntity>().Remove(await ComplexEntities.FirstAsync(entity => entity.Id.Equals(id)));
+            var entity = await ComplexEntities.FirstOrDefaultAsync(en => en.Id.Equals(id));
+            if (entity == null) throw new KeyNotFoundException();
+
+            Context.Set<TEntity>().Remove(entity);
             await Context.SaveChangesAsync();
         }
     }

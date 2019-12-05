@@ -62,5 +62,23 @@ namespace CactusCareApi.Controllers
                 return StatusCode(500, "Internal server error");
             }
         }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete(int id)
+        {
+            try
+            {
+                await _doctorService.DeleteAsync(id);
+                return StatusCode(200, "OK");
+            }
+            catch (KeyNotFoundException)
+            {
+                return StatusCode(404, $"Doctor with id {id} not found");
+            }
+            catch (Exception)
+            {
+                return StatusCode(500, "Internal server error");
+            }
+        }
     }
 }
