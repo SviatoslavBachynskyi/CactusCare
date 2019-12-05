@@ -1,8 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using CactusCare.Abstractions.DTOs;
 using CactusCare.Abstractions.Services;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace CactusCareApi.Controllers
 {
@@ -27,6 +29,24 @@ namespace CactusCareApi.Controllers
         public async Task<ActionResult<ReviewDTO>> Get(int id)
         {
             return await _reviewService.GetAsync(id);
+        }
+
+        [HttpPut]
+        public async Task<IActionResult> Update([FromBody] ReviewDTO reviewDto)
+        {
+            try
+            {
+                await _reviewService.UpdateAsync(reviewDto);
+                return StatusCode(200, "OK");
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                return StatusCode(404, $"Review with id {reviewDto.Id} not found");
+            }
+            catch (Exception)
+            {
+                return StatusCode(500, "Internal server error");
+            }
         }
     }
 }
