@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using CactusCare.Abstractions;
 using CactusCare.Abstractions.Entities;
 using CactusCare.Abstractions.Repositories;
@@ -43,5 +44,10 @@ namespace CactusCare.DAL
 
         public RoleManager<IdentityRole> RoleManager =>
             _roleManager ??= _serviceProvider.GetService<RoleManager<IdentityRole>>();
+
+        public async Task<int> SaveAsync()
+        {
+            return await _context.SaveChangesAsync();
+        }
     }
 }

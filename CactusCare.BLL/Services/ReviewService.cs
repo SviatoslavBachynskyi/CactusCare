@@ -35,16 +35,19 @@ namespace CactusCare.BLL.Services
         public async Task InsertAsync(ReviewDTO reviewDto)
         {
             await _unitOfWork.ReviewRepository.InsertAsync(_mapper.Map<ReviewDTO, Review>(reviewDto));
+            await _unitOfWork.SaveAsync();
         }
 
         public async Task UpdateAsync(ReviewDTO reviewDto)
         {
             await _unitOfWork.ReviewRepository.UpdateAsync(_mapper.Map<ReviewDTO, Review>(reviewDto));
+            await _unitOfWork.SaveAsync();
         }
 
         public async Task DeleteAsync(int id)
         {
             await _unitOfWork.ReviewRepository.DeleteAsync(id);
+            await _unitOfWork.SaveAsync();
         }
     }
 }

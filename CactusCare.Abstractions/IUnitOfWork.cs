@@ -1,4 +1,5 @@
-﻿using CactusCare.Abstractions.Entities;
+﻿using System.Threading.Tasks;
+using CactusCare.Abstractions.Entities;
 using CactusCare.Abstractions.Repositories;
 using Microsoft.AspNetCore.Identity;
 
@@ -17,5 +18,7 @@ namespace CactusCare.Abstractions
         UserManager<User> UserManager { get; }
 
         RoleManager<IdentityRole> RoleManager { get; }
+
+        Task<int> SaveAsync();
     }
 }

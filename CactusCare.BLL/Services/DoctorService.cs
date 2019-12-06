@@ -36,11 +36,13 @@ namespace CactusCare.BLL.Services
         public async Task InsertAsync(DoctorDTO doctorDto)
         {
             await _unitOfWork.DoctorRepository.InsertAsync(_mapper.Map<DoctorDTO, Doctor>(doctorDto));
+            await _unitOfWork.SaveAsync();
         }
 
         public async Task UpdateAsync(DoctorDTO doctorDto)
         {
             await _unitOfWork.DoctorRepository.UpdateAsync(_mapper.Map<DoctorDTO, Doctor>(doctorDto));
+            await _unitOfWork.SaveAsync();
         }
 
         public async Task DeleteAsync(int id)
@@ -49,6 +51,7 @@ namespace CactusCare.BLL.Services
                 throw new ConstraintException();
 
             await _unitOfWork.DoctorRepository.DeleteAsync(id);
+            await _unitOfWork.SaveAsync();
         }
     }
 }

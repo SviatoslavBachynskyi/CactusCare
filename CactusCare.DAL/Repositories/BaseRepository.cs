@@ -38,14 +38,12 @@ namespace CactusCare.DAL.Repositories
 
         public async Task InsertAsync(TEntity entity)
         {
-            Context.Set<TEntity>().Add(entity);
-            await Context.SaveChangesAsync();
+            await Task.Run(() => Context.Set<TEntity>().Add(entity));
         }
 
         public async Task UpdateAsync(TEntity entity)
         {
-            Context.Set<TEntity>().Update(entity);
-            await Context.SaveChangesAsync();
+            await Task.Run(() => Context.Set<TEntity>().Update(entity));
         }
 
         public async Task DeleteAsync(TKey id)
@@ -53,8 +51,7 @@ namespace CactusCare.DAL.Repositories
             var entity = await ComplexEntities.FirstOrDefaultAsync(en => en.Id.Equals(id));
             if (entity == null) throw new KeyNotFoundException();
 
-            Context.Set<TEntity>().Remove(entity);
-            await Context.SaveChangesAsync();
+            await Task.Run(() => Context.Set<TEntity>().Remove(entity));
         }
     }
 }
