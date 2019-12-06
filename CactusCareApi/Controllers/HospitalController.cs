@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Threading.Tasks;
 using CactusCare.Abstractions.DTOs;
 using CactusCare.Abstractions.Services;
@@ -73,7 +74,12 @@ namespace CactusCareApi.Controllers
             }
             catch (KeyNotFoundException)
             {
-                return StatusCode(404, $"Hospital with id {id} not found");
+                return StatusCode(404, $"Hospital with {id} not found");
+            }
+            catch (ConstraintException)
+            {
+                return StatusCode(400,
+                    $"Hospital with id {id} has relationship with Doctor. Remove all doctors associated with it first");
             }
             catch (Exception)
             {
