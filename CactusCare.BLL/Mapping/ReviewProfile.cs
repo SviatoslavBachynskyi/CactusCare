@@ -11,7 +11,8 @@ namespace CactusCare.BLL.Mapping
             CreateMap<Review, ReviewDTO>();
 
             CreateMap<ReviewDTO, Review>()
-                .ForMember(d => d.Doctor, opt => opt.Ignore());
+                .ForMember(d => d.Doctor, opt => opt.Ignore())
+                .ForMember(i => i.Id, opt => opt.Ignore());
         }
     }
 }
