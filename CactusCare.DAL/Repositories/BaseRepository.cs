@@ -1,10 +1,10 @@
-﻿using CactusCare.Abstractions.Repositories;
-using System.Linq.Expressions;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
+using System.Linq.Expressions;
+using System.Threading.Tasks;
 using CactusCare.Abstractions.Entities;
+using CactusCare.Abstractions.Repositories;
 using Microsoft.EntityFrameworkCore;
 
 namespace CactusCare.DAL.Repositories
@@ -12,42 +12,46 @@ namespace CactusCare.DAL.Repositories
     internal abstract class BaseRepository<TEntity, TKey> : IBaseRepository<TEntity, TKey>
         where TEntity : class, IEntity<TKey>
     {
-        protected readonly CactusCareContext _context;
-        protected virtual IQueryable<TEntity> ComplexEntities { get => _context.Set<TEntity>().AsNoTracking(); }
-        public BaseRepository(CactusCareContext context)
+        protected readonly CactusCareContext Context;
+
+        protected BaseRepository(CactusCareContext context)
         {
-            _context = context;
-        }
-        public TEntity Add(TEntity entity)
-        {
-            _context.Set<TEntity>().Add(entity);
-            return entity;
+            Context = context;
         }
 
-        public void Delete(TKey id)
+        protected virtual IQueryable<TEntity> ComplexEntities => Context.Set<TEntity>().AsNoTracking();
+
+        public async Task<IEnumerable<TEntity>> GetAllAsync()
         {
-            var entity = _context.Set<TEntity>().Find(id);
-            _context.Set<TEntity>().Remove(entity);
+            return await ComplexEntities.ToListAsync();
         }
 
-        public IQueryable<TEntity> GetAll()
+        public async Task<IEnumerable<TEntity>> GetAllAsync(Expression<Func<TEntity, bool>> predicate)
         {
-            return ComplexEntities;
+            return await ComplexEntities.Where(predicate).ToListAsync();
         }
 
-        public IQueryable<TEntity> GetAll(Expression<Func<TEntity, bool>> predicate)
+        public async Task<TEntity> GetByIdAsync(TKey id)
         {
-            return ComplexEntities.Where(predicate);
+            return await ComplexEntities.FirstOrDefaultAsync(entity => entity.Id.Equals(id));
         }
 
-        public TEntity GetById(TKey id)
+        public async Task InsertAsync(TEntity entity)
         {
-            return ComplexEntities.First(entity => entity.Id.Equals(id));
+            await Task.Run(() => Context.Set<TEntity>().Add(entity));
         }
 
-        public TEntity Update(TEntity entity)
+        public async Task UpdateAsync(TEntity entity)
         {
-            return _context.Set<TEntity>().Update(entity).Entity;
+            await Task.Run(() => Context.Set<TEntity>().Update(entity));
+        }
+
+        public async Task DeleteAsync(TKey id)
+        {
+            var entity = await ComplexEntities.FirstOrDefaultAsync(en => en.Id.Equals(id));
+            if (entity == null) throw new KeyNotFoundException();
+
+            await Task.Run(() => Context.Set<TEntity>().Remove(entity));
         }
     }
 }

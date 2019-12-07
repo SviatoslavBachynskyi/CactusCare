@@ -1,4 +1,7 @@
-﻿using CactusCare.Abstractions;
+﻿using System;
+using System.Threading.Tasks;
+using CactusCare.Abstractions;
+using CactusCare.Abstractions.Entities;
 using CactusCare.Abstractions.Repositories;
 using System;
 using System.Collections.Generic;
@@ -13,10 +16,10 @@ namespace CactusCare.DAL
     {
         private readonly CactusCareContext _context;
         private readonly IServiceProvider _serviceProvider;
-
-        private ISpecialityRepository _specialityRepository;
-        private IHospitalRepository _hospitalRepository;
         private IDoctorRepository _doctorRepository;
+        private IHospitalRepository _hospitalRepository;
+        private IReviewRepository _reviewRepository;
+        private ISpecialityRepository _specialityRepository;
 
         private UserManager<User> _userManager;
         private RoleManager<IdentityRole> _roleManager;
@@ -28,11 +31,23 @@ namespace CactusCare.DAL
             _serviceProvider = serviceProvider;
         }
 
-        public ISpecialityRepository SpecialityRepository => _specialityRepository ??= _serviceProvider.GetService<ISpecialityRepository>();
+        public ISpecialityRepository SpecialityRepository =>
+            _specialityRepository ??= _serviceProvider.GetService<ISpecialityRepository>();
 
-        public IHospitalRepository HospitalRepository => _hospitalRepository ??= _serviceProvider.GetService<IHospitalRepository>();
+        public IHospitalRepository HospitalRepository =>
+            _hospitalRepository ??= _serviceProvider.GetService<IHospitalRepository>();
 
-        public IDoctorRepository DoctorRepository => _doctorRepository ??= _serviceProvider.GetService<IDoctorRepository>();
+        public IDoctorRepository DoctorRepository =>
+            _doctorRepository ??= _serviceProvider.GetService<IDoctorRepository>();
+
+        public IReviewRepository ReviewRepository =>
+            _reviewRepository ??= _serviceProvider.GetService<IReviewRepository>();
+
+        public UserManager<User> UserManager => _userManager ??=
+            _serviceProvider.GetService<UserManager<User>>();
+
+        public RoleManager<IdentityRole> RoleManager =>
+            _roleManager ??= _serviceProvider.GetService<RoleManager<IdentityRole>>();
 
         public UserManager<User> UserManager => _userManager ??= _serviceProvider.GetService<UserManager<User>>();
 
@@ -40,9 +55,9 @@ namespace CactusCare.DAL
 
         public SignInManager<User> SignInManager => _signInManager ??= _serviceProvider.GetService<SignInManager<User>>();
 
-        public void Save()
+        public async Task<int> SaveAsync()
         {
-            _context.SaveChanges();
+            return await _context.SaveChangesAsync();
         }
     }
 }

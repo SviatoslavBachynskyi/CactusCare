@@ -2,7 +2,7 @@
 
 namespace CactusCare.Abstractions.Repositories
 {
-    public interface IDoctorRepository : IBaseRepository<Doctor, int>
+    public interface IReviewRepository : IBaseRepository<Review, int>
     {
     }
 }

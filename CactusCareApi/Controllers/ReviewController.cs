@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data;
 using System.Threading.Tasks;
 using CactusCare.Abstractions.DTOs;
 using CactusCare.Abstractions.Services;
@@ -11,33 +10,33 @@ namespace CactusCareApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class SpecialityController : ControllerBase
+    public class ReviewController : ControllerBase
     {
-        private readonly ISpecialityService _specialityService;
+        private readonly IReviewService _reviewService;
 
-        public SpecialityController(ISpecialityService specialityService)
+        public ReviewController(IReviewService reviewService)
         {
-            _specialityService = specialityService;
+            _reviewService = reviewService;
         }
 
         [HttpGet]
-        public async Task<ActionResult<List<SpecialityDTO>>> GetAll()
+        public async Task<ActionResult<List<ReviewDTO>>> GetAll()
         {
-            return await _specialityService.GetAllAsync();
+            return await _reviewService.GetAllAsync();
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<SpecialityDTO>> Get(int id)
+        public async Task<ActionResult<ReviewDTO>> Get(int id)
         {
-            return await _specialityService.GetAsync(id);
+            return await _reviewService.GetAsync(id);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Insert(SpecialityDTO specialityDto)
+        public async Task<IActionResult> Insert(ReviewDTO reviewDto)
         {
             try
             {
-                await _specialityService.InsertAsync(specialityDto);
+                await _reviewService.InsertAsync(reviewDto);
                 return StatusCode(200, "OK");
             }
             catch (Exception)
@@ -47,16 +46,16 @@ namespace CactusCareApi.Controllers
         }
 
         [HttpPut]
-        public async Task<IActionResult> Update([FromBody] SpecialityDTO specialityDto)
+        public async Task<IActionResult> Update([FromBody] ReviewDTO reviewDto)
         {
             try
             {
-                await _specialityService.UpdateAsync(specialityDto);
+                await _reviewService.UpdateAsync(reviewDto);
                 return StatusCode(200, "OK");
             }
             catch (DbUpdateConcurrencyException)
             {
-                return StatusCode(404, $"Speciality with id {specialityDto.Id} not found");
+                return StatusCode(404, $"Review with id {reviewDto.Id} not found");
             }
             catch (Exception)
             {
@@ -69,17 +68,12 @@ namespace CactusCareApi.Controllers
         {
             try
             {
-                await _specialityService.DeleteAsync(id);
+                await _reviewService.DeleteAsync(id);
                 return StatusCode(200, "OK");
             }
             catch (KeyNotFoundException)
             {
-                return StatusCode(404, $"Speciality with id {id} not found");
-            }
-            catch (ConstraintException)
-            {
-                return StatusCode(400,
-                    $"Speciality with id {id} has relationship with Doctor. Remove all doctors associated with it first");
+                return StatusCode(404, $"Review with id {id} not found");
             }
             catch (Exception)
             {
