@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace CactusCare.DAL.Migrations
 {
-    public partial class MicrosoftIdentity : Migration
+    public partial class CactusCareDB : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -39,11 +39,43 @@ namespace CactusCare.DAL.Migrations
                     TwoFactorEnabled = table.Column<bool>(nullable: false),
                     LockoutEnd = table.Column<DateTimeOffset>(nullable: true),
                     LockoutEnabled = table.Column<bool>(nullable: false),
-                    AccessFailedCount = table.Column<int>(nullable: false)
+                    AccessFailedCount = table.Column<int>(nullable: false),
+                    FirstName = table.Column<string>(nullable: true),
+                    LastName = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AspNetUsers", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Hospitals",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(nullable: true),
+                    Address = table.Column<string>(nullable: true),
+                    Email = table.Column<string>(nullable: true),
+                    PhoneNumber = table.Column<string>(nullable: true),
+                    Website = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Hospitals", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Specialities",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Specialities", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -152,6 +184,98 @@ namespace CactusCare.DAL.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "Doctors",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    FirstName = table.Column<string>(nullable: true),
+                    LastName = table.Column<string>(nullable: true),
+                    SpecialityId = table.Column<int>(nullable: false),
+                    HospitalId = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Doctors", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Doctor_Hospital",
+                        column: x => x.HospitalId,
+                        principalTable: "Hospitals",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Doctor_Speciality",
+                        column: x => x.SpecialityId,
+                        principalTable: "Specialities",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Reviews",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Content = table.Column<string>(nullable: true),
+                    Time = table.Column<DateTime>(nullable: false),
+                    DoctorId = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Reviews", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Doctor_Review",
+                        column: x => x.DoctorId,
+                        principalTable: "Doctors",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.InsertData(
+                table: "Hospitals",
+                columns: new[] { "Id", "Address", "Email", "Name", "PhoneNumber", "Website" },
+                values: new object[,]
+                {
+                    { 1, "Адреса 1", "емейл@емейл1", "Лікарня 1", "(032) 345 45", "hos1.com" },
+                    { 2, "Адреса 2", "емейл@емейл2", "Лікарня 2", "(032) 756 64", "hos2.com" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Specialities",
+                columns: new[] { "Id", "Name" },
+                values: new object[,]
+                {
+                    { 1, "тест" },
+                    { 2, "тест 2" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Doctors",
+                columns: new[] { "Id", "FirstName", "HospitalId", "LastName", "SpecialityId" },
+                values: new object[] { 1, "First", 1, "Ivanov", 1 });
+
+            migrationBuilder.InsertData(
+                table: "Doctors",
+                columns: new[] { "Id", "FirstName", "HospitalId", "LastName", "SpecialityId" },
+                values: new object[] { 2, "Secon", 2, "Ivanov", 2 });
+
+            migrationBuilder.InsertData(
+                table: "Reviews",
+                columns: new[] { "Id", "Content", "DoctorId", "Time" },
+                values: new object[] { 1, "Чудовий лікар!", 1, new DateTime(2019, 12, 8, 1, 30, 43, 860, DateTimeKind.Local).AddTicks(7901) });
+
+            migrationBuilder.InsertData(
+                table: "Reviews",
+                columns: new[] { "Id", "Content", "DoctorId", "Time" },
+                values: new object[] { 2, "Погоджуюсь. Неймовірний лікар.", 1, new DateTime(2019, 12, 8, 1, 30, 43, 870, DateTimeKind.Local).AddTicks(5273) });
+
+            migrationBuilder.InsertData(
+                table: "Reviews",
+                columns: new[] { "Id", "Content", "DoctorId", "Time" },
+                values: new object[] { 3, "Жахливий лікар!", 2, new DateTime(2019, 12, 8, 1, 30, 43, 870, DateTimeKind.Local).AddTicks(5526) });
+
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
                 table: "AspNetRoleClaims",
@@ -190,6 +314,21 @@ namespace CactusCare.DAL.Migrations
                 column: "NormalizedUserName",
                 unique: true,
                 filter: "[NormalizedUserName] IS NOT NULL");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Doctors_HospitalId",
+                table: "Doctors",
+                column: "HospitalId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Doctors_SpecialityId",
+                table: "Doctors",
+                column: "SpecialityId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Reviews_DoctorId",
+                table: "Reviews",
+                column: "DoctorId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -210,10 +349,22 @@ namespace CactusCare.DAL.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
+                name: "Reviews");
+
+            migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
+
+            migrationBuilder.DropTable(
+                name: "Doctors");
+
+            migrationBuilder.DropTable(
+                name: "Hospitals");
+
+            migrationBuilder.DropTable(
+                name: "Specialities");
         }
     }
 }

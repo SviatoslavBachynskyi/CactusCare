@@ -10,14 +10,14 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CactusCare.DAL.Migrations
 {
     [DbContext(typeof(CactusCareContext))]
-    [Migration("20191203150755_MicrosoftIdentity")]
-    partial class MicrosoftIdentity
+    [Migration("20191207233045_CactusCareDB")]
+    partial class CactusCareDB
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "3.0.1")
+                .HasAnnotation("ProductVersion", "3.1.0")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
@@ -114,6 +114,52 @@ namespace CactusCare.DAL.Migrations
                         });
                 });
 
+            modelBuilder.Entity("CactusCare.Abstractions.Entities.Review", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Content")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("DoctorId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("Time")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("DoctorId");
+
+                    b.ToTable("Reviews");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Content = "Чудовий лікар!",
+                            DoctorId = 1,
+                            Time = new DateTime(2019, 12, 8, 1, 30, 43, 860, DateTimeKind.Local).AddTicks(7901)
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Content = "Погоджуюсь. Неймовірний лікар.",
+                            DoctorId = 1,
+                            Time = new DateTime(2019, 12, 8, 1, 30, 43, 870, DateTimeKind.Local).AddTicks(5273)
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Content = "Жахливий лікар!",
+                            DoctorId = 2,
+                            Time = new DateTime(2019, 12, 8, 1, 30, 43, 870, DateTimeKind.Local).AddTicks(5526)
+                        });
+                });
+
             modelBuilder.Entity("CactusCare.Abstractions.Entities.Speciality", b =>
                 {
                     b.Property<int>("Id")
@@ -159,6 +205,12 @@ namespace CactusCare.DAL.Migrations
 
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("bit");
+
+                    b.Property<string>("FirstName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("LastName")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("bit");
@@ -350,6 +402,16 @@ namespace CactusCare.DAL.Migrations
                         .WithMany("Doctors")
                         .HasForeignKey("SpecialityId")
                         .HasConstraintName("FK_Doctor_Speciality")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("CactusCare.Abstractions.Entities.Review", b =>
+                {
+                    b.HasOne("CactusCare.Abstractions.Entities.Doctor", "Doctor")
+                        .WithMany("Reviews")
+                        .HasForeignKey("DoctorId")
+                        .HasConstraintName("FK_Doctor_Review")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

@@ -33,6 +33,7 @@ namespace CactusCare.BLL
                 cfg.AddProfile(new SpecialityProfile());
                 cfg.AddProfile(new HospitalProfile());
                 cfg.AddProfile(new DoctorProfile());
+                cfg.AddProfile(new UserProfile());
             }).CreateMapper());
         }
     }

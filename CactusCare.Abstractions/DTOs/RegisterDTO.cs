@@ -1,13 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using Microsoft.AspNetCore.Identity;
 
-namespace CactusCare.Abstractions.Entities
+namespace CactusCare.Abstractions.DTOs
 {
-    public class User : IdentityUser
+    public class RegisterDTO
     {
+        public string UserName { get; set; }
+
+        public string Password { get; set; }
+
         public string FirstName { get; set; }
+
         public string LastName { get; set; }
     }
 }
