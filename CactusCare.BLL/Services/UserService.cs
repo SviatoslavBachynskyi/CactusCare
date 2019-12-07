@@ -8,7 +8,7 @@ namespace CactusCare.BLL.Services
 {
     class UserService : IUserService
     {
-        IUnitOfWork _unitOfWork;
+        private readonly IUnitOfWork _unitOfWork;
         public UserService(IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;

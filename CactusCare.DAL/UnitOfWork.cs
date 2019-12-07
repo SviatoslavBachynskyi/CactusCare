@@ -3,10 +3,6 @@ using System.Threading.Tasks;
 using CactusCare.Abstractions;
 using CactusCare.Abstractions.Entities;
 using CactusCare.Abstractions.Repositories;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using CactusCare.Abstractions.Entities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -49,11 +45,8 @@ namespace CactusCare.DAL
         public RoleManager<IdentityRole> RoleManager =>
             _roleManager ??= _serviceProvider.GetService<RoleManager<IdentityRole>>();
 
-        public UserManager<User> UserManager => _userManager ??= _serviceProvider.GetService<UserManager<User>>();
-
-        public RoleManager<IdentityRole> RoleManager => _roleManager ??= _serviceProvider.GetService<RoleManager<IdentityRole>>();
-
-        public SignInManager<User> SignInManager => _signInManager ??= _serviceProvider.GetService<SignInManager<User>>();
+        public SignInManager<User> SignInManager =>
+            _signInManager ??= _serviceProvider.GetService<SignInManager<User>>();
 
         public async Task<int> SaveAsync()
         {
