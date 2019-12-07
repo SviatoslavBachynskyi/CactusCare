@@ -11,6 +11,8 @@ namespace CactusCare.Abstractions.DTOs
         public string FirstName { get; set; }
 
         public string LastName { get; set; }
+        
+        public float Rating { get; set; }
 
         public int SpecialityId { get; set; }
 
