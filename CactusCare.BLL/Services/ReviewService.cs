@@ -6,6 +6,7 @@ using CactusCare.Abstractions;
 using CactusCare.Abstractions.DTOs;
 using CactusCare.Abstractions.Entities;
 using CactusCare.Abstractions.Services;
+using CactusCare.BLL.Converters;
 
 namespace CactusCare.BLL.Services
 {
@@ -36,17 +37,27 @@ namespace CactusCare.BLL.Services
         {
             await _unitOfWork.ReviewRepository.InsertAsync(_mapper.Map<ReviewDTO, Review>(reviewDto));
             await _unitOfWork.SaveAsync();
+            await UpdateDoctorRatingAsync(reviewDto.DoctorId);
         }
 
         public async Task UpdateAsync(ReviewDTO reviewDto)
         {
             await _unitOfWork.ReviewRepository.UpdateAsync(_mapper.Map<ReviewDTO, Review>(reviewDto));
             await _unitOfWork.SaveAsync();
+            await UpdateDoctorRatingAsync(reviewDto.DoctorId);
         }
 
         public async Task DeleteAsync(int id)
         {
             await _unitOfWork.ReviewRepository.DeleteAsync(id);
+            await _unitOfWork.SaveAsync();
+        }
+
+        private async Task UpdateDoctorRatingAsync(int doctorId)
+        {
+            var doctor = await _unitOfWork.DoctorRepository.GetByIdAsync(doctorId);
+            var reviews = await _unitOfWork.ReviewRepository.GetAllAsync(r => r.DoctorId.Equals(doctorId));
+            doctor.Rating = await Task.Run(() => reviews.Average(r => r.Rating.ConvertToFiveStarScale()));
             await _unitOfWork.SaveAsync();
         }
     }
