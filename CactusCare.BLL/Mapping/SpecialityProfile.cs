@@ -10,8 +10,7 @@ namespace CactusCare.BLL.Mapping
         {
             CreateMap<Speciality, SpecialityDTO>();
 
-            CreateMap<SpecialityDTO, Speciality>()
-                .ForMember(i => i.Id, opt => opt.Ignore());
+            CreateMap<SpecialityDTO, Speciality>();
         }
     }
 }

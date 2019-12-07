@@ -10,8 +10,7 @@ namespace CactusCare.BLL.Mapping
         {
             CreateMap<Hospital, HospitalDTO>();
 
-            CreateMap<HospitalDTO, Hospital>()
-                .ForMember(i => i.Id, opt => opt.Ignore());
+            CreateMap<HospitalDTO, Hospital>();
         }
     }
 }
