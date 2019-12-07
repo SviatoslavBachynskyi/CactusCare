@@ -1,24 +1,23 @@
-﻿using CactusCare.Abstractions.Entities;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Linq.Expressions;
-using System.Text;
+using System.Threading.Tasks;
+using CactusCare.Abstractions.Entities;
 
 namespace CactusCare.Abstractions.Repositories
 {
-    public interface IBaseRepository<TEntity, TKey> where TEntity: class, IEntity<TKey>
-    { 
-        TEntity GetById(TKey id);
-        
-        IQueryable<TEntity> GetAll();
+    public interface IBaseRepository<TEntity, in TKey> where TEntity : class, IEntity<TKey>
+    {
+        Task<IEnumerable<TEntity>> GetAllAsync();
 
-        IQueryable<TEntity> GetAll(Expression<Func<TEntity, bool>> predicate);
+        Task<IEnumerable<TEntity>> GetAllAsync(Expression<Func<TEntity, bool>> predicate);
 
-        TEntity Add(TEntity entity);
+        Task<TEntity> GetByIdAsync(TKey id);
 
-        TEntity Update(TEntity entity);
+        Task InsertAsync(TEntity entity);
 
-        void Delete(TKey id);
+        Task UpdateAsync(TEntity entity);
+
+        Task DeleteAsync(TKey id);
     }
 }

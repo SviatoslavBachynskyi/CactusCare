@@ -14,11 +14,8 @@ namespace CactusCare.BLL
 {
     public class BLLModule : Module
     {
-        private readonly IConfigurationRoot _configuration;
-
-        public BLLModule(IConfigurationRoot configuration)
+        public BLLModule()
         {
-            this._configuration = configuration;
         }
 
         protected override void Load(ContainerBuilder builder)
@@ -27,7 +24,7 @@ namespace CactusCare.BLL
             builder.RegisterAssemblyTypes(Assembly.GetExecutingAssembly())
                 .Where(t => t.Name.EndsWith("Service"))
                 .AsImplementedInterfaces()
-                .InstancePerRequest();
+                .InstancePerLifetimeScope();
 
             //Configure AutoMapper
             builder.RegisterInstance(new MapperConfiguration
@@ -36,7 +33,6 @@ namespace CactusCare.BLL
                 cfg.AddProfile(new SpecialityProfile());
                 cfg.AddProfile(new HospitalProfile());
                 cfg.AddProfile(new DoctorProfile());
-                cfg.AddProfile(new ReviewProfile());
             }).CreateMapper());
         }
     }

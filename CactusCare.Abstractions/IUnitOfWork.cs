@@ -1,7 +1,7 @@
-﻿using CactusCare.Abstractions.Repositories;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Threading.Tasks;
+using CactusCare.Abstractions.Entities;
+using CactusCare.Abstractions.Repositories;
+using Microsoft.AspNetCore.Identity;
 
 namespace CactusCare.Abstractions
 {
@@ -15,6 +15,10 @@ namespace CactusCare.Abstractions
 
         IReviewRepository ReviewRepository { get; }
 
-        void Save();
+        UserManager<User> UserManager { get; }
+
+        RoleManager<IdentityRole> RoleManager { get; }
+
+        Task<int> SaveAsync();
     }
 }

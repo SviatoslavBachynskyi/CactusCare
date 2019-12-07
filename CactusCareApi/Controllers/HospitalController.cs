@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
+using System.Data;
 using System.Threading.Tasks;
 using CactusCare.Abstractions.DTOs;
 using CactusCare.Abstractions.Services;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace CactusCareApi.Controllers
 {
@@ -23,13 +23,68 @@ namespace CactusCareApi.Controllers
         [HttpGet]
         public async Task<ActionResult<List<HospitalDTO>>> GetAll()
         {
-            return await Task.Run(() => _hospitalService.GetAll());
+            return await _hospitalService.GetAllAsync();
         }
 
         [HttpGet("{id}")]
         public async Task<ActionResult<HospitalDTO>> Get(int id)
         {
-            return await Task.Run(() => _hospitalService.Get(id));
+            return await _hospitalService.GetAsync(id);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Insert(HospitalDTO hospitalDto)
+        {
+            try
+            {
+                await _hospitalService.InsertAsync(hospitalDto);
+                return StatusCode(200, "OK");
+            }
+            catch (Exception)
+            {
+                return StatusCode(500, "Internal server error");
+            }
+        }
+
+        [HttpPut]
+        public async Task<IActionResult> Update([FromBody] HospitalDTO hospitalDto)
+        {
+            try
+            {
+                await _hospitalService.UpdateAsync(hospitalDto);
+                return StatusCode(200, "OK");
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                return StatusCode(404, $"Hospital with id {hospitalDto.Id} not found");
+            }
+            catch (Exception)
+            {
+                return StatusCode(500, "Internal server error");
+            }
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete(int id)
+        {
+            try
+            {
+                await _hospitalService.DeleteAsync(id);
+                return StatusCode(200, "OK");
+            }
+            catch (KeyNotFoundException)
+            {
+                return StatusCode(404, $"Hospital with {id} not found");
+            }
+            catch (ConstraintException)
+            {
+                return StatusCode(400,
+                    $"Hospital with id {id} has relationship with Doctor. Remove all doctors associated with it first");
+            }
+            catch (Exception)
+            {
+                return StatusCode(500, "Internal server error");
+            }
         }
     }
 }

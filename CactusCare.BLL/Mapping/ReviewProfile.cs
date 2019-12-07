@@ -10,7 +10,8 @@ namespace CactusCare.BLL.Mapping
         {
             CreateMap<Review, ReviewDTO>();
 
-            CreateMap<ReviewDTO, Review>();
+            CreateMap<ReviewDTO, Review>()
+                .ForMember(d => d.Doctor, opt => opt.Ignore());
         }
     }
 }
