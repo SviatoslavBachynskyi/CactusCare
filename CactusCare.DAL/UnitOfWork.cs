@@ -20,6 +20,7 @@ namespace CactusCare.DAL
 
         private UserManager<User> _userManager;
         private RoleManager<IdentityRole> _roleManager;
+        private SignInManager<User> _signInManager;
 
         public UnitOfWork(CactusCareContext context, IServiceProvider serviceProvider)
         {
@@ -36,6 +37,8 @@ namespace CactusCare.DAL
         public UserManager<User> UserManager => _userManager ??= _serviceProvider.GetService<UserManager<User>>();
 
         public RoleManager<IdentityRole> RoleManager => _roleManager ??= _serviceProvider.GetService<RoleManager<IdentityRole>>();
+
+        public SignInManager<User> SignInManager => _signInManager ??= _serviceProvider.GetService<SignInManager<User>>();
 
         public void Save()
         {

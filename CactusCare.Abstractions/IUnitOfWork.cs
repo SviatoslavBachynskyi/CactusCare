@@ -19,6 +19,8 @@ namespace CactusCare.Abstractions
 
         RoleManager<IdentityRole> RoleManager { get; }
 
+        SignInManager<User> SignInManager { get; }
+
         void Save();
     }
 }
