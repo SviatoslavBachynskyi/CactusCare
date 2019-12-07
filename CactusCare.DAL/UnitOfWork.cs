@@ -1,8 +1,9 @@
-﻿using CactusCare.Abstractions;
+﻿using System;
+using System.Threading.Tasks;
+using CactusCare.Abstractions;
+using CactusCare.Abstractions.Entities;
 using CactusCare.Abstractions.Repositories;
-using System;
-using System.Collections.Generic;
-using System.Text;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace CactusCare.DAL
@@ -11,11 +12,14 @@ namespace CactusCare.DAL
     {
         private readonly CactusCareContext _context;
         private readonly IServiceProvider _serviceProvider;
+        private IDoctorRepository _doctorRepository;
+        private IHospitalRepository _hospitalRepository;
+        private IReviewRepository _reviewRepository;
+        private RoleManager<IdentityRole> _roleManager;
 
         private ISpecialityRepository _specialityRepository;
-        private IHospitalRepository _hospitalRepository;
-        private IDoctorRepository _doctorRepository;
-        private IReviewRepository _reviewRepository;
+
+        private UserManager<User> _userManager;
 
         public UnitOfWork(CactusCareContext context, IServiceProvider serviceProvider)
         {
@@ -35,9 +39,15 @@ namespace CactusCare.DAL
         public IReviewRepository ReviewRepository =>
             _reviewRepository ??= _serviceProvider.GetService<IReviewRepository>();
 
-        public void Save()
+        public UserManager<User> UserManager => _userManager ??=
+            _serviceProvider.GetService<UserManager<User>>();
+
+        public RoleManager<IdentityRole> RoleManager =>
+            _roleManager ??= _serviceProvider.GetService<RoleManager<IdentityRole>>();
+
+        public async Task<int> SaveAsync()
         {
-            _context.SaveChanges();
+            return await _context.SaveChangesAsync();
         }
     }
 }

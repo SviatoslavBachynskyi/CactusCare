@@ -7,8 +7,9 @@ using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using CactusCare.Abstractions.Entities;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Hosting;
 
 namespace CactusCare.DAL
@@ -19,14 +20,17 @@ namespace CactusCare.DAL
         {
             services.AddDbContext<CactusCareContext>(
                 (options) => options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
+
+            services.AddIdentity<User, IdentityRole>()
+                .AddEntityFrameworkStores<CactusCareContext>()
+                .AddDefaultTokenProviders();
         }
 
-        public void Configure(IApplicationBuilder app, IServiceProvider serviceProvider, IWebHostEnvironment environment)
+        public void Configure(IServiceProvider serviceProvider, bool development)
         {
-            if (environment.IsDevelopment())
-            {
+            //TODO try ensure created
+            if (development)
                 serviceProvider.GetRequiredService<CactusCareContext>().Database.Migrate();
-            }
         }
     }
 }

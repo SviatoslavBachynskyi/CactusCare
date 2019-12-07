@@ -1,34 +1,57 @@
-﻿using AutoMapper;
+﻿using System.Collections.Generic;
+using System.Data;
+using System.Linq;
+using System.Threading.Tasks;
+using AutoMapper;
 using CactusCare.Abstractions;
 using CactusCare.Abstractions.DTOs;
 using CactusCare.Abstractions.Entities;
 using CactusCare.Abstractions.Services;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace CactusCare.BLL.Services
 {
     internal class DoctorService : IDoctorService
     {
-        IUnitOfWork _unitOfWork;
-        IMapper _mapper;
+        private readonly IMapper _mapper;
+        private readonly IUnitOfWork _unitOfWork;
+
         public DoctorService(IUnitOfWork unitOfWork, IMapper mapper)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
         }
-        public DoctorDTO Get(int Id)
+
+        public async Task<List<DoctorDTO>> GetAllAsync()
         {
-            var model = _unitOfWork.DoctorRepository.GetById(Id);
-            return _mapper.Map<Doctor, DoctorDTO>(model);
+            return (await _unitOfWork.DoctorRepository.GetAllAsync())
+                .Select(d => _mapper.Map<Doctor, DoctorDTO>(d))
+                .ToList();
         }
 
-        public List<DoctorDTO> GetAll()
+        public async Task<DoctorDTO> GetAsync(int id)
         {
-            return _unitOfWork.DoctorRepository.GetAll()
-                .Select((d) => _mapper.Map<Doctor, DoctorDTO>(d)).ToList();
+            return _mapper.Map<Doctor, DoctorDTO>(await _unitOfWork.DoctorRepository.GetByIdAsync(id));
+        }
+
+        public async Task InsertAsync(DoctorDTO doctorDto)
+        {
+            await _unitOfWork.DoctorRepository.InsertAsync(_mapper.Map<DoctorDTO, Doctor>(doctorDto));
+            await _unitOfWork.SaveAsync();
+        }
+
+        public async Task UpdateAsync(DoctorDTO doctorDto)
+        {
+            await _unitOfWork.DoctorRepository.UpdateAsync(_mapper.Map<DoctorDTO, Doctor>(doctorDto));
+            await _unitOfWork.SaveAsync();
+        }
+
+        public async Task DeleteAsync(int id)
+        {
+            if ((await _unitOfWork.ReviewRepository.GetAllAsync()).Any(d => d.DoctorId.Equals(id)))
+                throw new ConstraintException();
+
+            await _unitOfWork.DoctorRepository.DeleteAsync(id);
+            await _unitOfWork.SaveAsync();
         }
     }
 }

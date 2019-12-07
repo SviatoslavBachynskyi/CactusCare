@@ -4,7 +4,6 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
 
 namespace CactusCare.Abstractions
 {
@@ -12,6 +11,6 @@ namespace CactusCare.Abstractions
     {
         void ConfigureServices(IServiceCollection services, IConfiguration configuration);
 
-        void Configure(IApplicationBuilder app, IServiceProvider serviceProvider, IWebHostEnvironment environment);
+        void Configure(IServiceProvider serviceProvider, bool development);
     }
 }
