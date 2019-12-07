@@ -13,5 +13,7 @@ namespace CactusCare.Abstractions.Entities
         public int DoctorId { get; set; }
 
         public Doctor Doctor { get; set; }
+
+        public int Rating { get; set; }
     }
 }
