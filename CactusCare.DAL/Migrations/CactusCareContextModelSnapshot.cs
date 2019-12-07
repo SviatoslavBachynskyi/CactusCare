@@ -15,7 +15,7 @@ namespace CactusCare.DAL.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "3.0.1")
+                .HasAnnotation("ProductVersion", "3.1.0")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
@@ -35,6 +35,9 @@ namespace CactusCare.DAL.Migrations
                     b.Property<string>("LastName")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<float>("Rating")
+                        .HasColumnType("real");
+
                     b.Property<int>("SpecialityId")
                         .HasColumnType("int");
 
@@ -53,6 +56,7 @@ namespace CactusCare.DAL.Migrations
                             FirstName = "First",
                             HospitalId = 1,
                             LastName = "Ivanov",
+                            Rating = 0f,
                             SpecialityId = 1
                         },
                         new
@@ -61,6 +65,7 @@ namespace CactusCare.DAL.Migrations
                             FirstName = "Secon",
                             HospitalId = 2,
                             LastName = "Ivanov",
+                            Rating = 0f,
                             SpecialityId = 2
                         });
                 });
@@ -109,6 +114,58 @@ namespace CactusCare.DAL.Migrations
                             Name = "Лікарня 2",
                             PhoneNumber = "(032) 756 64",
                             Website = "hos2.com"
+                        });
+                });
+
+            modelBuilder.Entity("CactusCare.Abstractions.Entities.Review", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Content")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("DoctorId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Rating")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("Time")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("DoctorId");
+
+                    b.ToTable("Reviews");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Content = "Чудовий лікар!",
+                            DoctorId = 1,
+                            Rating = 6,
+                            Time = new DateTime(2019, 12, 8, 0, 12, 47, 550, DateTimeKind.Local).AddTicks(9813)
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Content = "Погоджуюсь. Неймовірний лікар.",
+                            DoctorId = 1,
+                            Rating = 4,
+                            Time = new DateTime(2019, 12, 8, 0, 12, 47, 553, DateTimeKind.Local).AddTicks(3439)
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Content = "Жахливий лікар!",
+                            DoctorId = 2,
+                            Rating = 10,
+                            Time = new DateTime(2019, 12, 8, 0, 12, 47, 553, DateTimeKind.Local).AddTicks(3506)
                         });
                 });
 
@@ -348,6 +405,16 @@ namespace CactusCare.DAL.Migrations
                         .WithMany("Doctors")
                         .HasForeignKey("SpecialityId")
                         .HasConstraintName("FK_Doctor_Speciality")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("CactusCare.Abstractions.Entities.Review", b =>
+                {
+                    b.HasOne("CactusCare.Abstractions.Entities.Doctor", "Doctor")
+                        .WithMany("Reviews")
+                        .HasForeignKey("DoctorId")
+                        .HasConstraintName("FK_Doctor_Review")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
