@@ -35,29 +35,35 @@ namespace CactusCare.BLL.Services
 
         public async Task InsertAsync(ReviewDTO reviewDto)
         {
-            await _unitOfWork.ReviewRepository.InsertAsync(_mapper.Map<ReviewDTO, Review>(reviewDto));
+            var review = _mapper.Map<ReviewDTO, Review>(reviewDto);
+            var doctor = await _unitOfWork.DoctorRepository.GetByIdAsync(review.DoctorId);
+            var reviews = (await _unitOfWork.ReviewRepository.GetAllAsync(r => r.DoctorId.Equals(review.DoctorId)))
+                .ToList();
+            reviews.Add(review);
+            doctor.Rating = await Task.Run(() => reviews.Average(r => r.Rating.ConvertToFiveStarScale()));
+
+            await _unitOfWork.ReviewRepository.InsertAsync(review);
             await _unitOfWork.SaveAsync();
-            await UpdateDoctorRatingAsync(reviewDto.DoctorId);
         }
 
+        // TODO Fix bug with tracking entity
         public async Task UpdateAsync(ReviewDTO reviewDto)
         {
-            await _unitOfWork.ReviewRepository.UpdateAsync(_mapper.Map<ReviewDTO, Review>(reviewDto));
+            var review = _mapper.Map<ReviewDTO, Review>(reviewDto);
+            var doctor = await _unitOfWork.DoctorRepository.GetByIdAsync(review.DoctorId);
+            var reviews = (await _unitOfWork.ReviewRepository.GetAllAsync(r => r.DoctorId.Equals(review.DoctorId)))
+                .ToList();
+            var oldItemIndex = reviews.IndexOf(await _unitOfWork.ReviewRepository.GetByIdAsync(review.Id));
+            reviews[oldItemIndex] = review;
+            doctor.Rating = await Task.Run(() => reviews.Average(r => r.Rating.ConvertToFiveStarScale()));
+
+            await _unitOfWork.ReviewRepository.UpdateAsync(review);
             await _unitOfWork.SaveAsync();
-            await UpdateDoctorRatingAsync(reviewDto.DoctorId);
         }
 
         public async Task DeleteAsync(int id)
         {
             await _unitOfWork.ReviewRepository.DeleteAsync(id);
-            await _unitOfWork.SaveAsync();
-        }
-
-        private async Task UpdateDoctorRatingAsync(int doctorId)
-        {
-            var doctor = await _unitOfWork.DoctorRepository.GetByIdAsync(doctorId);
-            var reviews = await _unitOfWork.ReviewRepository.GetAllAsync(r => r.DoctorId.Equals(doctorId));
-            doctor.Rating = await Task.Run(() => reviews.Average(r => r.Rating.ConvertToFiveStarScale()));
             await _unitOfWork.SaveAsync();
         }
     }
