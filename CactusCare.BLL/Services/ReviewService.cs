@@ -40,7 +40,8 @@ namespace CactusCare.BLL.Services
             var reviews = (await _unitOfWork.ReviewRepository.GetAllAsync(r => r.DoctorId.Equals(review.DoctorId)))
                 .ToList();
             reviews.Add(review);
-            doctor.Rating = await Task.Run(() => reviews.Average(r => r.Rating.ConvertToFiveStarScale()));
+            doctor.Rating =
+                await Task.Run(() => reviews.Average(r => RatingConverter.ConvertToFiveStarScale(r.Rating)));
 
             await _unitOfWork.ReviewRepository.InsertAsync(review);
             await _unitOfWork.SaveAsync();
@@ -53,7 +54,8 @@ namespace CactusCare.BLL.Services
             var reviews = (await _unitOfWork.ReviewRepository.GetAllAsync(r => r.DoctorId.Equals(review.DoctorId)))
                 .ToList();
             reviews[reviews.FindIndex(r => r.Id.Equals(review.Id))] = review;
-            doctor.Rating = await Task.Run(() => reviews.Average(r => r.Rating.ConvertToFiveStarScale()));
+            doctor.Rating =
+                await Task.Run(() => reviews.Average(r => RatingConverter.ConvertToFiveStarScale(r.Rating)));
 
             await _unitOfWork.ReviewRepository.UpdateAsync(review);
             await _unitOfWork.SaveAsync();
