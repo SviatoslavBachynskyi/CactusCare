@@ -202,13 +202,13 @@ namespace CactusCare.DAL.Migrations
                         column: x => x.HospitalId,
                         principalTable: "Hospitals",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Doctor_Speciality",
                         column: x => x.SpecialityId,
                         principalTable: "Specialities",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -230,7 +230,7 @@ namespace CactusCare.DAL.Migrations
                         column: x => x.DoctorId,
                         principalTable: "Doctors",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.InsertData(
@@ -254,27 +254,27 @@ namespace CactusCare.DAL.Migrations
             migrationBuilder.InsertData(
                 table: "Doctors",
                 columns: new[] { "Id", "FirstName", "HospitalId", "LastName", "Rating", "SpecialityId" },
-                values: new object[] { 1, "First", 1, "Ivanov", 0f, 1 });
+                values: new object[] { 1, "First", 1, "Ivanov", 2.5f, 1 });
 
             migrationBuilder.InsertData(
                 table: "Doctors",
                 columns: new[] { "Id", "FirstName", "HospitalId", "LastName", "Rating", "SpecialityId" },
-                values: new object[] { 2, "Secon", 2, "Ivanov", 0f, 2 });
+                values: new object[] { 2, "Secon", 2, "Ivanov", 5f, 2 });
 
             migrationBuilder.InsertData(
                 table: "Reviews",
                 columns: new[] { "Id", "Content", "DoctorId", "Rating", "Time" },
-                values: new object[] { 1, "Чудовий лікар!", 1, 6, new DateTime(2019, 12, 8, 0, 12, 47, 550, DateTimeKind.Local).AddTicks(9813) });
+                values: new object[] { 1, "Чудовий лікар!", 1, 6, new DateTime(2019, 12, 8, 22, 12, 14, 602, DateTimeKind.Local).AddTicks(7501) });
 
             migrationBuilder.InsertData(
                 table: "Reviews",
                 columns: new[] { "Id", "Content", "DoctorId", "Rating", "Time" },
-                values: new object[] { 2, "Погоджуюсь. Неймовірний лікар.", 1, 4, new DateTime(2019, 12, 8, 0, 12, 47, 553, DateTimeKind.Local).AddTicks(3439) });
+                values: new object[] { 2, "Погоджуюсь. Неймовірний лікар.", 1, 4, new DateTime(2019, 12, 8, 22, 12, 14, 605, DateTimeKind.Local).AddTicks(426) });
 
             migrationBuilder.InsertData(
                 table: "Reviews",
                 columns: new[] { "Id", "Content", "DoctorId", "Rating", "Time" },
-                values: new object[] { 3, "Жахливий лікар!", 2, 10, new DateTime(2019, 12, 8, 0, 12, 47, 553, DateTimeKind.Local).AddTicks(3506) });
+                values: new object[] { 3, "Жахливий лікар!", 2, 10, new DateTime(2019, 12, 8, 22, 12, 14, 605, DateTimeKind.Local).AddTicks(516) });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
