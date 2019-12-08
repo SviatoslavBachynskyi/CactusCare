@@ -38,16 +38,26 @@ namespace CactusCare.DAL
         private static void SeedDoctors(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Doctor>().HasData(
-                new Doctor {Id = 1, FirstName = "First", LastName = "Ivanov", SpecialityId = 1, HospitalId = 1},
-                new Doctor {Id = 2, FirstName = "Secon", LastName = "Ivanov", SpecialityId = 2, HospitalId = 2});
+                new Doctor {Id = 1, FirstName = "First", LastName = "Ivanov", SpecialityId = 1, HospitalId = 1, Rating = 2.5f},
+                new Doctor {Id = 2, FirstName = "Secon", LastName = "Ivanov", SpecialityId = 2, HospitalId = 2, Rating = 5.0f});
         }
 
         private static void SeedReviews(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Review>().HasData(
-                new Review() {Id = 1, Content = "Чудовий лікар!", Time = DateTime.Now, DoctorId = 1},
-                new Review() {Id = 2, Content = "Погоджуюсь. Неймовірний лікар.", Time = DateTime.Now, DoctorId = 1},
-                new Review() {Id = 3, Content = "Жахливий лікар!", Time = DateTime.Now, DoctorId = 2});
+                new Review
+                {
+                    Id = 1, Content = "Чудовий лікар!", Time = DateTime.Now, DoctorId = 1, Rating = 6
+                },
+                new Review
+                {
+                    Id = 2, Content = "Погоджуюсь. Неймовірний лікар.", Time = DateTime.Now, DoctorId = 1,
+                    Rating = 4
+                },
+                new Review
+                {
+                    Id = 3, Content = "Жахливий лікар!", Time = DateTime.Now, DoctorId = 2, Rating = 10
+                });
         }
     }
 }

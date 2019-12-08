@@ -12,6 +12,8 @@ namespace CactusCare.DAL.EntityConfigurations
                 .WithMany(s => s.Reviews)
                 .HasForeignKey(d => d.DoctorId)
                 .HasConstraintName("FK_Doctor_Review");
+
+            builder.Property(r => r.Id).ValueGeneratedOnAdd();
         }
     }
 }
