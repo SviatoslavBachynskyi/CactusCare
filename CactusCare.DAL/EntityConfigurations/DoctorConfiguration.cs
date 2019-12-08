@@ -1,9 +1,6 @@
 ﻿using CactusCare.Abstractions.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace CactusCare.DAL.EntityConfigurations
 {
@@ -11,8 +8,8 @@ namespace CactusCare.DAL.EntityConfigurations
     {
         public void Configure(EntityTypeBuilder<Doctor> builder)
         {
-            builder.HasOne((d) => d.Speciality)
-                .WithMany((s) => s.Doctors)
+            builder.HasOne(d => d.Speciality)
+                .WithMany(s => s.Doctors)
                 .HasForeignKey(d => d.SpecialityId)
                 .HasConstraintName("FK_Doctor_Speciality");
 
@@ -20,6 +17,8 @@ namespace CactusCare.DAL.EntityConfigurations
                 .WithMany(s => s.Doctors)
                 .HasForeignKey(d => d.HospitalId)
                 .HasConstraintName("FK_Doctor_Hospital");
+
+            builder.Property(d => d.Id).ValueGeneratedOnAdd();
         }
     }
 }

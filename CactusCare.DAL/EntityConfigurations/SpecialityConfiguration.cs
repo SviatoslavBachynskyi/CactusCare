@@ -1,9 +1,6 @@
 ﻿using CactusCare.Abstractions.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace CactusCare.DAL.EntityConfigurations
 {
@@ -11,6 +8,7 @@ namespace CactusCare.DAL.EntityConfigurations
     {
         public void Configure(EntityTypeBuilder<Speciality> builder)
         {
+            builder.Property(s => s.Id).ValueGeneratedOnAdd();
         }
     }
 }
