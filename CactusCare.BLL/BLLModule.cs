@@ -27,14 +27,8 @@ namespace CactusCare.BLL
                 .InstancePerLifetimeScope();
 
             //Configure AutoMapper
-            builder.RegisterInstance(new MapperConfiguration
-            ((cfg) =>
-            {
-                cfg.AddProfile(new SpecialityProfile());
-                cfg.AddProfile(new HospitalProfile());
-                cfg.AddProfile(new DoctorProfile());
-                cfg.AddProfile(new ReviewProfile());
-            }).CreateMapper());
+            builder.RegisterInstance(new MapperConfiguration(cfg => { cfg.AddMaps(Assembly.GetExecutingAssembly()); })
+                .CreateMapper());
         }
     }
 }
