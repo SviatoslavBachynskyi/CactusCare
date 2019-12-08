@@ -8,6 +8,8 @@ namespace CactusCare.Abstractions.Services
 {
     public interface IAuthenticationService
     {
+        Task<string> LoginAsync(LoginDTO loginDTO);
+
         Task RegisterAsync(RegisterDTO registerDTO);
     }
 }

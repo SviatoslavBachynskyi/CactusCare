@@ -24,5 +24,20 @@ namespace CactusCareApi.Controllers
            await _authenticationService.RegisterAsync(registerDTO);
             return Ok();
         }
+
+        [HttpPost("Login")]
+        public async Task<ActionResult> Login(LoginDTO loginDTO)
+        {
+            try
+            {
+            await _authenticationService.LoginAsync(loginDTO);
+            return Ok();
+            }
+            catch (ApplicationException)
+            {
+                //TODO check if this is the right result
+                return Unauthorized();
+            }
+        }
     }
 }
