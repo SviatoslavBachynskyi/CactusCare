@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CactusCare.DAL.Migrations
 {
     [DbContext(typeof(CactusCareContext))]
-    [Migration("20191209173516_CactusCareDB")]
-    partial class CactusCareDB
+    [Migration("20191209174058_CactusCareDB2")]
+    partial class CactusCareDB2
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -151,7 +151,7 @@ namespace CactusCare.DAL.Migrations
                             Content = "Чудовий лікар!",
                             DoctorId = 1,
                             Rating = 6,
-                            Time = new DateTime(2019, 12, 9, 19, 35, 16, 415, DateTimeKind.Local).AddTicks(2349)
+                            Time = new DateTime(2019, 12, 9, 19, 40, 58, 400, DateTimeKind.Local).AddTicks(655)
                         },
                         new
                         {
@@ -159,7 +159,7 @@ namespace CactusCare.DAL.Migrations
                             Content = "Погоджуюсь. Неймовірний лікар.",
                             DoctorId = 1,
                             Rating = 4,
-                            Time = new DateTime(2019, 12, 9, 19, 35, 16, 420, DateTimeKind.Local).AddTicks(1488)
+                            Time = new DateTime(2019, 12, 9, 19, 40, 58, 404, DateTimeKind.Local).AddTicks(9994)
                         },
                         new
                         {
@@ -167,7 +167,7 @@ namespace CactusCare.DAL.Migrations
                             Content = "Жахливий лікар!",
                             DoctorId = 2,
                             Rating = 10,
-                            Time = new DateTime(2019, 12, 9, 19, 35, 16, 420, DateTimeKind.Local).AddTicks(1554)
+                            Time = new DateTime(2019, 12, 9, 19, 40, 58, 405, DateTimeKind.Local).AddTicks(63)
                         });
                 });
 
