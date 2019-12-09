@@ -39,7 +39,9 @@ namespace CactusCare.DAL.Migrations
                     TwoFactorEnabled = table.Column<bool>(nullable: false),
                     LockoutEnd = table.Column<DateTimeOffset>(nullable: true),
                     LockoutEnabled = table.Column<bool>(nullable: false),
-                    AccessFailedCount = table.Column<int>(nullable: false)
+                    AccessFailedCount = table.Column<int>(nullable: false),
+                    FirstName = table.Column<string>(nullable: true),
+                    LastName = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -264,17 +266,17 @@ namespace CactusCare.DAL.Migrations
             migrationBuilder.InsertData(
                 table: "Reviews",
                 columns: new[] { "Id", "Content", "DoctorId", "Rating", "Time" },
-                values: new object[] { 1, "Чудовий лікар!", 1, 6, new DateTime(2019, 12, 8, 22, 12, 14, 602, DateTimeKind.Local).AddTicks(7501) });
+                values: new object[] { 1, "Чудовий лікар!", 1, 6, new DateTime(2019, 12, 9, 19, 46, 48, 16, DateTimeKind.Local).AddTicks(9353) });
 
             migrationBuilder.InsertData(
                 table: "Reviews",
                 columns: new[] { "Id", "Content", "DoctorId", "Rating", "Time" },
-                values: new object[] { 2, "Погоджуюсь. Неймовірний лікар.", 1, 4, new DateTime(2019, 12, 8, 22, 12, 14, 605, DateTimeKind.Local).AddTicks(426) });
+                values: new object[] { 2, "Погоджуюсь. Неймовірний лікар.", 1, 4, new DateTime(2019, 12, 9, 19, 46, 48, 19, DateTimeKind.Local).AddTicks(1754) });
 
             migrationBuilder.InsertData(
                 table: "Reviews",
                 columns: new[] { "Id", "Content", "DoctorId", "Rating", "Time" },
-                values: new object[] { 3, "Жахливий лікар!", 2, 10, new DateTime(2019, 12, 8, 22, 12, 14, 605, DateTimeKind.Local).AddTicks(516) });
+                values: new object[] { 3, "Жахливий лікар!", 2, 10, new DateTime(2019, 12, 9, 19, 46, 48, 19, DateTimeKind.Local).AddTicks(1846) });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",

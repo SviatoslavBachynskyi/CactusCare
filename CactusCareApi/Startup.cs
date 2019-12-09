@@ -17,7 +17,7 @@ namespace CactusCareApi
     {
         private const string MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
 
-        private readonly IConfigurationRoot _configuration;
+        private readonly IConfiguration _configuration;
 
         private readonly IWebHostEnvironment _environment;
 
@@ -25,15 +25,9 @@ namespace CactusCareApi
 
         private readonly List<IConfigureLayer> _layerConfigurations = new List<IConfigureLayer>();
 
-        public Startup(IWebHostEnvironment environment)
+        public Startup(IWebHostEnvironment environment, IConfiguration configuration)
         {
-            var builder = new ConfigurationBuilder()
-                .SetBasePath(environment.ContentRootPath)
-                .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
-                .AddJsonFile($"appsettings.{environment.EnvironmentName}.json", optional: true)
-                .AddEnvironmentVariables();
-
-            _configuration = builder.Build();
+            _configuration = configuration;
             _environment = environment;
 
             //Load assemblies

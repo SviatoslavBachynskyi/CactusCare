@@ -15,11 +15,11 @@ namespace CactusCare.DAL
         private IDoctorRepository _doctorRepository;
         private IHospitalRepository _hospitalRepository;
         private IReviewRepository _reviewRepository;
-        private RoleManager<IdentityRole> _roleManager;
-
         private ISpecialityRepository _specialityRepository;
 
         private UserManager<User> _userManager;
+        private RoleManager<IdentityRole> _roleManager;
+        private SignInManager<User> _signInManager;
 
         public UnitOfWork(CactusCareContext context, IServiceProvider serviceProvider)
         {
@@ -44,6 +44,9 @@ namespace CactusCare.DAL
 
         public RoleManager<IdentityRole> RoleManager =>
             _roleManager ??= _serviceProvider.GetService<RoleManager<IdentityRole>>();
+
+        public SignInManager<User> SignInManager =>
+            _signInManager ??= _serviceProvider.GetService<SignInManager<User>>();
 
         public async Task<int> SaveAsync()
         {

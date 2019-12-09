@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CactusCare.DAL.Migrations
 {
     [DbContext(typeof(CactusCareContext))]
-    [Migration("20191208201214_CactusCareInitial")]
+    [Migration("20191209174648_CactusCareInitial")]
     partial class CactusCareInitial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -151,7 +151,7 @@ namespace CactusCare.DAL.Migrations
                             Content = "Чудовий лікар!",
                             DoctorId = 1,
                             Rating = 6,
-                            Time = new DateTime(2019, 12, 8, 22, 12, 14, 602, DateTimeKind.Local).AddTicks(7501)
+                            Time = new DateTime(2019, 12, 9, 19, 46, 48, 16, DateTimeKind.Local).AddTicks(9353)
                         },
                         new
                         {
@@ -159,7 +159,7 @@ namespace CactusCare.DAL.Migrations
                             Content = "Погоджуюсь. Неймовірний лікар.",
                             DoctorId = 1,
                             Rating = 4,
-                            Time = new DateTime(2019, 12, 8, 22, 12, 14, 605, DateTimeKind.Local).AddTicks(426)
+                            Time = new DateTime(2019, 12, 9, 19, 46, 48, 19, DateTimeKind.Local).AddTicks(1754)
                         },
                         new
                         {
@@ -167,7 +167,7 @@ namespace CactusCare.DAL.Migrations
                             Content = "Жахливий лікар!",
                             DoctorId = 2,
                             Rating = 10,
-                            Time = new DateTime(2019, 12, 8, 22, 12, 14, 605, DateTimeKind.Local).AddTicks(516)
+                            Time = new DateTime(2019, 12, 9, 19, 46, 48, 19, DateTimeKind.Local).AddTicks(1846)
                         });
                 });
 
@@ -216,6 +216,12 @@ namespace CactusCare.DAL.Migrations
 
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("bit");
+
+                    b.Property<string>("FirstName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("LastName")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("bit");
