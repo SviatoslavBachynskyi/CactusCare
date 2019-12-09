@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data;
 using System.Threading.Tasks;
 using CactusCare.Abstractions.DTOs;
 using CactusCare.Abstractions.Services;
@@ -76,14 +75,9 @@ namespace CactusCareApi.Controllers
             {
                 return StatusCode(404, $"Doctor with id {id} not found");
             }
-            catch (ConstraintException)
+            catch (Exception e)
             {
-                return StatusCode(400,
-                    $"Doctor with id {id} has relationship with Review. Remove all reviews associated with it first");
-            }
-            catch (Exception)
-            {
-                return StatusCode(500, "Internal server error");
+                return StatusCode(500, "Internal server error: " + e.InnerException);
             }
         }
     }

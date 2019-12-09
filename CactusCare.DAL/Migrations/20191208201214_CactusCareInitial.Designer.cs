@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CactusCare.DAL.Migrations
 {
     [DbContext(typeof(CactusCareContext))]
-    [Migration("20191207221247_CactusCareInitial")]
+    [Migration("20191208201214_CactusCareInitial")]
     partial class CactusCareInitial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -58,7 +58,7 @@ namespace CactusCare.DAL.Migrations
                             FirstName = "First",
                             HospitalId = 1,
                             LastName = "Ivanov",
-                            Rating = 0f,
+                            Rating = 2.5f,
                             SpecialityId = 1
                         },
                         new
@@ -67,7 +67,7 @@ namespace CactusCare.DAL.Migrations
                             FirstName = "Secon",
                             HospitalId = 2,
                             LastName = "Ivanov",
-                            Rating = 0f,
+                            Rating = 5f,
                             SpecialityId = 2
                         });
                 });
@@ -151,7 +151,7 @@ namespace CactusCare.DAL.Migrations
                             Content = "Чудовий лікар!",
                             DoctorId = 1,
                             Rating = 6,
-                            Time = new DateTime(2019, 12, 8, 0, 12, 47, 550, DateTimeKind.Local).AddTicks(9813)
+                            Time = new DateTime(2019, 12, 8, 22, 12, 14, 602, DateTimeKind.Local).AddTicks(7501)
                         },
                         new
                         {
@@ -159,7 +159,7 @@ namespace CactusCare.DAL.Migrations
                             Content = "Погоджуюсь. Неймовірний лікар.",
                             DoctorId = 1,
                             Rating = 4,
-                            Time = new DateTime(2019, 12, 8, 0, 12, 47, 553, DateTimeKind.Local).AddTicks(3439)
+                            Time = new DateTime(2019, 12, 8, 22, 12, 14, 605, DateTimeKind.Local).AddTicks(426)
                         },
                         new
                         {
@@ -167,7 +167,7 @@ namespace CactusCare.DAL.Migrations
                             Content = "Жахливий лікар!",
                             DoctorId = 2,
                             Rating = 10,
-                            Time = new DateTime(2019, 12, 8, 0, 12, 47, 553, DateTimeKind.Local).AddTicks(3506)
+                            Time = new DateTime(2019, 12, 8, 22, 12, 14, 605, DateTimeKind.Local).AddTicks(516)
                         });
                 });
 
@@ -400,14 +400,14 @@ namespace CactusCare.DAL.Migrations
                         .WithMany("Doctors")
                         .HasForeignKey("HospitalId")
                         .HasConstraintName("FK_Doctor_Hospital")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("CactusCare.Abstractions.Entities.Speciality", "Speciality")
                         .WithMany("Doctors")
                         .HasForeignKey("SpecialityId")
                         .HasConstraintName("FK_Doctor_Speciality")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
                 });
 
@@ -417,7 +417,7 @@ namespace CactusCare.DAL.Migrations
                         .WithMany("Reviews")
                         .HasForeignKey("DoctorId")
                         .HasConstraintName("FK_Doctor_Review")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
                 });
 
