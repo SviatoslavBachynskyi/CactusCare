@@ -4,9 +4,12 @@ using System.Reflection;
 using System.Text;
 using Autofac;
 using AutoMapper;
+using CactusCare.Abstractions.Entities;
 using CactusCare.Abstractions.Services;
+using CactusCare.BLL.Identity;
 using CactusCare.BLL.Mapping;
 using CactusCare.BLL.Services;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Module = Autofac.Module;
 
@@ -35,6 +38,9 @@ namespace CactusCare.BLL
                 cfg.AddProfile(new DoctorProfile());
                 cfg.AddProfile(new UserProfile());
             }).CreateMapper());
+
+            builder.RegisterType<ClaimsPrincipalFactory>()
+                .As<IUserClaimsPrincipalFactory<User>>();
         }
     }
 }

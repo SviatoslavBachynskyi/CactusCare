@@ -24,31 +24,10 @@ namespace CactusCare.DAL
             services.AddDbContext<CactusCareContext>(
                 (options) => options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
 
-            services.AddIdentity<User, IdentityRole>()
-                .AddEntityFrameworkStores<CactusCareContext>()
-                .AddDefaultTokenProviders();
-
-            JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
             services
-                .AddAuthentication((options) =>
-                {
-                    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                    options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
-                    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-                })
-                .AddJwtBearer(cfg =>
-                {
-                    cfg.RequireHttpsMetadata = false;
-                    cfg.SaveToken = true;
-                    var jwtConfig = configuration.GetSection("Jwt");
-                    cfg.TokenValidationParameters = new TokenValidationParameters()
-                    {
-                        ValidIssuer = jwtConfig["Issuer"],
-                        ValidAudience = jwtConfig["Issuer"],
-                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtConfig["Key"])),
-                        ClockSkew = TimeSpan.Zero
-                    };
-                });
+            .AddIdentity<User, IdentityRole>()
+            .AddEntityFrameworkStores<CactusCareContext>()
+            .AddDefaultTokenProviders();
         }
 
         public void Configure(IServiceProvider serviceProvider, bool development)
