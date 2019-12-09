@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -47,9 +46,6 @@ namespace CactusCare.BLL.Services
 
         public async Task DeleteAsync(int id)
         {
-            if ((await _unitOfWork.DoctorRepository.GetAllAsync()).Any(d => d.HospitalId.Equals(id)))
-                throw new ConstraintException();
-
             await _unitOfWork.HospitalRepository.DeleteAsync(id);
             await _unitOfWork.SaveAsync();
         }

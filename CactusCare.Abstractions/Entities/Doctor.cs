@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 
 namespace CactusCare.Abstractions.Entities
 {
@@ -11,6 +9,8 @@ namespace CactusCare.Abstractions.Entities
         public string FirstName { get; set; }
 
         public string LastName { get; set; }
+
+        public float Rating { get; set; }
 
         public int SpecialityId { get; set; }
 

@@ -13,5 +13,7 @@ namespace CactusCare.Abstractions.DTOs
         public int DoctorId { get; set; }
 
         public DoctorDTO Doctor { get; set; }
+
+        public int Rating { get; set; }
     }
 }
