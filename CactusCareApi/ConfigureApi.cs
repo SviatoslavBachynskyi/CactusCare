@@ -15,7 +15,7 @@ namespace CactusCareApi
         {
             services.AddOptions();
 
-            services.AddControllers();
+            services.AddControllers().AddXmlSerializerFormatters();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "CactusCare API", Version = "v1" });
