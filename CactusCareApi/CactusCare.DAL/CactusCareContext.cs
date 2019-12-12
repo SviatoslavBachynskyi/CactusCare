@@ -32,7 +32,6 @@ namespace CactusCare.DAL
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-            modelBuilder.Seed();
 
             modelBuilder.ApplyConfiguration(new SpecialityConfiguration());
             modelBuilder.ApplyConfiguration(new HospitalConfiguration());

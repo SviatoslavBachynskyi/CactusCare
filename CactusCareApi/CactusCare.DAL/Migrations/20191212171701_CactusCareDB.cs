@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace CactusCare.DAL.Migrations
 {
-    public partial class CactusCareInitial : Migration
+    public partial class CactusCareDB : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -191,6 +191,7 @@ namespace CactusCare.DAL.Migrations
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     FirstName = table.Column<string>(nullable: true),
+                    Patronomic = table.Column<string>(nullable: true),
                     LastName = table.Column<string>(nullable: true),
                     Rating = table.Column<float>(nullable: false),
                     SpecialityId = table.Column<int>(nullable: false),
@@ -234,49 +235,6 @@ namespace CactusCare.DAL.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
-
-            migrationBuilder.InsertData(
-                table: "Hospitals",
-                columns: new[] { "Id", "Address", "Email", "Name", "PhoneNumber", "Website" },
-                values: new object[,]
-                {
-                    { 1, "Адреса 1", "емейл@емейл1", "Лікарня 1", "(032) 345 45", "hos1.com" },
-                    { 2, "Адреса 2", "емейл@емейл2", "Лікарня 2", "(032) 756 64", "hos2.com" }
-                });
-
-            migrationBuilder.InsertData(
-                table: "Specialities",
-                columns: new[] { "Id", "Name" },
-                values: new object[,]
-                {
-                    { 1, "тест" },
-                    { 2, "тест 2" }
-                });
-
-            migrationBuilder.InsertData(
-                table: "Doctors",
-                columns: new[] { "Id", "FirstName", "HospitalId", "LastName", "Rating", "SpecialityId" },
-                values: new object[] { 1, "First", 1, "Ivanov", 2.5f, 1 });
-
-            migrationBuilder.InsertData(
-                table: "Doctors",
-                columns: new[] { "Id", "FirstName", "HospitalId", "LastName", "Rating", "SpecialityId" },
-                values: new object[] { 2, "Secon", 2, "Ivanov", 5f, 2 });
-
-            migrationBuilder.InsertData(
-                table: "Reviews",
-                columns: new[] { "Id", "Content", "DoctorId", "Rating", "Time" },
-                values: new object[] { 1, "Чудовий лікар!", 1, 6, new DateTime(2019, 12, 9, 19, 46, 48, 16, DateTimeKind.Local).AddTicks(9353) });
-
-            migrationBuilder.InsertData(
-                table: "Reviews",
-                columns: new[] { "Id", "Content", "DoctorId", "Rating", "Time" },
-                values: new object[] { 2, "Погоджуюсь. Неймовірний лікар.", 1, 4, new DateTime(2019, 12, 9, 19, 46, 48, 19, DateTimeKind.Local).AddTicks(1754) });
-
-            migrationBuilder.InsertData(
-                table: "Reviews",
-                columns: new[] { "Id", "Content", "DoctorId", "Rating", "Time" },
-                values: new object[] { 3, "Жахливий лікар!", 2, 10, new DateTime(2019, 12, 9, 19, 46, 48, 19, DateTimeKind.Local).AddTicks(1846) });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
