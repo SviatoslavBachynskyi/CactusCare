@@ -8,6 +8,8 @@ namespace CactusCare.Abstractions.Entities
 
         public string FirstName { get; set; }
 
+        public string Patronomic { get; set; }
+
         public string LastName { get; set; }
 
         public float Rating { get; set; }
