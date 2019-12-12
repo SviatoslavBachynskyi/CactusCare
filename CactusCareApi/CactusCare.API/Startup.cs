@@ -7,6 +7,7 @@ using Autofac;
 using CactusCare.Abstractions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Routing.Constraints;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -40,6 +41,7 @@ namespace CactusCareApi
             _assemblies =
                 Directory.EnumerateFiles(Directory.GetCurrentDirectory(),
                         $"{nameof(CactusCare)}.*.dll", SearchOption.AllDirectories)
+                    .Where((filename) => !filename.EndsWith(Assembly.GetExecutingAssembly().GetName().Name+".dll"))
                     .Select(Assembly.LoadFrom)
                     .ToList();
             _assemblies.Add(Assembly.GetExecutingAssembly());
