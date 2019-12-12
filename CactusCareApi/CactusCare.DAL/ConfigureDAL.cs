@@ -32,7 +32,6 @@ namespace CactusCare.DAL
 
         public void Configure(IServiceProvider serviceProvider, bool development)
         {
-            //TODO try ensure created
             if (development)
                 serviceProvider.GetRequiredService<CactusCareContext>().Database.Migrate();
 
