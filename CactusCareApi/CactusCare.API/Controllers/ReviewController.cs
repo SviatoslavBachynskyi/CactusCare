@@ -6,7 +6,7 @@ using CactusCare.Abstractions.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
-namespace CactusCareApi.Controllers
+namespace CactusCare.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
@@ -16,19 +16,19 @@ namespace CactusCareApi.Controllers
 
         public ReviewController(IReviewService reviewService)
         {
-            _reviewService = reviewService;
+            this._reviewService = reviewService;
         }
 
         [HttpGet]
         public async Task<ActionResult<List<ReviewDTO>>> GetAll()
         {
-            return await _reviewService.GetAllAsync();
+            return await this._reviewService.GetAllAsync();
         }
 
         [HttpGet("{id}")]
         public async Task<ActionResult<ReviewDTO>> Get(int id)
         {
-            return await _reviewService.GetAsync(id);
+            return await this._reviewService.GetAsync(id);
         }
 
         [HttpPost]
@@ -36,7 +36,7 @@ namespace CactusCareApi.Controllers
         {
             try
             {
-                await _reviewService.InsertAsync(reviewDto);
+                await this._reviewService.InsertAsync(reviewDto);
                 return StatusCode(200, "OK");
             }
             catch (Exception)
@@ -50,7 +50,7 @@ namespace CactusCareApi.Controllers
         {
             try
             {
-                await _reviewService.UpdateAsync(reviewDto);
+                await this._reviewService.UpdateAsync(reviewDto);
                 return StatusCode(200, "OK");
             }
             catch (DbUpdateConcurrencyException)
@@ -68,7 +68,7 @@ namespace CactusCareApi.Controllers
         {
             try
             {
-                await _reviewService.DeleteAsync(id);
+                await this._reviewService.DeleteAsync(id);
                 return StatusCode(200, "OK");
             }
             catch (KeyNotFoundException)

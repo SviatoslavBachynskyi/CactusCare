@@ -6,7 +6,7 @@ using CactusCare.Abstractions.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
-namespace CactusCareApi.Controllers
+namespace CactusCare.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
@@ -16,19 +16,19 @@ namespace CactusCareApi.Controllers
 
         public DoctorController(IDoctorService doctorService)
         {
-            _doctorService = doctorService;
+            this._doctorService = doctorService;
         }
 
         [HttpGet]
         public async Task<ActionResult<List<DoctorDTO>>> GetAll()
         {
-            return await _doctorService.GetAllAsync();
+            return await this._doctorService.GetAllAsync();
         }
 
         [HttpGet("{id}")]
         public async Task<ActionResult<DoctorDTO>> Get(int id)
         {
-            return await _doctorService.GetAsync(id);
+            return await this._doctorService.GetAsync(id);
         }
 
         [HttpPost]
@@ -36,7 +36,7 @@ namespace CactusCareApi.Controllers
         {
             try
             {
-                await _doctorService.InsertAsync(doctorDto);
+                await this._doctorService.InsertAsync(doctorDto);
                 return StatusCode(200, "OK");
             }
             catch (Exception)
@@ -50,7 +50,7 @@ namespace CactusCareApi.Controllers
         {
             try
             {
-                await _doctorService.UpdateAsync(doctorDto);
+                await this._doctorService.UpdateAsync(doctorDto);
                 return StatusCode(200, "OK");
             }
             catch (DbUpdateConcurrencyException)
@@ -68,7 +68,7 @@ namespace CactusCareApi.Controllers
         {
             try
             {
-                await _doctorService.DeleteAsync(id);
+                await this._doctorService.DeleteAsync(id);
                 return StatusCode(200, "OK");
             }
             catch (KeyNotFoundException)

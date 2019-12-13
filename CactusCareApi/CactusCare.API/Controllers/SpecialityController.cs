@@ -6,7 +6,7 @@ using CactusCare.Abstractions.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
-namespace CactusCareApi.Controllers
+namespace CactusCare.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
@@ -16,19 +16,19 @@ namespace CactusCareApi.Controllers
 
         public SpecialityController(ISpecialityService specialityService)
         {
-            _specialityService = specialityService;
+            this._specialityService = specialityService;
         }
 
         [HttpGet]
         public async Task<ActionResult<List<SpecialityDTO>>> GetAll()
         {
-            return await _specialityService.GetAllAsync();
+            return await this._specialityService.GetAllAsync();
         }
 
         [HttpGet("{id}")]
         public async Task<ActionResult<SpecialityDTO>> Get(int id)
         {
-            return await _specialityService.GetAsync(id);
+            return await this._specialityService.GetAsync(id);
         }
 
         [HttpPost]
@@ -36,7 +36,7 @@ namespace CactusCareApi.Controllers
         {
             try
             {
-                await _specialityService.InsertAsync(specialityDto);
+                await this._specialityService.InsertAsync(specialityDto);
                 return StatusCode(200, "OK");
             }
             catch (Exception)
@@ -50,7 +50,7 @@ namespace CactusCareApi.Controllers
         {
             try
             {
-                await _specialityService.UpdateAsync(specialityDto);
+                await this._specialityService.UpdateAsync(specialityDto);
                 return StatusCode(200, "OK");
             }
             catch (DbUpdateConcurrencyException)

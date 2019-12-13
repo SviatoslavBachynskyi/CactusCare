@@ -7,7 +7,7 @@ using CactusCare.Abstractions.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
-namespace CactusCareApi.Controllers
+namespace CactusCare.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
@@ -16,12 +16,12 @@ namespace CactusCareApi.Controllers
         private readonly IAuthenticationService _authenticationService;
         public AuthenticationController(IAuthenticationService authenticationService)
         {
-            _authenticationService = authenticationService;
+            this._authenticationService = authenticationService;
         }
         [HttpPost("Register")]
         public async Task<ActionResult> Register(RegisterDTO registerDTO)
         {
-            await _authenticationService.RegisterAsync(registerDTO);
+            await this._authenticationService.RegisterAsync(registerDTO);
             return Ok();
         }
 
@@ -30,7 +30,7 @@ namespace CactusCareApi.Controllers
         {
             try
             {
-                await _authenticationService.LoginAsync(loginDTO);
+                await this._authenticationService.LoginAsync(loginDTO);
                 return Ok();
             }
             catch (ApplicationException)
