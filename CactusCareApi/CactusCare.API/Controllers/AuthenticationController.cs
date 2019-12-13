@@ -21,7 +21,7 @@ namespace CactusCareApi.Controllers
         [HttpPost("Register")]
         public async Task<ActionResult> Register(RegisterDTO registerDTO)
         {
-           await _authenticationService.RegisterAsync(registerDTO);
+            await _authenticationService.RegisterAsync(registerDTO);
             return Ok();
         }
 
@@ -30,8 +30,8 @@ namespace CactusCareApi.Controllers
         {
             try
             {
-            await _authenticationService.LoginAsync(loginDTO);
-            return Ok();
+                await _authenticationService.LoginAsync(loginDTO);
+                return Ok();
             }
             catch (ApplicationException)
             {
