@@ -33,10 +33,15 @@ namespace CactusCare.DAL
         public void Configure(IServiceProvider serviceProvider, bool development)
         {
             if (development)
+            {
                 serviceProvider.GetRequiredService<CactusCareContext>().Database.Migrate();
+            }
 
+            serviceProvider.SeedEssentialData();
             if (development)
-                serviceProvider.Seed();
+            {
+                serviceProvider.SeedTestData();
+            }
         }
     }
 }

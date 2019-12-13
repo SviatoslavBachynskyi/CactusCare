@@ -1,13 +1,36 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using CactusCare.Abstractions.Entities;
+using Microsoft.AspNetCore.Identity;
 
 namespace CactusCare.DAL.DataSeeding
 {
     public static class DataSeeder
     {
-        public static void SeedAdditional(CactusCareContext context)
+        public static void SeedEssentialData(CactusCareContext context,
+            UserManager<User> userManager,
+            RoleManager<IdentityRole> roleManager,
+            string adminPassword)
+            => SeedEssentialDataAsync(context, roleManager, userManager, adminPassword).Wait();
+
+        public static async Task SeedEssentialDataAsync
+            (
+            CactusCareContext context,
+            RoleManager<IdentityRole> roleManager,
+            UserManager<User> userManager,
+            string adminPassword
+            )
+        {
+            await SeedRolesAsync(roleManager);
+            await CreateAdmin(userManager, adminPassword);
+            await context.SaveChangesAsync();
+        }
+
+        public static void SeedTestData(CactusCareContext context) => SeedTestDataAsync(context).Wait();
+
+        public static async Task SeedTestDataAsync(CactusCareContext context)
         {
             if (context.Specialties.Any()) return;
 
@@ -97,7 +120,36 @@ namespace CactusCare.DAL.DataSeeding
 
             #endregion
 
-            context.SaveChanges();
+            await context.SaveChangesAsync();
         }
+
+        private static async Task SeedRolesAsync(RoleManager<IdentityRole> roleManager)
+        {
+            await CreateRoleIfNotExistsAsync(roleManager, new IdentityRole("Admin"));
+            await CreateRoleIfNotExistsAsync(roleManager, new IdentityRole("Reviewer"));
+        }
+
+        private static async Task CreateRoleIfNotExistsAsync(RoleManager<IdentityRole> roleManager, IdentityRole role)
+        {
+            if (await roleManager.FindByNameAsync(role.Name) == null)
+            {
+                await roleManager.CreateAsync(role);
+            }
+        }
+
+        private static async Task CreateAdmin(UserManager<User> userManager, string adminPassword)
+        {
+            var user = new User() { UserName = "Admin" };
+
+            if (await userManager.FindByNameAsync(user.UserName) != null) return;
+
+            var createResult = await userManager.CreateAsync(user, adminPassword);
+
+            if (createResult.Succeeded)
+            {
+                await userManager.AddToRoleAsync(user, "Admin");
+            }
+        }
+
     }
 }
