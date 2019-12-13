@@ -11,9 +11,9 @@ using Module = Autofac.Module;
 
 namespace CactusCare.DAL
 {
-    public class DALModule : Module
+    public class DalModule : Module
     {
-        public DALModule()
+        public DalModule()
         {
         }
         protected override void Load(ContainerBuilder builder)

@@ -16,42 +16,42 @@ namespace CactusCare.DAL.Repositories
 
         protected BaseRepository(CactusCareContext context)
         {
-            Context = context;
+            this.Context = context;
         }
 
-        protected virtual IQueryable<TEntity> ComplexEntities => Context.Set<TEntity>().AsNoTracking();
+        protected virtual IQueryable<TEntity> ComplexEntities => this.Context.Set<TEntity>().AsNoTracking();
 
         public async Task<IEnumerable<TEntity>> GetAllAsync()
         {
-            return await ComplexEntities.ToListAsync();
+            return await this.ComplexEntities.ToListAsync();
         }
 
         public async Task<IEnumerable<TEntity>> GetAllAsync(Expression<Func<TEntity, bool>> predicate)
         {
-            return await ComplexEntities.Where(predicate).ToListAsync();
+            return await this.ComplexEntities.Where(predicate).ToListAsync();
         }
 
         public async Task<TEntity> GetByIdAsync(TKey id)
         {
-            return await ComplexEntities.FirstOrDefaultAsync(entity => entity.Id.Equals(id));
+            return await this.ComplexEntities.FirstOrDefaultAsync(entity => entity.Id.Equals(id));
         }
 
         public async Task InsertAsync(TEntity entity)
         {
-            await Task.Run(() => Context.Set<TEntity>().Add(entity));
+            await Task.Run(() => this.Context.Set<TEntity>().Add(entity));
         }
 
         public async Task UpdateAsync(TEntity entity)
         {
-            await Task.Run(() => Context.Set<TEntity>().Update(entity));
+            await Task.Run(() => this.Context.Set<TEntity>().Update(entity));
         }
 
         public async Task DeleteAsync(TKey id)
         {
-            var entity = await ComplexEntities.FirstOrDefaultAsync(en => en.Id.Equals(id));
+            var entity = await this.ComplexEntities.FirstOrDefaultAsync(en => en.Id.Equals(id));
             if (entity == null) throw new KeyNotFoundException();
 
-            await Task.Run(() => Context.Set<TEntity>().Remove(entity));
+            await Task.Run(() => this.Context.Set<TEntity>().Remove(entity));
         }
     }
 }

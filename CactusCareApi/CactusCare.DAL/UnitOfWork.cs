@@ -23,34 +23,34 @@ namespace CactusCare.DAL
 
         public UnitOfWork(CactusCareContext context, IServiceProvider serviceProvider)
         {
-            _context = context;
-            _serviceProvider = serviceProvider;
+            this._context = context;
+            this._serviceProvider = serviceProvider;
         }
 
         public ISpecialityRepository SpecialityRepository =>
-            _specialityRepository ??= _serviceProvider.GetService<ISpecialityRepository>();
+            this._specialityRepository ??= this._serviceProvider.GetService<ISpecialityRepository>();
 
         public IHospitalRepository HospitalRepository =>
-            _hospitalRepository ??= _serviceProvider.GetService<IHospitalRepository>();
+            this._hospitalRepository ??= this._serviceProvider.GetService<IHospitalRepository>();
 
         public IDoctorRepository DoctorRepository =>
-            _doctorRepository ??= _serviceProvider.GetService<IDoctorRepository>();
+            this._doctorRepository ??= this._serviceProvider.GetService<IDoctorRepository>();
 
         public IReviewRepository ReviewRepository =>
-            _reviewRepository ??= _serviceProvider.GetService<IReviewRepository>();
+            this._reviewRepository ??= this._serviceProvider.GetService<IReviewRepository>();
 
-        public UserManager<User> UserManager => _userManager ??=
-            _serviceProvider.GetService<UserManager<User>>();
+        public UserManager<User> UserManager =>
+            this._userManager ??= this._serviceProvider.GetService<UserManager<User>>();
 
         public RoleManager<IdentityRole> RoleManager =>
-            _roleManager ??= _serviceProvider.GetService<RoleManager<IdentityRole>>();
+            this._roleManager ??= this._serviceProvider.GetService<RoleManager<IdentityRole>>();
 
         public SignInManager<User> SignInManager =>
-            _signInManager ??= _serviceProvider.GetService<SignInManager<User>>();
+            this._signInManager ??= this._serviceProvider.GetService<SignInManager<User>>();
 
         public async Task<int> SaveAsync()
         {
-            return await _context.SaveChangesAsync();
+            return await this._context.SaveChangesAsync();
         }
     }
 }

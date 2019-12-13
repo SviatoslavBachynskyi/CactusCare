@@ -17,7 +17,7 @@ using Microsoft.IdentityModel.Tokens;
 
 namespace CactusCare.DAL
 {
-    public class ConfigureDAL : IConfigureLayer
+    public class ConfigureDal : IConfigureLayer
     {
         public void ConfigureServices(IServiceCollection services, IConfiguration configuration)
         {

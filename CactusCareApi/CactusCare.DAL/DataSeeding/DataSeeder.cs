@@ -9,12 +9,12 @@ namespace CactusCare.DAL.DataSeeding
     {
         public static void SeedAdditional(CactusCareContext context)
         {
-            if(context.Specialities.Any()) return;
+            if (context.Specialities.Any()) return;
 
             #region Specialities
 
-            var therapist = new Speciality() { Name = "Терапевт"};
-            var dentist = new Speciality() {Name = "Стоматолог"};
+            var therapist = new Speciality() { Name = "Терапевт" };
+            var dentist = new Speciality() { Name = "Стоматолог" };
 
             context.Specialities.AddRange(therapist, dentist);
             #endregion
