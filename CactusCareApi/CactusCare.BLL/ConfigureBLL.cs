@@ -38,7 +38,7 @@ namespace CactusCare.BLL
                     };
                 });
 
-            services.Configure<IdentityOptions>((options) => { configuration.GetSection("IdentityOptions").Bind(options);});
+            services.Configure<IdentityOptions>((options) => { configuration.GetSection("IdentityOptions").Bind(options); });
         }
 
         public void Configure(IServiceProvider serviceProvider, bool development)
