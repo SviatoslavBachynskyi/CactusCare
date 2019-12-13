@@ -4,6 +4,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Text;
 using CactusCare.Abstractions;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
@@ -36,6 +37,8 @@ namespace CactusCare.BLL
                         ClockSkew = TimeSpan.Zero
                     };
                 });
+
+            services.Configure<IdentityOptions>((options) => { configuration.GetSection("IdentityOptions").Bind(options);});
         }
 
         public void Configure(IServiceProvider serviceProvider, bool development)

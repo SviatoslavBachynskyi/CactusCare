@@ -35,6 +35,9 @@ namespace CactusCare.DAL.Migrations
                     b.Property<string>("LastName")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Patronomic")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<float>("Rating")
                         .HasColumnType("real");
 
@@ -48,26 +51,6 @@ namespace CactusCare.DAL.Migrations
                     b.HasIndex("SpecialityId");
 
                     b.ToTable("Doctors");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            FirstName = "First",
-                            HospitalId = 1,
-                            LastName = "Ivanov",
-                            Rating = 2.5f,
-                            SpecialityId = 1
-                        },
-                        new
-                        {
-                            Id = 2,
-                            FirstName = "Secon",
-                            HospitalId = 2,
-                            LastName = "Ivanov",
-                            Rating = 5f,
-                            SpecialityId = 2
-                        });
                 });
 
             modelBuilder.Entity("CactusCare.Abstractions.Entities.Hospital", b =>
@@ -95,26 +78,6 @@ namespace CactusCare.DAL.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Hospitals");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Address = "Адреса 1",
-                            Email = "емейл@емейл1",
-                            Name = "Лікарня 1",
-                            PhoneNumber = "(032) 345 45",
-                            Website = "hos1.com"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Address = "Адреса 2",
-                            Email = "емейл@емейл2",
-                            Name = "Лікарня 2",
-                            PhoneNumber = "(032) 756 64",
-                            Website = "hos2.com"
-                        });
                 });
 
             modelBuilder.Entity("CactusCare.Abstractions.Entities.Review", b =>
@@ -141,32 +104,6 @@ namespace CactusCare.DAL.Migrations
                     b.HasIndex("DoctorId");
 
                     b.ToTable("Reviews");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Content = "Чудовий лікар!",
-                            DoctorId = 1,
-                            Rating = 6,
-                            Time = new DateTime(2019, 12, 9, 19, 46, 48, 16, DateTimeKind.Local).AddTicks(9353)
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Content = "Погоджуюсь. Неймовірний лікар.",
-                            DoctorId = 1,
-                            Rating = 4,
-                            Time = new DateTime(2019, 12, 9, 19, 46, 48, 19, DateTimeKind.Local).AddTicks(1754)
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Content = "Жахливий лікар!",
-                            DoctorId = 2,
-                            Rating = 10,
-                            Time = new DateTime(2019, 12, 9, 19, 46, 48, 19, DateTimeKind.Local).AddTicks(1846)
-                        });
                 });
 
             modelBuilder.Entity("CactusCare.Abstractions.Entities.Speciality", b =>
@@ -182,18 +119,6 @@ namespace CactusCare.DAL.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Specialities");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Name = "тест"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Name = "тест 2"
-                        });
                 });
 
             modelBuilder.Entity("CactusCare.Abstractions.Entities.User", b =>
