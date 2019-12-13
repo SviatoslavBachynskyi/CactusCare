@@ -12,6 +12,7 @@ using System.Text;
 using Microsoft.Extensions.Configuration;
 using System.Threading.Tasks;
 using System.Linq;
+using CactusCare.BLL.Identity;
 
 namespace CactusCare.BLL.Services
 {
@@ -20,21 +21,24 @@ namespace CactusCare.BLL.Services
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
         private readonly IConfiguration _configuration;
-        public AuthenticationService(IUnitOfWork unitOfWork, IMapper mapper, IConfiguration configuration)
+
+        private readonly JwtTokenGenerator _tokenGenerator;
+
+        public AuthenticationService(IUnitOfWork unitOfWork, IMapper mapper, IConfiguration configuration, JwtTokenGenerator tokenGenerator)
         {
-            _unitOfWork = unitOfWork;
-            _mapper = mapper;
-            _configuration = configuration;
+            this._unitOfWork = unitOfWork;
+            this._mapper = mapper;
+            this._tokenGenerator = tokenGenerator;
         }
 
         public async Task<string> LoginAsync(LoginDTO loginDTO)
         {
-            var siginResult = await _unitOfWork.SignInManager.PasswordSignInAsync(loginDTO.UserName, loginDTO.Password, false, false);
+            var signInResult = await this._unitOfWork.SignInManager.PasswordSignInAsync(loginDTO.UserName, loginDTO.Password, false, false);
 
-            if (siginResult.Succeeded)
+            if (signInResult.Succeeded)
             {
-                var user = _unitOfWork.UserManager.Users.Single((u) => u.UserName == loginDTO.UserName);
-                return GenerateJWTToken(user);
+                var user = this._unitOfWork.UserManager.Users.Single((u) => u.UserName == loginDTO.UserName);
+                return this._tokenGenerator.Generate(user);
             }
 
             //TODO Create Custom Exception
@@ -43,40 +47,15 @@ namespace CactusCare.BLL.Services
 
         public async Task RegisterAsync(RegisterDTO registerDTO)
         {
-            var user = _mapper.Map<RegisterDTO, User>(registerDTO);
-            var createResult = await _unitOfWork.UserManager.CreateAsync(user, registerDTO.Password);
+            var user = this._mapper.Map<RegisterDTO, User>(registerDTO);
+            var createResult = await this._unitOfWork.UserManager.CreateAsync(user, registerDTO.Password);
 
             if (!createResult.Succeeded)
             {
                 throw new ApplicationException("RegisterFailed");
             }
 
-            await _unitOfWork.SaveAsync();
-        }
-
-        private string GenerateJWTToken(User user)
-        {
-            var jwt = _configuration.GetSection("Jwt");
-
-            var claims = new List<Claim>
-            {
-                new Claim(JwtRegisteredClaimNames.Sub,user.UserName),
-                new Claim(JwtRegisteredClaimNames.Jti,Guid.NewGuid().ToString()),
-                new Claim(ClaimTypes.NameIdentifier,user.Id)
-            };
-
-            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwt["Key"]));
-            var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
-            var expires = DateTime.Now.AddDays(Convert.ToDouble(jwt["ExpireDays"]));
-
-            var token = new JwtSecurityToken(
-                jwt["Issuer"],
-                jwt["Issuer"],
-                claims,
-                expires: expires,
-                signingCredentials: creds);
-
-            return new JwtSecurityTokenHandler().WriteToken(token);
+            await this._unitOfWork.SaveAsync();
         }
     }
 }

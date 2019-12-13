@@ -18,7 +18,7 @@ namespace CactusCare.BLL.Identity
         }
 
         //TODO investigate what the hell it is
-        public async override Task<ClaimsPrincipal> CreateAsync(User user)
+        public override async Task<ClaimsPrincipal> CreateAsync(User user)
         {
             var principal = await base.CreateAsync(user);
 

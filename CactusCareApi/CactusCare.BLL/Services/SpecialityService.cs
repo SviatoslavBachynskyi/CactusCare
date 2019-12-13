@@ -16,8 +16,8 @@ namespace CactusCare.BLL.Services
 
         public SpecialityService(IUnitOfWork unitOfWork, IMapper mapper)
         {
-            _unitOfWork = unitOfWork;
-            _mapper = mapper;
+            this._unitOfWork = unitOfWork;
+            this._mapper = mapper;
         }
 
         public async Task<List<SpecialityDTO>> GetAllAsync()
@@ -29,25 +29,25 @@ namespace CactusCare.BLL.Services
 
         public async Task<SpecialityDTO> GetAsync(int id)
         {
-            return _mapper.Map<Speciality, SpecialityDTO>(await _unitOfWork.SpecialityRepository.GetByIdAsync(id));
+            return this._mapper.Map<Speciality, SpecialityDTO>(await this._unitOfWork.SpecialityRepository.GetByIdAsync(id));
         }
 
         public async Task InsertAsync(SpecialityDTO specialityDto)
         {
-            await _unitOfWork.SpecialityRepository.InsertAsync(_mapper.Map<SpecialityDTO, Speciality>(specialityDto));
-            await _unitOfWork.SaveAsync();
+            await this._unitOfWork.SpecialityRepository.InsertAsync(this._mapper.Map<SpecialityDTO, Speciality>(specialityDto));
+            await this._unitOfWork.SaveAsync();
         }
 
         public async Task UpdateAsync(SpecialityDTO specialityDto)
         {
-            await _unitOfWork.SpecialityRepository.UpdateAsync(_mapper.Map<SpecialityDTO, Speciality>(specialityDto));
-            await _unitOfWork.SaveAsync();
+            await this._unitOfWork.SpecialityRepository.UpdateAsync(this._mapper.Map<SpecialityDTO, Speciality>(specialityDto));
+            await this._unitOfWork.SaveAsync();
         }
 
         public async Task DeleteAsync(int id)
         {
-            await _unitOfWork.SpecialityRepository.DeleteAsync(id);
-            await _unitOfWork.SaveAsync();
+            await this._unitOfWork.SpecialityRepository.DeleteAsync(id);
+            await this._unitOfWork.SaveAsync();
         }
     }
 }
