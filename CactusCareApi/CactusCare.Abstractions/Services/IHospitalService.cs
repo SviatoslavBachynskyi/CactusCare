@@ -8,13 +8,13 @@ namespace CactusCare.Abstractions.Services
 {
     public interface IHospitalService
     {
-        Task<List<HospitalDTO>> GetAllAsync();
+        Task<List<HospitalDto>> GetAllAsync();
         
-        Task<HospitalDTO> GetAsync(int id);
+        Task<HospitalDto> GetAsync(int id);
 
-        Task InsertAsync(HospitalDTO hospitalDto);
+        Task InsertAsync(HospitalDto hospitalDto);
 
-        Task UpdateAsync(HospitalDTO hospitalDto);
+        Task UpdateAsync(HospitalDto hospitalDto);
 
         Task DeleteAsync(int id);
     }

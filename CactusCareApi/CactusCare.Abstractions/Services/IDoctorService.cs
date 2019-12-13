@@ -6,13 +6,13 @@ namespace CactusCare.Abstractions.Services
 {
     public interface IDoctorService
     {
-        Task<List<DoctorDTO>> GetAllAsync();
+        Task<List<DoctorDto>> GetAllAsync();
 
-        Task<DoctorDTO> GetAsync(int id);
+        Task<DoctorDto> GetAsync(int id);
 
-        Task InsertAsync(DoctorDTO doctorDto);
+        Task InsertAsync(DoctorDto doctorDto);
 
-        Task UpdateAsync(DoctorDTO doctorDto);
+        Task UpdateAsync(DoctorDto doctorDto);
 
         Task DeleteAsync(int id);
     }

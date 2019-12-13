@@ -8,15 +8,15 @@ namespace CactusCare.Abstractions.Entities
 
         public string FirstName { get; set; }
 
-        public string Patronomic { get; set; }
+        public string Patronymic { get; set; }
 
         public string LastName { get; set; }
 
         public float Rating { get; set; }
 
-        public int SpecialityId { get; set; }
+        public int SpecialtyId { get; set; }
 
-        public Speciality Speciality { get; set; }
+        public Specialty Specialty { get; set; }
 
         public int HospitalId { get; set; }
 

@@ -10,33 +10,33 @@ namespace CactusCare.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class SpecialityController : ControllerBase
+    public class SpecialtyController : ControllerBase
     {
-        private readonly ISpecialityService _specialityService;
+        private readonly ISpecialtyService _specialtyService;
 
-        public SpecialityController(ISpecialityService specialityService)
+        public SpecialtyController(ISpecialtyService specialtyService)
         {
-            this._specialityService = specialityService;
+            this._specialtyService = specialtyService;
         }
 
         [HttpGet]
-        public async Task<ActionResult<List<SpecialityDTO>>> GetAll()
+        public async Task<ActionResult<List<SpecialtyDto>>> GetAll()
         {
-            return await this._specialityService.GetAllAsync();
+            return await this._specialtyService.GetAllAsync();
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<SpecialityDTO>> Get(int id)
+        public async Task<ActionResult<SpecialtyDto>> Get(int id)
         {
-            return await this._specialityService.GetAsync(id);
+            return await this._specialtyService.GetAsync(id);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Insert(SpecialityDTO specialityDto)
+        public async Task<IActionResult> Insert(SpecialtyDto specialityDto)
         {
             try
             {
-                await this._specialityService.InsertAsync(specialityDto);
+                await this._specialtyService.InsertAsync(specialityDto);
                 return StatusCode(200, "OK");
             }
             catch (Exception)
@@ -46,16 +46,16 @@ namespace CactusCare.Api.Controllers
         }
 
         [HttpPut]
-        public async Task<IActionResult> Update([FromBody] SpecialityDTO specialityDto)
+        public async Task<IActionResult> Update([FromBody] SpecialtyDto specialityDto)
         {
             try
             {
-                await this._specialityService.UpdateAsync(specialityDto);
+                await this._specialtyService.UpdateAsync(specialityDto);
                 return StatusCode(200, "OK");
             }
             catch (DbUpdateConcurrencyException)
             {
-                return StatusCode(404, $"Speciality with id {specialityDto.Id} not found");
+                return StatusCode(404, $"Specialty with id {specialityDto.Id} not found");
             }
             catch (Exception)
             {
@@ -68,12 +68,12 @@ namespace CactusCare.Api.Controllers
         {
             try
             {
-                await _specialityService.DeleteAsync(id);
+                await this._specialtyService.DeleteAsync(id);
                 return StatusCode(200, "OK");
             }
             catch (KeyNotFoundException)
             {
-                return StatusCode(404, $"Speciality with id {id} not found");
+                return StatusCode(404, $"Specialty with id {id} not found");
             }
             catch (Exception e)
             {

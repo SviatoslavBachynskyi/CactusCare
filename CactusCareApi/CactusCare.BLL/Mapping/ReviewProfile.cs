@@ -8,9 +8,9 @@ namespace CactusCare.BLL.Mapping
     {
         public ReviewProfile()
         {
-            CreateMap<Review, ReviewDTO>();
+            CreateMap<Review, ReviewDto>();
 
-            CreateMap<ReviewDTO, Review>()
+            CreateMap<ReviewDto, Review>()
                 .ForMember(d => d.Doctor, opt => opt.Ignore());
         }
     }

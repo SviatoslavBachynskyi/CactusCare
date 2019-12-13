@@ -8,10 +8,10 @@ namespace CactusCare.BLL.Mapping
     {
         public DoctorProfile()
         {
-            CreateMap<Doctor, DoctorDTO>();
+            CreateMap<Doctor, DoctorDto>();
 
-            CreateMap<DoctorDTO, Doctor>()
-                .ForMember(d => d.Speciality, opt => opt.Ignore())
+            CreateMap<DoctorDto, Doctor>()
+                .ForMember(d => d.Specialty, opt => opt.Ignore())
                 .ForMember(d => d.Hospital, opt => opt.Ignore())
                 .ForMember(d => d.Rating, opt => opt.Ignore());
         }

@@ -20,19 +20,19 @@ namespace CactusCare.Api.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<List<HospitalDTO>>> GetAll()
+        public async Task<ActionResult<List<HospitalDto>>> GetAll()
         {
             return await this._hospitalService.GetAllAsync();
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<HospitalDTO>> Get(int id)
+        public async Task<ActionResult<HospitalDto>> Get(int id)
         {
             return await this._hospitalService.GetAsync(id);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Insert(HospitalDTO hospitalDto)
+        public async Task<IActionResult> Insert(HospitalDto hospitalDto)
         {
             try
             {
@@ -46,7 +46,7 @@ namespace CactusCare.Api.Controllers
         }
 
         [HttpPut]
-        public async Task<IActionResult> Update([FromBody] HospitalDTO hospitalDto)
+        public async Task<IActionResult> Update([FromBody] HospitalDto hospitalDto)
         {
             try
             {

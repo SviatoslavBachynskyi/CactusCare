@@ -31,7 +31,7 @@ namespace CactusCare.BLL.Services
             this._tokenGenerator = tokenGenerator;
         }
 
-        public async Task<string> LoginAsync(LoginDTO loginDTO)
+        public async Task<string> LoginAsync(LoginDto loginDTO)
         {
             var signInResult = await this._unitOfWork.SignInManager.PasswordSignInAsync(loginDTO.UserName, loginDTO.Password, false, false);
 
@@ -45,9 +45,9 @@ namespace CactusCare.BLL.Services
             throw new ApplicationException("Login failed");
         }
 
-        public async Task RegisterAsync(RegisterDTO registerDTO)
+        public async Task RegisterAsync(RegisterDto registerDTO)
         {
-            var user = this._mapper.Map<RegisterDTO, User>(registerDTO);
+            var user = this._mapper.Map<RegisterDto, User>(registerDTO);
             var createResult = await this._unitOfWork.UserManager.CreateAsync(user, registerDTO.Password);
 
             if (!createResult.Succeeded)

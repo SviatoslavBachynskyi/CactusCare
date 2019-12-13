@@ -2,7 +2,7 @@
 
 namespace CactusCare.Abstractions.DTOs
 {
-    public class ReviewDTO
+    public class ReviewDto
     {
         public int Id { get; set; }
 
@@ -12,7 +12,7 @@ namespace CactusCare.Abstractions.DTOs
 
         public int DoctorId { get; set; }
 
-        public DoctorDTO Doctor { get; set; }
+        public DoctorDto Doctor { get; set; }
 
         public int Rating { get; set; }
     }

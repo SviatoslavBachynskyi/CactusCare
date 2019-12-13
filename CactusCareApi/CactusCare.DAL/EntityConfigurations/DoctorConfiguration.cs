@@ -8,9 +8,9 @@ namespace CactusCare.DAL.EntityConfigurations
     {
         public void Configure(EntityTypeBuilder<Doctor> builder)
         {
-            builder.HasOne(d => d.Speciality)
+            builder.HasOne(d => d.Specialty)
                 .WithMany(s => s.Doctors)
-                .HasForeignKey(d => d.SpecialityId)
+                .HasForeignKey(d => d.SpecialtyId)
                 .HasConstraintName("FK_Doctor_Speciality")
                 .OnDelete(DeleteBehavior.Restrict);
 

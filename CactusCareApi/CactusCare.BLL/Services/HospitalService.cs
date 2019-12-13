@@ -20,27 +20,27 @@ namespace CactusCare.BLL.Services
             this._mapper = mapper;
         }
 
-        public async Task<List<HospitalDTO>> GetAllAsync()
+        public async Task<List<HospitalDto>> GetAllAsync()
         {
             return (await this._unitOfWork.HospitalRepository.GetAllAsync())
-                .Select(d => _mapper.Map<Hospital, HospitalDTO>(d))
+                .Select(d => _mapper.Map<Hospital, HospitalDto>(d))
                 .ToList();
         }
 
-        public async Task<HospitalDTO> GetAsync(int id)
+        public async Task<HospitalDto> GetAsync(int id)
         {
-            return _mapper.Map<Hospital, HospitalDTO>(await this._unitOfWork.HospitalRepository.GetByIdAsync(id));
+            return _mapper.Map<Hospital, HospitalDto>(await this._unitOfWork.HospitalRepository.GetByIdAsync(id));
         }
 
-        public async Task InsertAsync(HospitalDTO hospitalDto)
+        public async Task InsertAsync(HospitalDto hospitalDto)
         {
-            await this._unitOfWork.HospitalRepository.InsertAsync(this._mapper.Map<HospitalDTO, Hospital>(hospitalDto));
+            await this._unitOfWork.HospitalRepository.InsertAsync(this._mapper.Map<HospitalDto, Hospital>(hospitalDto));
             await this._unitOfWork.SaveAsync();
         }
 
-        public async Task UpdateAsync(HospitalDTO hospitalDto)
+        public async Task UpdateAsync(HospitalDto hospitalDto)
         {
-            await this._unitOfWork.HospitalRepository.UpdateAsync(this._mapper.Map<HospitalDTO, Hospital>(hospitalDto));
+            await this._unitOfWork.HospitalRepository.UpdateAsync(this._mapper.Map<HospitalDto, Hospital>(hospitalDto));
             await this._unitOfWork.SaveAsync();
         }
 

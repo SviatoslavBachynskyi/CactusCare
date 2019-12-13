@@ -15,7 +15,7 @@ namespace CactusCare.DAL
         private IDoctorRepository _doctorRepository;
         private IHospitalRepository _hospitalRepository;
         private IReviewRepository _reviewRepository;
-        private ISpecialityRepository _specialityRepository;
+        private ISpecialtyRepository _specialtyRepository;
 
         private UserManager<User> _userManager;
         private RoleManager<IdentityRole> _roleManager;
@@ -27,8 +27,8 @@ namespace CactusCare.DAL
             this._serviceProvider = serviceProvider;
         }
 
-        public ISpecialityRepository SpecialityRepository =>
-            this._specialityRepository ??= this._serviceProvider.GetService<ISpecialityRepository>();
+        public ISpecialtyRepository SpecialtyRepository =>
+            this._specialtyRepository ??= this._serviceProvider.GetService<ISpecialtyRepository>();
 
         public IHospitalRepository HospitalRepository =>
             this._hospitalRepository ??= this._serviceProvider.GetService<IHospitalRepository>();

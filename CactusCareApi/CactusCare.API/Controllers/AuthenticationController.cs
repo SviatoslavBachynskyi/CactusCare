@@ -19,14 +19,14 @@ namespace CactusCare.Api.Controllers
             this._authenticationService = authenticationService;
         }
         [HttpPost("Register")]
-        public async Task<ActionResult> Register(RegisterDTO registerDTO)
+        public async Task<ActionResult> Register(RegisterDto registerDTO)
         {
             await this._authenticationService.RegisterAsync(registerDTO);
             return Ok();
         }
 
         [HttpPost("Login")]
-        public async Task<ActionResult> Login(LoginDTO loginDTO)
+        public async Task<ActionResult> Login(LoginDto loginDTO)
         {
             try
             {

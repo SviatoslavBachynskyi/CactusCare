@@ -8,13 +8,13 @@ namespace CactusCare.Abstractions.Services
 {
     public interface IReviewService
     {
-        Task<List<ReviewDTO>> GetAllAsync();
+        Task<List<ReviewDto>> GetAllAsync();
         
-        Task<ReviewDTO> GetAsync(int id);
+        Task<ReviewDto> GetAsync(int id);
 
-        Task InsertAsync(ReviewDTO reviewDto);
+        Task InsertAsync(ReviewDto reviewDto);
 
-        Task UpdateAsync(ReviewDTO reviewDto);
+        Task UpdateAsync(ReviewDto reviewDto);
 
         Task DeleteAsync(int id);
     }
