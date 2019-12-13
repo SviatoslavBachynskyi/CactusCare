@@ -9,14 +9,14 @@ namespace CactusCare.DAL.DataSeeding
     {
         public static void SeedAdditional(CactusCareContext context)
         {
-            if(context.Specialities.Any()) return;
+            if (context.Specialties.Any()) return;
 
-            #region Specialities
+            #region Specialties
 
-            var therapist = new Speciality() { Name = "Терапевт"};
-            var dentist = new Speciality() {Name = "Стоматолог"};
+            var therapist = new Specialty() { Name = "Терапевт" };
+            var dentist = new Specialty() { Name = "Стоматолог" };
 
-            context.Specialities.AddRange(therapist, dentist);
+            context.Specialties.AddRange(therapist, dentist);
             #endregion
 
             #region Hospitals
@@ -47,18 +47,18 @@ namespace CactusCare.DAL.DataSeeding
             var Schevchuk = new Doctor()
             {
                 FirstName = "Йосип",
-                Patronomic = "Іванович",
+                Patronymic = "Іванович",
                 LastName = "Шевчук",
-                Speciality = therapist,
+                Specialty = therapist,
                 Hospital = studentHospital,
                 Rating = 3f
             };
             var Dmytrenko = new Doctor()
             {
                 FirstName = "Катерина",
-                Patronomic = "Олександрівна",
+                Patronymic = "Олександрівна",
                 LastName = "Дмитренко",
-                Speciality = dentist,
+                Specialty = dentist,
                 Hospital = secondHospital,
                 Rating = 5f
             };

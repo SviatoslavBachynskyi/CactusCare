@@ -6,15 +6,15 @@ using CactusCare.Abstractions.DTOs;
 
 namespace CactusCare.Abstractions.Services
 {
-    public interface ISpecialityService
+    public interface ISpecialtyService
     {
-        Task<List<SpecialityDTO>> GetAllAsync();
+        Task<List<SpecialtyDto>> GetAllAsync();
         
-        Task<SpecialityDTO> GetAsync(int id);
+        Task<SpecialtyDto> GetAsync(int id);
 
-        Task InsertAsync(SpecialityDTO specialityDto);
+        Task InsertAsync(SpecialtyDto specialityDto);
 
-        Task UpdateAsync(SpecialityDTO specialityDto);
+        Task UpdateAsync(SpecialtyDto specialityDto);
 
         Task DeleteAsync(int id);
     }

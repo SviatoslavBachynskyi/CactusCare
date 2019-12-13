@@ -11,7 +11,7 @@ namespace CactusCare.BLL.Mapping
     {
         public UserProfile()
         {
-            CreateMap<RegisterDTO, User>();
+            CreateMap<RegisterDto, User>();
         }
     }
 }

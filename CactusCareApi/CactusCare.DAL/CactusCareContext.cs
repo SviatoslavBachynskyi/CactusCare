@@ -11,7 +11,7 @@ namespace CactusCare.DAL
 {
     public class CactusCareContext : IdentityDbContext<User>
     {
-        public DbSet<Speciality> Specialities { get; set; }
+        public DbSet<Specialty> Specialties { get; set; }
 
         public DbSet<Hospital> Hospitals { get; set; }
 

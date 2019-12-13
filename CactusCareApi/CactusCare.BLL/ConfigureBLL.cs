@@ -12,10 +12,12 @@ using Microsoft.IdentityModel.Tokens;
 
 namespace CactusCare.BLL
 {
-    class ConfigureBLL : IConfigureLayer
+    class ConfigureBll : IConfigureLayer
     {
         public void ConfigureServices(IServiceCollection services, IConfiguration configuration)
         {
+            #region Identity
+
             JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
             services
                 .AddAuthentication((options) =>
@@ -39,6 +41,7 @@ namespace CactusCare.BLL
                 });
 
             services.Configure<IdentityOptions>((options) => { configuration.GetSection("IdentityOptions").Bind(options); });
+            #endregion
         }
 
         public void Configure(IServiceProvider serviceProvider, bool development)

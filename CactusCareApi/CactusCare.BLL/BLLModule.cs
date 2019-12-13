@@ -15,9 +15,9 @@ using Module = Autofac.Module;
 
 namespace CactusCare.BLL
 {
-    public class BLLModule : Module
+    public class BllModule : Module
     {
-        public BLLModule()
+        public BllModule()
         {
         }
 
@@ -29,12 +29,18 @@ namespace CactusCare.BLL
                 .AsImplementedInterfaces()
                 .InstancePerLifetimeScope();
 
-            //Configure AutoMapper
+            //configure AutoMapper
             builder.RegisterInstance(new MapperConfiguration(cfg => { cfg.AddMaps(Assembly.GetExecutingAssembly()); })
-                .CreateMapper());
+                .CreateMapper())
+                .SingleInstance();
 
+            //configure identity
             builder.RegisterType<ClaimsPrincipalFactory>()
-                .As<IUserClaimsPrincipalFactory<User>>();
+                .As<IUserClaimsPrincipalFactory<User>>()
+                .SingleInstance();
+
+            builder.RegisterType<JwtTokenGenerator>()
+                .SingleInstance();
         }
     }
 }

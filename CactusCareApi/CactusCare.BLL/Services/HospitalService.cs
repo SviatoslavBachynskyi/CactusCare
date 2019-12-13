@@ -16,38 +16,38 @@ namespace CactusCare.BLL.Services
 
         public HospitalService(IUnitOfWork unitOfWork, IMapper mapper)
         {
-            _unitOfWork = unitOfWork;
-            _mapper = mapper;
+            this._unitOfWork = unitOfWork;
+            this._mapper = mapper;
         }
 
-        public async Task<List<HospitalDTO>> GetAllAsync()
+        public async Task<List<HospitalDto>> GetAllAsync()
         {
-            return (await _unitOfWork.HospitalRepository.GetAllAsync())
-                .Select(d => _mapper.Map<Hospital, HospitalDTO>(d))
+            return (await this._unitOfWork.HospitalRepository.GetAllAsync())
+                .Select(d => _mapper.Map<Hospital, HospitalDto>(d))
                 .ToList();
         }
 
-        public async Task<HospitalDTO> GetAsync(int id)
+        public async Task<HospitalDto> GetAsync(int id)
         {
-            return _mapper.Map<Hospital, HospitalDTO>(await _unitOfWork.HospitalRepository.GetByIdAsync(id));
+            return _mapper.Map<Hospital, HospitalDto>(await this._unitOfWork.HospitalRepository.GetByIdAsync(id));
         }
 
-        public async Task InsertAsync(HospitalDTO hospitalDto)
+        public async Task InsertAsync(HospitalDto hospitalDto)
         {
-            await _unitOfWork.HospitalRepository.InsertAsync(_mapper.Map<HospitalDTO, Hospital>(hospitalDto));
-            await _unitOfWork.SaveAsync();
+            await this._unitOfWork.HospitalRepository.InsertAsync(this._mapper.Map<HospitalDto, Hospital>(hospitalDto));
+            await this._unitOfWork.SaveAsync();
         }
 
-        public async Task UpdateAsync(HospitalDTO hospitalDto)
+        public async Task UpdateAsync(HospitalDto hospitalDto)
         {
-            await _unitOfWork.HospitalRepository.UpdateAsync(_mapper.Map<HospitalDTO, Hospital>(hospitalDto));
-            await _unitOfWork.SaveAsync();
+            await this._unitOfWork.HospitalRepository.UpdateAsync(this._mapper.Map<HospitalDto, Hospital>(hospitalDto));
+            await this._unitOfWork.SaveAsync();
         }
 
         public async Task DeleteAsync(int id)
         {
-            await _unitOfWork.HospitalRepository.DeleteAsync(id);
-            await _unitOfWork.SaveAsync();
+            await this._unitOfWork.HospitalRepository.DeleteAsync(id);
+            await this._unitOfWork.SaveAsync();
         }
     }
 }

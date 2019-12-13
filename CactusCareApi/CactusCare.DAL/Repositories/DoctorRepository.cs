@@ -12,6 +12,6 @@ namespace CactusCare.DAL.Repositories
         }
 
         protected override IQueryable<Doctor> ComplexEntities =>
-            Context.Set<Doctor>().Include(d => d.Speciality).Include(d => d.Hospital).AsTracking();
+            this.Context.Set<Doctor>().Include(d => d.Specialty).Include(d => d.Hospital).AsTracking();
     }
 }

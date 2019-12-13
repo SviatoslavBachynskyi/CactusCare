@@ -4,7 +4,7 @@ using System.Text;
 
 namespace CactusCare.Abstractions.DTOs
 {
-    public class SpecialityDTO
+    public class SpecialtyDto
     {
         public int Id { get; set; }
         public string Name { get; set; }

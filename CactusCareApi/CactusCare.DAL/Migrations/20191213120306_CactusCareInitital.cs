@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace CactusCare.DAL.Migrations
 {
-    public partial class CactusCareDB : Migration
+    public partial class CactusCareInitital : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -66,7 +66,7 @@ namespace CactusCare.DAL.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Specialities",
+                name: "Specialties",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
@@ -75,7 +75,7 @@ namespace CactusCare.DAL.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Specialities", x => x.Id);
+                    table.PrimaryKey("PK_Specialties", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -191,10 +191,10 @@ namespace CactusCare.DAL.Migrations
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     FirstName = table.Column<string>(nullable: true),
-                    Patronomic = table.Column<string>(nullable: true),
+                    Patronymic = table.Column<string>(nullable: true),
                     LastName = table.Column<string>(nullable: true),
                     Rating = table.Column<float>(nullable: false),
-                    SpecialityId = table.Column<int>(nullable: false),
+                    SpecialtyId = table.Column<int>(nullable: false),
                     HospitalId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
@@ -208,8 +208,8 @@ namespace CactusCare.DAL.Migrations
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Doctor_Speciality",
-                        column: x => x.SpecialityId,
-                        principalTable: "Specialities",
+                        column: x => x.SpecialtyId,
+                        principalTable: "Specialties",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -281,9 +281,9 @@ namespace CactusCare.DAL.Migrations
                 column: "HospitalId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Doctors_SpecialityId",
+                name: "IX_Doctors_SpecialtyId",
                 table: "Doctors",
-                column: "SpecialityId");
+                column: "SpecialtyId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Reviews_DoctorId",
@@ -324,7 +324,7 @@ namespace CactusCare.DAL.Migrations
                 name: "Hospitals");
 
             migrationBuilder.DropTable(
-                name: "Specialities");
+                name: "Specialties");
         }
     }
 }

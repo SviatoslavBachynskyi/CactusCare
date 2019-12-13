@@ -8,9 +8,9 @@ namespace CactusCare.BLL.Mapping
     {
         public SpecialityProfile()
         {
-            CreateMap<Speciality, SpecialityDTO>();
+            CreateMap<Specialty, SpecialtyDto>();
 
-            CreateMap<SpecialityDTO, Speciality>();
+            CreateMap<SpecialtyDto, Specialty>();
         }
     }
 }

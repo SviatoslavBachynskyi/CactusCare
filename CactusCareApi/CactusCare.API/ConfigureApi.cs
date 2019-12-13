@@ -7,9 +7,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
 
-namespace CactusCareApi
+namespace CactusCare.Api
 {
-    public class ConfigureApi: IConfigureLayer
+    public class ConfigureApi : IConfigureLayer
     {
         public void ConfigureServices(IServiceCollection services, IConfiguration configuration)
         {

@@ -16,38 +16,38 @@ namespace CactusCare.BLL.Services
 
         public DoctorService(IUnitOfWork unitOfWork, IMapper mapper)
         {
-            _unitOfWork = unitOfWork;
-            _mapper = mapper;
+            this._unitOfWork = unitOfWork;
+            this._mapper = mapper;
         }
 
-        public async Task<List<DoctorDTO>> GetAllAsync()
+        public async Task<List<DoctorDto>> GetAllAsync()
         {
-            return (await _unitOfWork.DoctorRepository.GetAllAsync())
-                .Select(d => _mapper.Map<Doctor, DoctorDTO>(d))
+            return (await this._unitOfWork.DoctorRepository.GetAllAsync())
+                .Select(d => _mapper.Map<Doctor, DoctorDto>(d))
                 .ToList();
         }
 
-        public async Task<DoctorDTO> GetAsync(int id)
+        public async Task<DoctorDto> GetAsync(int id)
         {
-            return _mapper.Map<Doctor, DoctorDTO>(await _unitOfWork.DoctorRepository.GetByIdAsync(id));
+            return this._mapper.Map<Doctor, DoctorDto>(await this._unitOfWork.DoctorRepository.GetByIdAsync(id));
         }
 
-        public async Task InsertAsync(DoctorDTO doctorDto)
+        public async Task InsertAsync(DoctorDto doctorDto)
         {
-            await _unitOfWork.DoctorRepository.InsertAsync(_mapper.Map<DoctorDTO, Doctor>(doctorDto));
-            await _unitOfWork.SaveAsync();
+            await this._unitOfWork.DoctorRepository.InsertAsync(this._mapper.Map<DoctorDto, Doctor>(doctorDto));
+            await this._unitOfWork.SaveAsync();
         }
 
-        public async Task UpdateAsync(DoctorDTO doctorDto)
+        public async Task UpdateAsync(DoctorDto doctorDto)
         {
-            await _unitOfWork.DoctorRepository.UpdateAsync(_mapper.Map<DoctorDTO, Doctor>(doctorDto));
-            await _unitOfWork.SaveAsync();
+            await this._unitOfWork.DoctorRepository.UpdateAsync(this._mapper.Map<DoctorDto, Doctor>(doctorDto));
+            await this._unitOfWork.SaveAsync();
         }
 
         public async Task DeleteAsync(int id)
         {
-            await _unitOfWork.DoctorRepository.DeleteAsync(id);
-            await _unitOfWork.SaveAsync();
+            await this._unitOfWork.DoctorRepository.DeleteAsync(id);
+            await this._unitOfWork.SaveAsync();
         }
     }
 }

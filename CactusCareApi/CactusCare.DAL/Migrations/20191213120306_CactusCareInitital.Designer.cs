@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CactusCare.DAL.Migrations
 {
     [DbContext(typeof(CactusCareContext))]
-    [Migration("20191212171701_CactusCareDB")]
-    partial class CactusCareDB
+    [Migration("20191213120306_CactusCareInitital")]
+    partial class CactusCareInitital
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -37,20 +37,20 @@ namespace CactusCare.DAL.Migrations
                     b.Property<string>("LastName")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Patronomic")
+                    b.Property<string>("Patronymic")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<float>("Rating")
                         .HasColumnType("real");
 
-                    b.Property<int>("SpecialityId")
+                    b.Property<int>("SpecialtyId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
                     b.HasIndex("HospitalId");
 
-                    b.HasIndex("SpecialityId");
+                    b.HasIndex("SpecialtyId");
 
                     b.ToTable("Doctors");
                 });
@@ -108,7 +108,7 @@ namespace CactusCare.DAL.Migrations
                     b.ToTable("Reviews");
                 });
 
-            modelBuilder.Entity("CactusCare.Abstractions.Entities.Speciality", b =>
+            modelBuilder.Entity("CactusCare.Abstractions.Entities.Specialty", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -120,7 +120,7 @@ namespace CactusCare.DAL.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Specialities");
+                    b.ToTable("Specialties");
                 });
 
             modelBuilder.Entity("CactusCare.Abstractions.Entities.User", b =>
@@ -334,9 +334,9 @@ namespace CactusCare.DAL.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("CactusCare.Abstractions.Entities.Speciality", "Speciality")
+                    b.HasOne("CactusCare.Abstractions.Entities.Specialty", "Specialty")
                         .WithMany("Doctors")
-                        .HasForeignKey("SpecialityId")
+                        .HasForeignKey("SpecialtyId")
                         .HasConstraintName("FK_Doctor_Speciality")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();

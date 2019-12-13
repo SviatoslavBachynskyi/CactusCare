@@ -4,7 +4,7 @@ using System.Text;
 
 namespace CactusCare.Abstractions.Entities
 {
-    public class Speciality : IEntity<int>
+    public class Specialty : IEntity<int>
     {
         public int Id { get; set; }
         public string Name { get; set; }
