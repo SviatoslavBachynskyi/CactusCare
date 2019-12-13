@@ -34,7 +34,7 @@ namespace CactusCareApi
             _assemblies =
                 Directory.EnumerateFiles(Directory.GetCurrentDirectory(),
                         $"{nameof(CactusCare)}.*.dll", SearchOption.AllDirectories)
-                    .Where((filename) => !filename.EndsWith(Assembly.GetExecutingAssembly().GetName().Name+".dll"))
+                    .Where((filename) => !filename.EndsWith(Assembly.GetExecutingAssembly().GetName().Name + ".dll"))
                     .Select(Assembly.LoadFrom)
                     .ToList();
             _assemblies.Add(Assembly.GetExecutingAssembly());
