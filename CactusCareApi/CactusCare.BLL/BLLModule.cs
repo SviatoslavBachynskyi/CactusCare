@@ -39,11 +39,11 @@ namespace CactusCare.BLL
                 .SingleInstance();
 
             //configure validation
-            builder.RegisterType<FluentValidationService>().As<IValidationService>();
-            builder.RegisterType<AutofacValidatorFactory>().As<IValidatorFactory>();
+            builder.RegisterType<FluentValidationService>().As<IValidationService>().SingleInstance();
+            builder.RegisterType<AutofacValidatorFactory>().As<IValidatorFactory>().SingleInstance();
             builder.RegisterAssemblyTypes(Assembly.GetExecutingAssembly())
                 .Where(t => t.Name.EndsWith("Validator"))
-                .AsSelf().AsImplementedInterfaces();
+                .AsSelf().AsImplementedInterfaces().SingleInstance();
         }
     }
 }

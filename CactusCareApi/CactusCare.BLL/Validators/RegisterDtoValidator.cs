@@ -8,8 +8,7 @@ namespace CactusCare.BLL.Validators
         public RegisterDtoValidator()
         {
             RuleFor(r => r.UserName).NotEmpty().Length(4, 20).Matches(@"^[a-zA-Z0-9]+([_ -]?[a-zA-Z0-9])*$");
-            RuleFor(r => r.Password).NotEmpty().Length(8, 20)
-                .Matches(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,20}$");
+            RuleFor(r => r.Password).NotEmpty().Length(6, 20);
             RuleFor(r => r.FirstName).NotEmpty().Length(5, 20).Matches(@"^[a-zA-Z]+$");
             RuleFor(r => r.LastName).NotEmpty().Length(5, 20).Matches(@"^[a-zA-Z]+$");
         }
