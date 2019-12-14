@@ -6,6 +6,7 @@ using CactusCare.Abstractions;
 using CactusCare.Abstractions.DTOs;
 using CactusCare.Abstractions.Entities;
 using CactusCare.Abstractions.Services;
+using FluentValidation;
 
 namespace CactusCare.BLL.Services
 {
@@ -36,12 +37,20 @@ namespace CactusCare.BLL.Services
 
         public async Task InsertAsync(HospitalDto hospitalDto)
         {
+            var validationResult = await _validationService.ValidateAsync(hospitalDto);
+            if (!validationResult.IsValid)
+                throw new ValidationException(validationResult.Errors);
+            
             await this._unitOfWork.HospitalRepository.InsertAsync(this._mapper.Map<HospitalDto, Hospital>(hospitalDto));
             await this._unitOfWork.SaveAsync();
         }
 
         public async Task UpdateAsync(HospitalDto hospitalDto)
         {
+            var validationResult = await _validationService.ValidateAsync(hospitalDto);
+            if (!validationResult.IsValid)
+                throw new ValidationException(validationResult.Errors);
+            
             await this._unitOfWork.HospitalRepository.UpdateAsync(this._mapper.Map<HospitalDto, Hospital>(hospitalDto));
             await this._unitOfWork.SaveAsync();
         }

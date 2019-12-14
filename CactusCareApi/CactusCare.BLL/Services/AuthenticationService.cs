@@ -13,6 +13,7 @@ using Microsoft.Extensions.Configuration;
 using System.Threading.Tasks;
 using System.Linq;
 using CactusCare.BLL.Identity;
+using FluentValidation;
 
 namespace CactusCare.BLL.Services
 {
@@ -33,13 +34,17 @@ namespace CactusCare.BLL.Services
             this._validationService = validationService;
         }
 
-        public async Task<string> LoginAsync(LoginDto loginDTO)
+        public async Task<string> LoginAsync(LoginDto loginDto)
         {
-            var signInResult = await this._unitOfWork.SignInManager.PasswordSignInAsync(loginDTO.UserName, loginDTO.Password, false, false);
+            var validationResult = await _validationService.ValidateAsync(loginDto);
+            if (!validationResult.IsValid)
+                throw new ValidationException(validationResult.Errors);
+            
+            var signInResult = await this._unitOfWork.SignInManager.PasswordSignInAsync(loginDto.UserName, loginDto.Password, false, false);
 
             if (signInResult.Succeeded)
             {
-                var user = this._unitOfWork.UserManager.Users.Single((u) => u.UserName == loginDTO.UserName);
+                var user = this._unitOfWork.UserManager.Users.Single((u) => u.UserName == loginDto.UserName);
                 return this._tokenGenerator.Generate(user);
             }
 
@@ -47,10 +52,14 @@ namespace CactusCare.BLL.Services
             throw new ApplicationException("Login failed");
         }
 
-        public async Task RegisterAsync(RegisterDto registerDTO)
+        public async Task RegisterAsync(RegisterDto registerDto)
         {
-            var user = this._mapper.Map<RegisterDto, User>(registerDTO);
-            var createResult = await this._unitOfWork.UserManager.CreateAsync(user, registerDTO.Password);
+            var validationResult = await _validationService.ValidateAsync(registerDto);
+            if (!validationResult.IsValid)
+                throw new ValidationException(validationResult.Errors);
+            
+            var user = this._mapper.Map<RegisterDto, User>(registerDto);
+            var createResult = await this._unitOfWork.UserManager.CreateAsync(user, registerDto.Password);
 
             if (!createResult.Succeeded)
             {

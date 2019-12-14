@@ -7,6 +7,7 @@ using CactusCare.Abstractions.DTOs;
 using CactusCare.Abstractions.Entities;
 using CactusCare.Abstractions.Services;
 using CactusCare.BLL.Converters;
+using FluentValidation;
 
 namespace CactusCare.BLL.Services
 {
@@ -37,6 +38,10 @@ namespace CactusCare.BLL.Services
 
         public async Task InsertAsync(ReviewDto reviewDto)
         {
+            var validationResult = await _validationService.ValidateAsync(reviewDto);
+            if (!validationResult.IsValid)
+                throw new ValidationException(validationResult.Errors);
+            
             var review = this._mapper.Map<ReviewDto, Review>(reviewDto);
             var doctor = await this._unitOfWork.DoctorRepository.GetByIdAsync(review.DoctorId);
             var reviews = (await this._unitOfWork.ReviewRepository.GetAllAsync(r => r.DoctorId.Equals(review.DoctorId)))
@@ -44,13 +49,17 @@ namespace CactusCare.BLL.Services
             reviews.Add(review);
             doctor.Rating =
                 await Task.Run(() => reviews.Average(r => RatingConverter.ConvertToFiveStarScale(r.Rating)));
-
+            
             await this._unitOfWork.ReviewRepository.InsertAsync(review);
             await this._unitOfWork.SaveAsync();
         }
 
         public async Task UpdateAsync(ReviewDto reviewDto)
         {
+            var validationResult = await _validationService.ValidateAsync(reviewDto);
+            if (!validationResult.IsValid)
+                throw new ValidationException(validationResult.Errors);
+            
             var review = this._mapper.Map<ReviewDto, Review>(reviewDto);
             var doctor = await this._unitOfWork.DoctorRepository.GetByIdAsync(review.DoctorId);
             var reviews = (await this._unitOfWork.ReviewRepository.GetAllAsync(r => r.DoctorId.Equals(review.DoctorId)))
@@ -58,7 +67,7 @@ namespace CactusCare.BLL.Services
             reviews[reviews.FindIndex(r => r.Id.Equals(review.Id))] = review;
             doctor.Rating =
                 await Task.Run(() => reviews.Average(r => RatingConverter.ConvertToFiveStarScale(r.Rating)));
-
+            
             await this._unitOfWork.ReviewRepository.UpdateAsync(review);
             await this._unitOfWork.SaveAsync();
         }
