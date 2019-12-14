@@ -7,7 +7,8 @@ namespace CactusCare.BLL.Validators
     {
         public LoginDtoValidator()
         {
-            
+            RuleFor(l => l.UserName).NotEmpty().Length(5, 50);
+            RuleFor(l => l.Password).NotEmpty().Length(5, 50);
         }
     }
 }
