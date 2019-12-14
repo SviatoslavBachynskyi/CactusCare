@@ -1,16 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Reflection;
-using System.Text;
+﻿using System.Reflection;
 using Autofac;
 using AutoMapper;
 using CactusCare.Abstractions.Entities;
 using CactusCare.Abstractions.Services;
 using CactusCare.BLL.Identity;
-using CactusCare.BLL.Mapping;
 using CactusCare.BLL.Services;
+using FluentValidation;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.Extensions.Configuration;
 using Module = Autofac.Module;
 
 namespace CactusCare.BLL
@@ -31,7 +27,7 @@ namespace CactusCare.BLL
 
             //configure AutoMapper
             builder.RegisterInstance(new MapperConfiguration(cfg => { cfg.AddMaps(Assembly.GetExecutingAssembly()); })
-                .CreateMapper())
+                    .CreateMapper())
                 .SingleInstance();
 
             //configure identity
@@ -41,6 +37,13 @@ namespace CactusCare.BLL
 
             builder.RegisterType<JwtTokenGenerator>()
                 .SingleInstance();
+
+            //configure validation
+            builder.RegisterType<FluentValidationService>().As<IValidationService>().SingleInstance();
+            builder.RegisterType<AutofacValidatorFactory>().As<IValidatorFactory>().SingleInstance();
+            builder.RegisterAssemblyTypes(Assembly.GetExecutingAssembly())
+                .Where(t => t.Name.EndsWith("Validator"))
+                .AsSelf().AsImplementedInterfaces().SingleInstance();
         }
     }
 }
