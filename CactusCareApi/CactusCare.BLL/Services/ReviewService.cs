@@ -14,11 +14,13 @@ namespace CactusCare.BLL.Services
     {
         private readonly IMapper _mapper;
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IValidationService _validationService;
 
-        public ReviewService(IUnitOfWork unitOfWork, IMapper mapper)
+        public ReviewService(IUnitOfWork unitOfWork, IMapper mapper, IValidationService validationService)
         {
             this._unitOfWork = unitOfWork;
             this._mapper = mapper;
+            this._validationService = validationService;
         }
 
         public async Task<List<ReviewDto>> GetAllAsync()

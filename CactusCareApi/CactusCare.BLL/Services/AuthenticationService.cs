@@ -21,14 +21,16 @@ namespace CactusCare.BLL.Services
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
         private readonly IConfiguration _configuration;
+        private readonly IValidationService _validationService;
 
         private readonly JwtTokenGenerator _tokenGenerator;
 
-        public AuthenticationService(IUnitOfWork unitOfWork, IMapper mapper, IConfiguration configuration, JwtTokenGenerator tokenGenerator)
+        public AuthenticationService(IUnitOfWork unitOfWork, IMapper mapper, IConfiguration configuration, JwtTokenGenerator tokenGenerator, IValidationService validationService)
         {
             this._unitOfWork = unitOfWork;
             this._mapper = mapper;
             this._tokenGenerator = tokenGenerator;
+            this._validationService = validationService;
         }
 
         public async Task<string> LoginAsync(LoginDto loginDTO)
