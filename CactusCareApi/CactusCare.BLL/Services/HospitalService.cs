@@ -6,6 +6,7 @@ using CactusCare.Abstractions;
 using CactusCare.Abstractions.DTOs;
 using CactusCare.Abstractions.Entities;
 using CactusCare.Abstractions.Services;
+using FluentValidation;
 
 namespace CactusCare.BLL.Services
 {
@@ -13,11 +14,13 @@ namespace CactusCare.BLL.Services
     {
         private readonly IMapper _mapper;
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IValidationService _validationService;
 
-        public HospitalService(IUnitOfWork unitOfWork, IMapper mapper)
+        public HospitalService(IUnitOfWork unitOfWork, IMapper mapper, IValidationService validationService)
         {
             this._unitOfWork = unitOfWork;
             this._mapper = mapper;
+            this._validationService = validationService;
         }
 
         public async Task<List<HospitalDto>> GetAllAsync()
@@ -34,12 +37,20 @@ namespace CactusCare.BLL.Services
 
         public async Task InsertAsync(HospitalDto hospitalDto)
         {
+            var validationResult = await _validationService.ValidateAsync(hospitalDto);
+            if (!validationResult.IsValid)
+                throw new ValidationException(validationResult.Errors);
+            
             await this._unitOfWork.HospitalRepository.InsertAsync(this._mapper.Map<HospitalDto, Hospital>(hospitalDto));
             await this._unitOfWork.SaveAsync();
         }
 
         public async Task UpdateAsync(HospitalDto hospitalDto)
         {
+            var validationResult = await _validationService.ValidateAsync(hospitalDto);
+            if (!validationResult.IsValid)
+                throw new ValidationException(validationResult.Errors);
+            
             await this._unitOfWork.HospitalRepository.UpdateAsync(this._mapper.Map<HospitalDto, Hospital>(hospitalDto));
             await this._unitOfWork.SaveAsync();
         }

@@ -1,10 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using CactusCare.Abstractions.DTOs;
 using CactusCare.Abstractions.Services;
-using Microsoft.AspNetCore.Http;
+using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CactusCare.Api.Controllers
@@ -14,23 +13,36 @@ namespace CactusCare.Api.Controllers
     public class AuthenticationController : ControllerBase
     {
         private readonly IAuthenticationService _authenticationService;
+
         public AuthenticationController(IAuthenticationService authenticationService)
         {
             this._authenticationService = authenticationService;
         }
+
         [HttpPost("Register")]
-        public async Task<IActionResult> Register(RegisterDto registerDTO)
+        public async Task<ActionResult> Register(RegisterDto registerDto)
         {
-            await this._authenticationService.RegisterAsync(registerDTO);
-            return Ok();
+            try
+            {
+                await this._authenticationService.RegisterAsync(registerDto);
+                return Ok();
+            }
+            catch (ValidationException exception)
+            {
+                return StatusCode(400, exception.Errors.Select(x => x.ErrorMessage));
+            }
         }
 
         [HttpPost("Login")]
-        public async Task<IActionResult> Login(LoginDto loginDTO)
+        public async Task<ActionResult> Login(LoginDto loginDto)
         {
             try
             {
                 return Ok(await this._authenticationService.LoginAsync(loginDTO));
+            }
+            catch (ValidationException exception)
+            {
+                return StatusCode(400, exception.Errors.Select(x => x.ErrorMessage));
             }
             catch (ApplicationException)
             {

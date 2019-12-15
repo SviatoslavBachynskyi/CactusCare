@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using CactusCare.Abstractions.DTOs;
 using CactusCare.Abstractions.Services;
+using FluentValidation;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -41,9 +43,13 @@ namespace CactusCare.Api.Controllers
                 await this._hospitalService.InsertAsync(hospitalDto);
                 return StatusCode(200, "OK");
             }
-            catch (Exception)
+            catch (ValidationException exception)
             {
-                return StatusCode(500, "Internal server error");
+                return StatusCode(400, exception.Errors.Select(x => x.ErrorMessage));
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500, "Internal server error: " + e.InnerException);
             }
         }
 
@@ -56,13 +62,17 @@ namespace CactusCare.Api.Controllers
                 await this._hospitalService.UpdateAsync(hospitalDto);
                 return StatusCode(200, "OK");
             }
+            catch (ValidationException exception)
+            {
+                return StatusCode(400, exception.Errors.Select(x => x.ErrorMessage));
+            }
             catch (DbUpdateConcurrencyException)
             {
                 return StatusCode(404, $"Hospital with id {hospitalDto.Id} not found");
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                return StatusCode(500, "Internal server error");
+                return StatusCode(500, "Internal server error: " + e.InnerException);
             }
         }
 
