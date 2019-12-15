@@ -72,7 +72,7 @@ namespace CactusCare.Api.Controllers
             }
             catch (Exception e)
             {
-                return StatusCode(500, "Internal server error"+e.InnerException);
+                return StatusCode(500, "Internal server error:" + e.InnerException);
             }
         }
 
