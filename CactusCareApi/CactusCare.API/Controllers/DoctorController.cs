@@ -20,7 +20,7 @@ namespace CactusCare.Api.Controllers
             this._doctorService = doctorService;
         }
 
-        [Authorize(Roles ="Admin")]
+        
         [HttpGet]
         public async Task<ActionResult<List<DoctorDto>>> GetAll()
         {
@@ -33,6 +33,7 @@ namespace CactusCare.Api.Controllers
             return await this._doctorService.GetAsync(id);
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<IActionResult> Insert(DoctorDto doctorDto)
         {
@@ -47,6 +48,7 @@ namespace CactusCare.Api.Controllers
             }
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPut]
         public async Task<IActionResult> Update([FromBody] DoctorDto doctorDto)
         {
@@ -65,6 +67,7 @@ namespace CactusCare.Api.Controllers
             }
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
