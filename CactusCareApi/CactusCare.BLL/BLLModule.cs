@@ -27,7 +27,7 @@ namespace CactusCare.BLL
 
             //configure AutoMapper
             builder.RegisterInstance(new MapperConfiguration(cfg => { cfg.AddMaps(Assembly.GetExecutingAssembly()); })
-                    .CreateMapper())
+                .CreateMapper())
                 .SingleInstance();
 
             //configure identity

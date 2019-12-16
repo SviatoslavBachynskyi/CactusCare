@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using CactusCare.Abstractions.DTOs;
 using CactusCare.Abstractions.Services;
+using Microsoft.AspNetCore.Authorization;
 using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -33,6 +34,7 @@ namespace CactusCare.Api.Controllers
             return await this._reviewService.GetAsync(id);
         }
 
+        [Authorize(Roles = "Admin, Reviewer")]
         [HttpPost]
         public async Task<IActionResult> Insert(ReviewDto reviewDto)
         {
@@ -51,6 +53,7 @@ namespace CactusCare.Api.Controllers
             }
         }
 
+        [Authorize(Roles = "Admin, Reviewer")]
         [HttpPut]
         public async Task<IActionResult> Update([FromBody] ReviewDto reviewDto)
         {
@@ -73,6 +76,8 @@ namespace CactusCare.Api.Controllers
             }
         }
 
+        //TODO split it for admin and reviewer, so reviewer can only delete his reviews
+        [Authorize(Roles = "Admin, Reviewer")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
