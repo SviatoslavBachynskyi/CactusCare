@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using CactusCare.Abstractions.DTOs;
 using CactusCare.Abstractions.Services;
+using Microsoft.AspNetCore.Authorization;
 using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -21,6 +22,7 @@ namespace CactusCare.Api.Controllers
             this._doctorService = doctorService;
         }
 
+        
         [HttpGet]
         public async Task<ActionResult<List<DoctorDto>>> GetAll()
         {
@@ -33,6 +35,7 @@ namespace CactusCare.Api.Controllers
             return await this._doctorService.GetAsync(id);
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<IActionResult> Insert(DoctorDto doctorDto)
         {
@@ -51,6 +54,7 @@ namespace CactusCare.Api.Controllers
             }
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPut]
         public async Task<IActionResult> Update([FromBody] DoctorDto doctorDto)
         {
@@ -73,6 +77,7 @@ namespace CactusCare.Api.Controllers
             }
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {

@@ -40,7 +40,7 @@ namespace CactusCare.BLL.Services
             var validationResult = await _validationService.ValidateAsync(specialityDto);
             if (!validationResult.IsValid)
                 throw new ValidationException(validationResult.Errors);
-            
+
             await this._unitOfWork.SpecialtyRepository.InsertAsync(this._mapper.Map<SpecialtyDto, Specialty>(specialityDto));
             await this._unitOfWork.SaveAsync();
         }
@@ -50,7 +50,7 @@ namespace CactusCare.BLL.Services
             var validationResult = await _validationService.ValidateAsync(specialityDto);
             if (!validationResult.IsValid)
                 throw new ValidationException(validationResult.Errors);
-            
+
             await this._unitOfWork.SpecialtyRepository.UpdateAsync(this._mapper.Map<SpecialtyDto, Specialty>(specialityDto));
             await this._unitOfWork.SaveAsync();
         }

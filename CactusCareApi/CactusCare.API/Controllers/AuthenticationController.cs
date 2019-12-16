@@ -38,8 +38,7 @@ namespace CactusCare.Api.Controllers
         {
             try
             {
-                await this._authenticationService.LoginAsync(loginDto);
-                return Ok();
+                return Ok(await this._authenticationService.LoginAsync(loginDto));
             }
             catch (ValidationException exception)
             {
