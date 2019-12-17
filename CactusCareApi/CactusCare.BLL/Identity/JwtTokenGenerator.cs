@@ -17,7 +17,7 @@ namespace CactusCare.BLL.Identity
             this._configuration = configuration;
         }
 
-        public string Generate(User user)
+        public string Generate(User user, IEnumerable<string> roles)
         {
             var jwt = this._configuration.GetSection("Jwt");
 
@@ -27,6 +27,11 @@ namespace CactusCare.BLL.Identity
                 new Claim(JwtRegisteredClaimNames.Jti,Guid.NewGuid().ToString()),
                 new Claim(ClaimTypes.NameIdentifier,user.Id)
             };
+
+            foreach (var role in roles)
+            {
+                claims.Add(new Claim(ClaimTypes.Role, role));
+            }
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwt["Key"]));
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
