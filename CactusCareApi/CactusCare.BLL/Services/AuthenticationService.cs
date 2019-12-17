@@ -39,13 +39,14 @@ namespace CactusCare.BLL.Services
             var validationResult = await _validationService.ValidateAsync(loginDto);
             if (!validationResult.IsValid)
                 throw new ValidationException(validationResult.Errors);
-            
+
             var signInResult = await this._unitOfWork.SignInManager.PasswordSignInAsync(loginDto.UserName, loginDto.Password, false, false);
 
             if (signInResult.Succeeded)
             {
                 var user = this._unitOfWork.UserManager.Users.Single((u) => u.UserName == loginDto.UserName);
-                return this._tokenGenerator.Generate(user);
+                var roles = await this._unitOfWork.UserManager.GetRolesAsync(user);
+                return this._tokenGenerator.Generate(user, roles);
             }
 
             //TODO Create Custom Exception
@@ -57,7 +58,7 @@ namespace CactusCare.BLL.Services
             var validationResult = await _validationService.ValidateAsync(registerDto);
             if (!validationResult.IsValid)
                 throw new ValidationException(validationResult.Errors);
-            
+
             var user = this._mapper.Map<RegisterDto, User>(registerDto);
             var createResult = await this._unitOfWork.UserManager.CreateAsync(user, registerDto.Password);
 
@@ -65,6 +66,8 @@ namespace CactusCare.BLL.Services
             {
                 throw new ApplicationException("RegisterFailed");
             }
+
+            await _unitOfWork.UserManager.AddToRoleAsync(user, "Reviewer");
 
             await this._unitOfWork.SaveAsync();
         }
