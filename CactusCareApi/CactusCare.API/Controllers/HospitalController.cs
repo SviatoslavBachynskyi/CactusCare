@@ -39,19 +39,8 @@ namespace CactusCare.Api.Controllers
         [HttpPost]
         public async Task<IActionResult> Insert(HospitalDto hospitalDto)
         {
-            try
-            {
-                await this._hospitalService.InsertAsync(hospitalDto);
-                return StatusCode(200, "OK");
-            }
-            catch (ValidationException exception)
-            {
-                return StatusCode(400, exception.Errors.Select(x => x.ErrorMessage));
-            }
-            catch (Exception e)
-            {
-                return StatusCode(500, "Internal server error: " + e.InnerException);
-            }
+            await this._hospitalService.InsertAsync(hospitalDto);
+            return Ok();
         }
 
         [Authorize(Roles = Role.Admin)]
@@ -61,19 +50,11 @@ namespace CactusCare.Api.Controllers
             try
             {
                 await this._hospitalService.UpdateAsync(hospitalDto);
-                return StatusCode(200, "OK");
-            }
-            catch (ValidationException exception)
-            {
-                return StatusCode(400, exception.Errors.Select(x => x.ErrorMessage));
+                return Ok();
             }
             catch (DbUpdateConcurrencyException)
             {
                 return StatusCode(404, $"Hospital with id {hospitalDto.Id} not found");
-            }
-            catch (Exception e)
-            {
-                return StatusCode(500, "Internal server error: " + e.InnerException);
             }
         }
 
@@ -84,15 +65,11 @@ namespace CactusCare.Api.Controllers
             try
             {
                 await this._hospitalService.DeleteAsync(id);
-                return StatusCode(200, "OK");
+                return Ok();
             }
             catch (KeyNotFoundException)
             {
                 return StatusCode(404, $"Hospital with {id} not found");
-            }
-            catch (Exception e)
-            {
-                return StatusCode(500, "Internal server error: " + e.InnerException);
             }
         }
     }

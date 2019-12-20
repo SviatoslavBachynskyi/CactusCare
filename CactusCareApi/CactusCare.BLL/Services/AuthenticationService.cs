@@ -12,8 +12,10 @@ using System.Text;
 using Microsoft.Extensions.Configuration;
 using System.Threading.Tasks;
 using System.Linq;
+using CactusCare.Abstractions.Exceptions.Authentication;
 using CactusCare.BLL.Identity;
 using FluentValidation;
+using Microsoft.Extensions.Logging;
 
 namespace CactusCare.BLL.Services
 {
@@ -21,12 +23,14 @@ namespace CactusCare.BLL.Services
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
-        private readonly IConfiguration _configuration;
         private readonly IValidationService _validationService;
-
         private readonly JwtTokenGenerator _tokenGenerator;
 
-        public AuthenticationService(IUnitOfWork unitOfWork, IMapper mapper, IConfiguration configuration, JwtTokenGenerator tokenGenerator, IValidationService validationService)
+        public AuthenticationService(
+            IUnitOfWork unitOfWork,
+            IMapper mapper,
+            JwtTokenGenerator tokenGenerator,
+            IValidationService validationService)
         {
             this._unitOfWork = unitOfWork;
             this._mapper = mapper;
@@ -49,8 +53,7 @@ namespace CactusCare.BLL.Services
                 return this._tokenGenerator.Generate(user, roles);
             }
 
-            //TODO Create Custom Exception
-            throw new ApplicationException("Login failed");
+            throw new LoginException();
         }
 
         public async Task RegisterAsync(RegisterDto registerDto)
@@ -64,7 +67,7 @@ namespace CactusCare.BLL.Services
 
             if (!createResult.Succeeded)
             {
-                throw new ApplicationException("RegisterFailed");
+                throw new RegisterException();
             }
 
             await _unitOfWork.UserManager.AddToRoleAsync(user, "Reviewer");

@@ -23,7 +23,6 @@ namespace CactusCare.Api.Controllers
             this._doctorService = doctorService;
         }
 
-        
         [HttpGet]
         public async Task<ActionResult<List<DoctorDto>>> GetAll()
         {
@@ -40,19 +39,8 @@ namespace CactusCare.Api.Controllers
         [HttpPost]
         public async Task<IActionResult> Insert(DoctorDto doctorDto)
         {
-            try
-            {
-                await this._doctorService.InsertAsync(doctorDto);
-                return StatusCode(200, "OK");
-            }
-            catch (ValidationException exception)
-            {
-                return StatusCode(400, exception.Errors.Select(x => x.ErrorMessage));
-            }
-            catch (Exception e)
-            {
-                return StatusCode(500, "Internal server error: " + e.InnerException);
-            }
+            await this._doctorService.InsertAsync(doctorDto);
+            return Ok();
         }
 
         [Authorize(Roles = Role.Admin)]
@@ -62,19 +50,11 @@ namespace CactusCare.Api.Controllers
             try
             {
                 await this._doctorService.UpdateAsync(doctorDto);
-                return StatusCode(200, "OK");
-            }
-            catch (ValidationException exception)
-            {
-                return StatusCode(400, exception.Errors.Select(x => x.ErrorMessage));
+                return Ok();
             }
             catch (DbUpdateConcurrencyException)
             {
                 return StatusCode(404, $"Doctor with id {doctorDto.Id} not found");
-            }
-            catch (Exception e)
-            {
-                return StatusCode(500, "Internal server error: " + e.InnerException);
             }
         }
 
@@ -85,15 +65,11 @@ namespace CactusCare.Api.Controllers
             try
             {
                 await this._doctorService.DeleteAsync(id);
-                return StatusCode(200, "OK");
+                return Ok();
             }
             catch (KeyNotFoundException)
             {
                 return StatusCode(404, $"Doctor with id {id} not found");
-            }
-            catch (Exception e)
-            {
-                return StatusCode(500, "Internal server error: " + e.InnerException);
             }
         }
     }
