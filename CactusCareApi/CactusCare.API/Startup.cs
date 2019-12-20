@@ -1,18 +1,17 @@
 using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Reflection;
 using Autofac;
+using Autofac.Core;
 using CactusCare.Abstractions;
 using CactusCare.API;
+using CactusCare.BLL;
+using CactusCare.DAL;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
-using Swashbuckle.AspNetCore;
 
 namespace CactusCare.Api
 {
@@ -24,34 +23,26 @@ namespace CactusCare.Api
 
         private readonly IWebHostEnvironment _environment;
 
-        private readonly List<Assembly> _assemblies;
+        private readonly List<IModule> _modules;
 
-        private readonly List<IConfigureLayer> _layerConfigurations = new List<IConfigureLayer>();
+        private readonly List<IConfigureLayer> _layerConfigurations;
 
         public Startup(IWebHostEnvironment environment, IConfiguration configuration)
         {
-            _configuration = configuration;
-            _environment = environment;
-
-            //Load assemblies
-            _assemblies =
-                Directory.EnumerateFiles(Directory.GetCurrentDirectory(),
-                        $"{nameof(CactusCare)}.*.dll", SearchOption.AllDirectories)
-                    .Where((filename) => !filename.EndsWith(Assembly.GetExecutingAssembly().GetName().Name + ".dll"))
-                    .Select(Assembly.LoadFrom)
-                    .ToList();
-            _assemblies.Add(Assembly.GetExecutingAssembly());
-
-            //load configurations
-            foreach (var assembly in _assemblies)
+            this._configuration = configuration;
+            this._environment = environment;
+            
+            this._modules = new List<IModule>()
             {
-                var configure = typeof(IConfigureLayer);
-                var types = assembly.GetTypes().Where((t) => configure.IsAssignableFrom(t) && !t.IsAbstract);
-                foreach (var type in types)
-                {
-                    _layerConfigurations.Add((IConfigureLayer)Activator.CreateInstance(type));
-                }
-            }
+                new DalModule(),
+                new BllModule()
+            };
+
+            this._layerConfigurations = new List<IConfigureLayer>()
+            {
+                new ConfigureDal(),
+                new ConfigureBll()
+            };
         }
 
         // This method gets called by the runtime. Use this method to add services to the container.
@@ -119,9 +110,9 @@ namespace CactusCare.Api
 
         public void ConfigureContainer(ContainerBuilder builder)
         {
-            foreach (var assembly in _assemblies)
+            foreach (var module in this._modules)
             {
-                builder.RegisterAssemblyModules(assembly);
+                builder.RegisterModule(module);
             }
         }
 

@@ -12,7 +12,7 @@ using Microsoft.IdentityModel.Tokens;
 
 namespace CactusCare.BLL
 {
-    class ConfigureBll : IConfigureLayer
+    public class ConfigureBll : IConfigureLayer
     {
         public void ConfigureServices(IServiceCollection services, IConfiguration configuration)
         {
