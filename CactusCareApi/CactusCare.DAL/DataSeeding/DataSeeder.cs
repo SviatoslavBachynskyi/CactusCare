@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using CactusCare.Abstractions;
 using CactusCare.Abstractions.Entities;
 using Microsoft.AspNetCore.Identity;
 
@@ -125,8 +126,8 @@ namespace CactusCare.DAL.DataSeeding
 
         private static async Task SeedRolesAsync(RoleManager<IdentityRole> roleManager)
         {
-            await CreateRoleIfNotExistsAsync(roleManager, new IdentityRole("Admin"));
-            await CreateRoleIfNotExistsAsync(roleManager, new IdentityRole("Reviewer"));
+            await CreateRoleIfNotExistsAsync(roleManager, new IdentityRole(Role.Admin));
+            await CreateRoleIfNotExistsAsync(roleManager, new IdentityRole(Role.Reviewer));
         }
 
         private static async Task CreateRoleIfNotExistsAsync(RoleManager<IdentityRole> roleManager, IdentityRole role)
@@ -147,7 +148,7 @@ namespace CactusCare.DAL.DataSeeding
 
             if (createResult.Succeeded)
             {
-                await userManager.AddToRoleAsync(user, "Admin");
+                await userManager.AddToRoleAsync(user, Role.Admin);
             }
         }
 

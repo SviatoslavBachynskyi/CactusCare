@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using CactusCare.Abstractions;
 using CactusCare.Abstractions.DTOs;
 using CactusCare.Abstractions.Services;
 using Microsoft.AspNetCore.Authorization;
@@ -34,7 +35,7 @@ namespace CactusCare.Api.Controllers
             return await this._reviewService.GetAsync(id);
         }
 
-        [Authorize(Roles = "Admin, Reviewer")]
+        [Authorize(Roles = Role.Admin+", "+Role.Reviewer)]
         [HttpPost]
         public async Task<IActionResult> Insert(ReviewDto reviewDto)
         {
@@ -53,7 +54,7 @@ namespace CactusCare.Api.Controllers
             }
         }
 
-        [Authorize(Roles = "Admin, Reviewer")]
+        [Authorize(Roles = Role.Admin + ", " + Role.Reviewer)]
         [HttpPut]
         public async Task<IActionResult> Update([FromBody] ReviewDto reviewDto)
         {
@@ -77,7 +78,7 @@ namespace CactusCare.Api.Controllers
         }
 
         //TODO split it for admin and reviewer, so reviewer can only delete his reviews
-        [Authorize(Roles = "Admin, Reviewer")]
+        [Authorize(Roles = Role.Admin + ", " + Role.Reviewer)]
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
