@@ -17,5 +17,5 @@ namespace CactusCare.Abstractions.Exceptions
             StreamingContext context) : base(info, context)
         {
         }
-    }   
+    }
 }

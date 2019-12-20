@@ -8,7 +8,7 @@ namespace CactusCare.Abstractions.Exceptions.Authentication
     [Serializable]
     public class RegisterException : AuthenticationException
     {
-        public RegisterException():base("Registration failed") { }
+        public RegisterException() : base("Registration failed") { }
         public RegisterException(string message) : base(message) { }
         public RegisterException(string message, Exception inner) : base(message, inner) { }
 
