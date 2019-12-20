@@ -12,6 +12,7 @@ using System.Text;
 using Microsoft.Extensions.Configuration;
 using System.Threading.Tasks;
 using System.Linq;
+using CactusCare.Abstractions.Exceptions.Authentication;
 using CactusCare.BLL.Identity;
 using FluentValidation;
 using Microsoft.Extensions.Logging;
@@ -52,8 +53,7 @@ namespace CactusCare.BLL.Services
                 return this._tokenGenerator.Generate(user, roles);
             }
 
-            //TODO Create Custom Exception
-            throw new ApplicationException("Login failed");
+            throw new LoginException();
         }
 
         public async Task RegisterAsync(RegisterDto registerDto)
@@ -67,7 +67,7 @@ namespace CactusCare.BLL.Services
 
             if (!createResult.Succeeded)
             {
-                throw new ApplicationException("RegisterFailed");
+                throw new RegisterException();
             }
 
             await _unitOfWork.UserManager.AddToRoleAsync(user, "Reviewer");

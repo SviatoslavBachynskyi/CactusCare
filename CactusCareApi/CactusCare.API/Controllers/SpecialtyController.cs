@@ -51,6 +51,7 @@ namespace CactusCare.Api.Controllers
                 await this._specialtyService.UpdateAsync(specialityDto);
                 return Ok();
             }
+            //TODO check this exception
             catch (DbUpdateConcurrencyException)
             {
                 return StatusCode(404, $"Specialty with id {specialityDto.Id} not found");

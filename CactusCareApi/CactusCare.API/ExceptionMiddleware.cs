@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using CactusCare.Abstractions.Exceptions;
 using FluentValidation;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
@@ -29,6 +30,11 @@ namespace CactusCare.API
             {
                 await _next(httpContext);
             }
+            catch (StatusCodeException exception)
+            {
+                this._logger.LogInformation($"Status code error: {exception}");
+                await HandleExceptionAsync(httpContext, exception.Message, exception.StatusCode);
+            }
             catch (ValidationException exception)
             {
                 this._logger.LogInformation($"Validation error: {exception}");
@@ -41,9 +47,9 @@ namespace CactusCare.API
             }
         }
 
-        private async Task HandleExceptionAsync(HttpContext context, string message, int statusCode)
+        private async Task HandleExceptionAsync(HttpContext context, string message, int statusCode, string contentType = "text/plain")
         {
-            context.Response.ContentType = "text/plain";
+            context.Response.ContentType = contentType;
             context.Response.StatusCode = statusCode;
 
             await context.Response.WriteAsync(message);

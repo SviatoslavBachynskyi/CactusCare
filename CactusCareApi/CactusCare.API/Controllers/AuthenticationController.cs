@@ -29,14 +29,7 @@ namespace CactusCare.Api.Controllers
         [HttpPost("Login")]
         public async Task<ActionResult> Login(LoginDto loginDto)
         {
-            try
-            {
-                return Ok(await this._authenticationService.LoginAsync(loginDto));
-            }
-            catch (ApplicationException)
-            {
-                return Unauthorized();
-            }
+            return Ok(await this._authenticationService.LoginAsync(loginDto));
         }
     }
 }
