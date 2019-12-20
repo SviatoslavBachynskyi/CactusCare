@@ -33,7 +33,7 @@ namespace CactusCare.API
             catch (StatusCodeException exception)
             {
                 this._logger.LogInformation($"Status code error: {exception}");
-                await HandleExceptionAsync(httpContext, exception.Message, exception.StatusCode);
+                await HandleExceptionAsync(httpContext, exception.Message, exception.StatusCode, exception.ContentType);
             }
             catch (ValidationException exception)
             {
