@@ -1,21 +1,16 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.IdentityModel.Tokens.Jwt;
-using System.Text;
 using CactusCare.Abstractions;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Identity;
+using CactusCare.BLL.ConfigurationExtensions;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.IdentityModel.Tokens;
-
 
 namespace CactusCare.BLL
 {
-    class ConfigureBll : IConfigureLayer
+    public class ConfigureBll : IConfigureLayer
     {
         public void ConfigureServices(IServiceCollection services, IConfiguration configuration)
         {
+            services.ConfigureIdentity(configuration);
         }
 
         public void Configure(IServiceProvider serviceProvider, bool development)

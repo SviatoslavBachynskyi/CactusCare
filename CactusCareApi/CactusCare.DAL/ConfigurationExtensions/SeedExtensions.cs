@@ -1,16 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
 using CactusCare.Abstractions.Entities;
 using CactusCare.DAL.DataSeeding;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace CactusCare.DAL
+namespace CactusCare.DAL.ConfigurationExtensions
 {
-    internal static class ServiceExtensions
+    internal static class SeedExtensions
     {
         public static IServiceProvider SeedEssentialData(this IServiceProvider provider)
         {

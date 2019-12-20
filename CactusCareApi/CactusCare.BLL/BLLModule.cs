@@ -29,15 +29,7 @@ namespace CactusCare.BLL
             builder.RegisterInstance(new MapperConfiguration(cfg => { cfg.AddMaps(Assembly.GetExecutingAssembly()); })
                 .CreateMapper())
                 .SingleInstance();
-
-            //configure identity
-            builder.RegisterType<ClaimsPrincipalFactory>()
-                .As<IUserClaimsPrincipalFactory<User>>()
-                .SingleInstance();
-
-            builder.RegisterType<JwtTokenGenerator>()
-                .SingleInstance();
-
+            
             //configure validation
             builder.RegisterType<FluentValidationService>().As<IValidationService>().SingleInstance();
             builder.RegisterType<AutofacValidatorFactory>().As<IValidatorFactory>().SingleInstance();
