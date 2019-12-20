@@ -22,15 +22,8 @@ namespace CactusCare.Api.Controllers
         [HttpPost("Register")]
         public async Task<ActionResult> Register(RegisterDto registerDto)
         {
-            try
-            {
-                await this._authenticationService.RegisterAsync(registerDto);
-                return Ok();
-            }
-            catch (ValidationException exception)
-            {
-                return StatusCode(400, exception.Errors.Select(x => x.ErrorMessage));
-            }
+            await this._authenticationService.RegisterAsync(registerDto);
+            return Ok();
         }
 
         [HttpPost("Login")]
@@ -40,13 +33,8 @@ namespace CactusCare.Api.Controllers
             {
                 return Ok(await this._authenticationService.LoginAsync(loginDto));
             }
-            catch (ValidationException exception)
-            {
-                return StatusCode(400, exception.Errors.Select(x => x.ErrorMessage));
-            }
             catch (ApplicationException)
             {
-                //TODO check if this is the right result
                 return Unauthorized();
             }
         }

@@ -38,19 +38,8 @@ namespace CactusCare.Api.Controllers
         [HttpPost]
         public async Task<IActionResult> Insert(SpecialtyDto specialityDto)
         {
-            try
-            {
                 await this._specialtyService.InsertAsync(specialityDto);
-                return StatusCode(200, "OK");
-            }
-            catch (ValidationException exception)
-            {
-                return StatusCode(400, exception.Errors.Select(x => x.ErrorMessage));
-            }
-            catch (Exception e)
-            {
-                return StatusCode(500, "Internal server error: " + e.InnerException);
-            }
+                return Ok();
         }
 
         [Authorize(Roles = "Admin")]
@@ -60,19 +49,11 @@ namespace CactusCare.Api.Controllers
             try
             {
                 await this._specialtyService.UpdateAsync(specialityDto);
-                return StatusCode(200, "OK");
-            }
-            catch (ValidationException exception)
-            {
-                return StatusCode(400, exception.Errors.Select(x => x.ErrorMessage));
+                return Ok();
             }
             catch (DbUpdateConcurrencyException)
             {
                 return StatusCode(404, $"Specialty with id {specialityDto.Id} not found");
-            }
-            catch (Exception e)
-            {
-                return StatusCode(500, "Internal server error: " + e.InnerException);
             }
         }
 
@@ -83,15 +64,11 @@ namespace CactusCare.Api.Controllers
             try
             {
                 await this._specialtyService.DeleteAsync(id);
-                return StatusCode(200, "OK");
+                return Ok();
             }
             catch (KeyNotFoundException)
             {
                 return StatusCode(404, $"Specialty with id {id} not found");
-            }
-            catch (Exception e)
-            {
-                return StatusCode(500, "Internal server error: " + e.InnerException);
             }
         }
     }

@@ -5,6 +5,7 @@ using System.Linq;
 using System.Reflection;
 using Autofac;
 using CactusCare.Abstractions;
+using CactusCare.API;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -139,8 +140,10 @@ namespace CactusCare.Api
             app.UseAuthentication();
             app.UseAuthorization();
 
-            app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
+            app.UseExceptionMiddleware();
 
+            app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
+            
             foreach (var layerConfiguration in _layerConfigurations)
             {
                 layerConfiguration.Configure(serviceProvider, _environment.IsDevelopment());

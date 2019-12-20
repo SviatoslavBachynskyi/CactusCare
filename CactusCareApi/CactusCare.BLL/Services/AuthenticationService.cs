@@ -14,6 +14,7 @@ using System.Threading.Tasks;
 using System.Linq;
 using CactusCare.BLL.Identity;
 using FluentValidation;
+using Microsoft.Extensions.Logging;
 
 namespace CactusCare.BLL.Services
 {
@@ -21,12 +22,14 @@ namespace CactusCare.BLL.Services
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
-        private readonly IConfiguration _configuration;
         private readonly IValidationService _validationService;
-
         private readonly JwtTokenGenerator _tokenGenerator;
 
-        public AuthenticationService(IUnitOfWork unitOfWork, IMapper mapper, IConfiguration configuration, JwtTokenGenerator tokenGenerator, IValidationService validationService)
+        public AuthenticationService(
+            IUnitOfWork unitOfWork,
+            IMapper mapper,
+            JwtTokenGenerator tokenGenerator,
+            IValidationService validationService)
         {
             this._unitOfWork = unitOfWork;
             this._mapper = mapper;
