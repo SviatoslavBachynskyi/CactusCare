@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using CactusCare.Abstractions;
 using CactusCare.Abstractions.DTOs;
 using CactusCare.Abstractions.Services;
 using FluentValidation;
@@ -34,7 +35,7 @@ namespace CactusCare.Api.Controllers
             return await this._hospitalService.GetAsync(id);
         }
 
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = Role.Admin)]
         [HttpPost]
         public async Task<IActionResult> Insert(HospitalDto hospitalDto)
         {
@@ -53,7 +54,7 @@ namespace CactusCare.Api.Controllers
             }
         }
 
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = Role.Admin)]
         [HttpPut]
         public async Task<IActionResult> Update([FromBody] HospitalDto hospitalDto)
         {
@@ -76,7 +77,7 @@ namespace CactusCare.Api.Controllers
             }
         }
 
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = Role.Admin)]
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
